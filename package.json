@@ -1,0 +1,72 @@
+{
+  "name": "9router-cli",
+  "version": "0.1.0",
+  "description": "Production-grade AI CLI for 9 Router — connect, discover models, and chat with any AI model locally",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "9r": "./dist/index.js",
+    "9router": "./dist/index.js",
+    "9cli": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun --format esm --minify",
+    "build:node": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js --external:chalk --external:ora --external:commander --external:@inquirer/prompts --external:marked",
+    "start": "bun run dist/index.js",
+    "9cli": "bun src/index.ts",
+    "prepublish": "bun run build",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "lint": "bun x tsc --noEmit",
+    "format": "bun x prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "index:update": "bun run src/intelligence/index-updater.ts",
+    "index:watch": "bun run src/intelligence/index-updater.ts --watch",
+    "discover": "bun run src/discovery/cli.ts",
+    "tui:research": "bun run src/tui/research-summary.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0",
+    "@inquirer/prompts": "^7.3.2",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "ink": "^7.1.0",
+    "marked": "^15.0.7",
+    "ora": "^8.1.1",
+    "picocolors": "^1.1.1",
+    "react": "^19.2.7",
+    "shiki": "1.27.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.2.17",
+    "bun-types": "latest",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "9router",
+    "local-ai",
+    "llm",
+    "chat",
+    "terminal"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/9router/9router-cli"
+  }
+}

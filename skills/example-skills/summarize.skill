@@ -1,0 +1,42 @@
+{
+  "definition": {
+    "id": "example-summarize",
+    "name": "Summarizer",
+    "version": "1.0.0",
+    "description": "Summarizes long text or conversation history into concise bullet points",
+    "category": "utility",
+    "entry": "skills/example-skills/summarize.skill",
+    "dependencies": ["chat"],
+    "requiredCapabilities": [],
+    "hooks": [],
+    "config": {
+      "maxLength": 500,
+      "format": "bullets"
+    }
+  },
+  "pattern": {
+    "id": "summarize",
+    "name": "Summarize",
+    "trigger": "summarize",
+    "response": "I'll summarize that for you...",
+    "confidence": 0.9,
+    "usageCount": 0,
+    "successRate": 1.0,
+    "createdAt": 1749562200000,
+    "lastUsed": 1749562200000
+  },
+  "examples": [
+    {
+      "user": "summarize this conversation",
+      "assistant": "Here is a summary of our conversation so far:\n\n- You asked about the 9 Router CLI architecture\n- We discussed how the skill system works\n- You wanted to know about slash commands",
+      "tools": ["chat"],
+      "success": true
+    },
+    {
+      "user": "summarize the key points from the docs",
+      "assistant": "Key documentation points:\n- 9 Router CLI is built with Bun + TypeScript\n- Uses Ink for TUI rendering\n- Has a self-evolving skill system\n- Supports 30+ slash commands",
+      "tools": ["chat", "context"],
+      "success": true
+    }
+  ]
+}

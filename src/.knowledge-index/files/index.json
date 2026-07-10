@@ -1,0 +1,2447 @@
+{
+  "_note": "Auto-generated Project Knowledge Index. Update with `bun run index:update`.",
+  "modules": {
+    "core/": {
+      "summary": "Module: core/",
+      "files": [
+        "src/core/constants.ts",
+        "src/core/errors.ts",
+        "src/core/events.ts",
+        "src/core/types.ts"
+      ]
+    },
+    "commands/": {
+      "summary": "Module: commands/",
+      "files": [
+        "src/commands/commands.ts",
+        "src/commands/connect-cmd.ts",
+        "src/commands/cron-cmd.ts",
+        "src/commands/evolve-cmd.ts",
+        "src/commands/gateway-cmd.ts",
+        "src/commands/index.ts",
+        "src/commands/memory-cmd.ts",
+        "src/commands/orchestrate-cmd.ts",
+        "src/commands/performance-cmd.ts",
+        "src/commands/persona-cmd.ts",
+        "src/commands/security-cmd.ts",
+        "src/commands/skills-cmd.ts",
+        "src/commands/web-cmd.ts"
+      ]
+    },
+    "chat/": {
+      "summary": "Module: chat/",
+      "files": [
+        "src/chat/engine.ts"
+      ]
+    },
+    "router/": {
+      "summary": "Module: router/",
+      "files": [
+        "src/router/client.ts",
+        "src/router/connections.ts",
+        "src/router/models.ts",
+        "src/router/streaming.ts",
+        "src/router/types.ts"
+      ]
+    },
+    "render/": {
+      "summary": "Module: render/",
+      "files": [
+        "src/render/ansi.ts",
+        "src/render/index.ts",
+        "src/render/markdown.ts",
+        "src/render/syntax.ts",
+        "src/render/themes.ts"
+      ]
+    },
+    "skills/": {
+      "summary": "Module: skills/",
+      "files": [
+        "src/skills/autonomous.ts",
+        "src/skills/docs.ts",
+        "src/skills/engine.ts",
+        "src/skills/evolver.ts",
+        "src/skills/git.ts",
+        "src/skills/index.ts",
+        "src/skills/inspector.ts",
+        "src/skills/installer.ts",
+        "src/skills/planner.ts",
+        "src/skills/reporter.ts",
+        "src/skills/safety.ts",
+        "src/skills/types.ts"
+      ]
+    },
+    "performance/": {
+      "summary": "Module: performance/",
+      "files": [
+        "src/performance/benchmark.ts",
+        "src/performance/editor.ts",
+        "src/performance/filesystem.ts",
+        "src/performance/index.ts",
+        "src/performance/memory.ts",
+        "src/performance/parallel.ts",
+        "src/performance/scheduler.ts",
+        "src/performance/streaming.ts"
+      ]
+    },
+    "config/": {
+      "summary": "Module: config/",
+      "files": [
+        "src/config/defaults.ts",
+        "src/config/manager.ts"
+      ]
+    },
+    "plugins/": {
+      "summary": "Module: plugins/",
+      "files": [
+        "src/plugins/manager.ts"
+      ]
+    },
+    "session/": {
+      "summary": "Module: session/",
+      "files": [
+        "src/session/manager.ts"
+      ]
+    },
+    "memory/": {
+      "summary": "Module: memory/",
+      "files": [
+        "src/memory/index.ts"
+      ]
+    },
+    "security/": {
+      "summary": "Module: security/",
+      "files": [
+        "src/security/index.ts"
+      ]
+    },
+    "automation/": {
+      "summary": "Module: automation/",
+      "files": [
+        "src/automation/index.ts"
+      ]
+    },
+    "orchestrator/": {
+      "summary": "Module: orchestrator/",
+      "files": [
+        "src/orchestrator/index.ts"
+      ]
+    },
+    "web/": {
+      "summary": "Module: web/",
+      "files": [
+        "src/web/index.ts"
+      ]
+    },
+    "personas/": {
+      "summary": "Module: personas/",
+      "files": [
+        "src/personas/index.ts"
+      ]
+    },
+    "gateways/": {
+      "summary": "Module: gateways/",
+      "files": [
+        "src/gateways/index.ts"
+      ]
+    },
+    "logging/": {
+      "summary": "Module: logging/",
+      "files": [
+        "src/logging/logger.ts"
+      ]
+    },
+    "utils/": {
+      "summary": "Module: utils/",
+      "files": [
+        "src/utils/paths.ts",
+        "src/utils/terminal.ts",
+        "src/utils/throttle.ts",
+        "src/utils/version.ts"
+      ]
+    },
+    "discovery/": {
+      "summary": "Module: discovery/",
+      "files": [
+        "src/discovery/cli.ts",
+        "src/discovery/engine.ts",
+        "src/discovery/index.ts",
+        "src/discovery/types.ts"
+      ]
+    },
+    "intelligence/": {
+      "summary": "Module: intelligence/",
+      "files": [
+        "src/intelligence/index-updater.ts",
+        "src/intelligence/knowledge-index.ts"
+      ]
+    },
+    "tui/": {
+      "summary": "Module: tui/",
+      "files": [
+        "src/tui/app.tsx",
+        "src/tui/components/all-models-grid.tsx",
+        "src/tui/components/badge.tsx",
+        "src/tui/components/chat-view.tsx",
+        "src/tui/components/combo-list.tsx",
+        "src/tui/components/command-palette.tsx",
+        "src/tui/components/dialog.tsx",
+        "src/tui/components/input-box.tsx",
+        "src/tui/components/keybindings.tsx",
+        "src/tui/components/provider-list.tsx",
+        "src/tui/components/provider-models.tsx",
+        "src/tui/components/session-list.tsx",
+        "src/tui/components/sidebar.tsx",
+        "src/tui/components/spinner.tsx",
+        "src/tui/components/status-bar.tsx",
+        "src/tui/components/toast.tsx",
+        "src/tui/connect-view.tsx",
+        "src/tui/engine.tsx",
+        "src/tui/index.ts",
+        "src/tui/model-picker.tsx",
+        "src/tui/quota-view.tsx",
+        "src/tui/start-screen.tsx",
+        "src/tui/themes/index.ts",
+        "src/tui/types.ts"
+      ]
+    }
+  },
+  "files": {
+    "src/cli.ts": {
+      "type": "code",
+      "purpose": "Main CLI loop — REPL initialization and orchestration",
+      "exports": [
+        "App"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/commands/index",
+        "src/render/index",
+        "src/config/manager",
+        "src/router/client",
+        "src/router/connections",
+        "src/router/models",
+        "src/chat/engine",
+        "src/session/manager",
+        "src/plugins/manager",
+        "src/logging/logger",
+        "src/commands/commands",
+        "src/tui/engine",
+        "src/core/events",
+        "src/core/constants",
+        "path",
+        "src/skills/index",
+        "src/commands/skills-cmd",
+        "src/commands/evolve-cmd",
+        "src/commands/connect-cmd",
+        "src/memory/index",
+        "src/security/index",
+        "src/automation/index",
+        "src/skills/autonomous",
+        "src/orchestrator/index",
+        "src/web/index",
+        "src/personas/index",
+        "src/gateways/index",
+        "src/performance/index",
+        "src/commands/performance-cmd",
+        "src/commands/memory-cmd",
+        "src/commands/security-cmd",
+        "src/commands/cron-cmd",
+        "src/commands/web-cmd",
+        "src/commands/persona-cmd",
+        "src/commands/orchestrate-cmd",
+        "src/commands/gateway-cmd",
+        "src/tui/types"
+      ],
+      "eventsHandled": [
+        "model:changed",
+        "router:error",
+        "error",
+        "perf:memory:high",
+        "perf:filesystem:file:changed"
+      ],
+      "eventsEmitted": [
+        "router:connected",
+        "router:disconnected"
+      ],
+      "performanceConsiderations": "Dynamic imports for single-shot mode; lazy plugin activation",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/commands",
+        "src/render",
+        "src/config",
+        "src/router",
+        "src/chat",
+        "src/session",
+        "src/plugins",
+        "src/logging",
+        "src/tui",
+        "src/core",
+        "src/skills",
+        "src/memory",
+        "src/security",
+        "src/automation",
+        "src/orchestrator",
+        "src/web",
+        "src/personas",
+        "src/gateways",
+        "src/performance"
+      ],
+      "contentHash": "4b5eb2745d1a43bd6790fc31a45b9754",
+      "lastAnalyzed": "2026-07-10T09:21:10.567Z"
+    },
+    "src/index.ts": {
+      "type": "code",
+      "purpose": "Entry point — CLI bootstrap, argument parsing",
+      "exports": [],
+      "dependencies": [
+        "src/cli",
+        "src/core/constants",
+        "src/router/client",
+        "src/config/manager",
+        "src/router/models",
+        "src/chat/engine"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src",
+        "src/core",
+        "src/router",
+        "src/config",
+        "src/chat"
+      ],
+      "contentHash": "f14500d53e329e2ca187059f46d9bdbd",
+      "lastAnalyzed": "2026-07-10T09:21:10.585Z"
+    },
+    "src/core/types.ts": {
+      "type": "code",
+      "purpose": "Central type definitions for the entire application",
+      "exports": [
+        "ModelInfo",
+        "ModelCapabilities",
+        "ModelPricing",
+        "Message",
+        "Session",
+        "StreamEvent",
+        "TokenUsage",
+        "Config",
+        "MemoryConfig",
+        "AutomationConfig",
+        "SecurityConfig",
+        "PersonasConfig",
+        "GatewaysConfig",
+        "WebConfig",
+        "OrchestrationConfig",
+        "RenderConfig",
+        "StreamingConfig",
+        "SessionConfig",
+        "LoggingConfig",
+        "PluginsConfig",
+        "PerformanceConfig",
+        "PerformanceMemoryConfig",
+        "PerformanceParallelConfig",
+        "PerformanceSchedulerConfig",
+        "PerformanceEditorConfig",
+        "PerformanceFileSystemConfig",
+        "PerformanceStreamingConfig",
+        "PerformanceBenchmarkConfig",
+        "StreamCallback",
+        "Command",
+        "CommandContext",
+        "ModelRegistry",
+        "PluginManifest",
+        "PluginHookType",
+        "PluginContext",
+        "Plugin",
+        "Tool",
+        "Renderer",
+        "RenderState",
+        "RenderedBlock",
+        "RouterClient",
+        "ChatParams",
+        "ChatResponse",
+        "RouterStatus",
+        "ServerConnection",
+        "Logger",
+        "SessionManager",
+        "ChatEngine",
+        "ContextStats"
+      ],
+      "dependencies": [],
+      "pluginsRelated": "Defines PluginManifest, PluginHookType, PluginContext, Plugin interfaces",
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "4d9b8a3833a080fef675591e11538af8",
+      "lastAnalyzed": "2026-07-10T09:21:10.581Z"
+    },
+    "src/core/constants.ts": {
+      "type": "code",
+      "purpose": "Application-wide constants and defaults",
+      "exports": [
+        "APP_NAME",
+        "APP_DISPLAY_NAME",
+        "BIN_NAME",
+        "DEFAULT_BASE_URL",
+        "DEFAULT_MODEL",
+        "DEFAULT_MODEL_REFRESH_INTERVAL",
+        "DEFAULT_THEME",
+        "DEFAULT_SYNTAX_THEME",
+        "CONFIG_DIR_NAME",
+        "CONFIG_FILE_NAME",
+        "SESSIONS_DB_NAME",
+        "CACHE_DIR_NAME",
+        "LOG_DIR_NAME",
+        "DEFAULT_MAX_HISTORY",
+        "DEFAULT_EXPORT_FORMAT",
+        "DEFAULT_STREAMING_CHUNK_SIZE",
+        "DEFAULT_MAX_RENDER_WIDTH",
+        "ERROR_CODES",
+        "DEFAULT_RETRY_MAX",
+        "DEFAULT_RETRY_DELAY",
+        "DEFAULT_TIMEOUT",
+        "ANSI",
+        "BOX_CHARS",
+        "SPINNER_FRAMES",
+        "BUILTIN_COMMANDS",
+        "SKILLS_DIR"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "bed48c67c258734abfc74e40a8be935b",
+      "lastAnalyzed": "2026-07-10T09:21:10.579Z"
+    },
+    "src/core/errors.ts": {
+      "type": "code",
+      "purpose": "Custom error class hierarchy and retry logic",
+      "exports": [
+        "RouterError",
+        "ConnectionError",
+        "ModelNotFoundError",
+        "TimeoutError",
+        "AuthError",
+        "StreamingError",
+        "ConfigError",
+        "SessionNotFoundError",
+        "PluginLoadError",
+        "RetryConfig"
+      ],
+      "dependencies": [
+        "src/core/constants"
+      ],
+      "relatedModules": [
+        "src/core"
+      ],
+      "reverseDeps": [],
+      "contentHash": "d72a07859bdbfd08fd382dceff23d9be",
+      "lastAnalyzed": "2026-07-10T09:21:10.580Z"
+    },
+    "src/core/events.ts": {
+      "type": "code",
+      "purpose": "Typed EventBus — central pub/sub for all subsystems",
+      "exports": [
+        "EventBus",
+        "eventBus"
+      ],
+      "dependencies": [],
+      "eventsProvided": [
+        "config:changed",
+        "model:changed",
+        "session:created",
+        "session:deleted",
+        "stream:start",
+        "stream:token",
+        "stream:done",
+        "stream:error",
+        "command:before",
+        "command:after",
+        "plugin:loaded",
+        "plugin:unloaded",
+        "router:connected",
+        "router:disconnected",
+        "router:error",
+        "error",
+        "memory:search",
+        "memory:recall",
+        "memory:vector:index",
+        "cron:tick",
+        "cron:job:start",
+        "cron:job:complete",
+        "cron:job:error",
+        "skill:created",
+        "skill:evolved",
+        "skill:experience:recorded",
+        "orchestrator:subagent:spawned",
+        "orchestrator:subagent:completed",
+        "orchestrator:subagent:failed",
+        "security:threat:detected",
+        "security:file:blocked",
+        "web:search",
+        "web:page:fetched",
+        "persona:changed",
+        "reasoning:effort:changed",
+        "gateway:message:sent",
+        "gateway:message:received",
+        "perf:cache:hit",
+        "perf:cache:miss",
+        "perf:cache:evict",
+        "perf:memory:high",
+        "perf:memory:released",
+        "perf:parallel:task:start",
+        "perf:parallel:task:complete",
+        "perf:parallel:task:fail",
+        "perf:scheduler:tick",
+        "perf:scheduler:paused",
+        "perf:scheduler:resumed",
+        "perf:scheduler:complete",
+        "perf:editor:batch:start",
+        "perf:editor:batch:complete",
+        "perf:editor:conflict",
+        "perf:filesystem:index:start",
+        "perf:filesystem:index:complete",
+        "perf:filesystem:file:changed",
+        "perf:benchmark:start",
+        "perf:benchmark:complete"
+      ],
+      "performanceConsiderations": "Fire-and-forget event emission; listeners wrapped in void Promise.resolve()",
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "8d6dd5bbbf643e0eed9ab5163f2a8918",
+      "lastAnalyzed": "2026-07-10T09:21:10.580Z"
+    },
+    "src/commands/index.ts": {
+      "type": "code",
+      "purpose": "CommandRegistry — register, dispatch, autocomplete slash commands",
+      "exports": [
+        "CommandRegistry"
+      ],
+      "dependencies": [
+        "src/core/constants"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "284c7bee1d7f47f7a7086cdd88f00cee",
+      "lastAnalyzed": "2026-07-10T09:21:10.571Z"
+    },
+    "src/commands/commands.ts": {
+      "type": "code",
+      "purpose": "Built-in command implementations factory",
+      "exports": [
+        "createBuiltinCommands"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/core/constants",
+        "src/utils/terminal",
+        "src/core/events",
+        "child_process"
+      ],
+      "relatedModules": [
+        "src/core",
+        "src/utils"
+      ],
+      "reverseDeps": [],
+      "commands": [
+        "createBuiltinCommand",
+        "chat",
+        "model",
+        "models",
+        "new",
+        "history",
+        "clear",
+        "help",
+        "config",
+        "plugins",
+        "export",
+        "import",
+        "reset",
+        "system",
+        "context",
+        "status",
+        "search",
+        "tools",
+        "version",
+        "update",
+        "undo",
+        "compact",
+        "rewind",
+        "resume",
+        "rename",
+        "fork",
+        "ask",
+        "copy",
+        "about",
+        "doctor",
+        "Runtime",
+        "Models",
+        "Configuration",
+        "plan",
+        "theme",
+        "review"
+      ],
+      "contentHash": "4c8447459dca1e4207b2af41d0477822",
+      "lastAnalyzed": "2026-07-10T09:21:10.568Z"
+    },
+    "src/chat/engine.ts": {
+      "type": "code",
+      "purpose": "ChatEngine — message processing, streaming, conversation state",
+      "exports": [
+        "ChatEngineImpl"
+      ],
+      "dependencies": [
+        "src/core/events",
+        "src/core/errors"
+      ],
+      "interfacesImplemented": [
+        "ChatEngine"
+      ],
+      "performanceConsiderations": "Streaming with abort support; context window management",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "eventsEmitted": [
+        "stream:start",
+        "stream:done"
+      ],
+      "contentHash": "97345487b0466535915413d51497080c",
+      "lastAnalyzed": "2026-07-10T09:21:10.563Z"
+    },
+    "src/router/client.ts": {
+      "type": "code",
+      "purpose": "NineRouterClient — HTTP client for 9 Router API",
+      "exports": [
+        "NineRouterClient"
+      ],
+      "dependencies": [
+        "src/router/types",
+        "src/core/errors",
+        "src/core/constants"
+      ],
+      "interfacesImplemented": [
+        "RouterClient"
+      ],
+      "securityConsiderations": "API key handling",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/router",
+        "src/core"
+      ],
+      "contentHash": "f7798559657529ea018af97622f84499",
+      "lastAnalyzed": "2026-07-10T09:21:10.598Z"
+    },
+    "src/router/models.ts": {
+      "type": "code",
+      "purpose": "ModelRegistry — model discovery, caching, fuzzy search",
+      "exports": [
+        "ModelRegistry"
+      ],
+      "dependencies": [
+        "src/core/events",
+        "src/core/constants"
+      ],
+      "performanceConsiderations": "Cached with background refresh; modelRefreshInterval",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "fd3fb519db62d1a99ea64db0b16d4b6d",
+      "lastAnalyzed": "2026-07-10T09:21:10.602Z"
+    },
+    "src/router/streaming.ts": {
+      "type": "code",
+      "purpose": "SSE stream parser for 9 Router streaming responses",
+      "exports": [
+        "StreamEventHandler",
+        "StreamParser"
+      ],
+      "dependencies": [],
+      "performanceConsiderations": "Token-by-token SSE parsing",
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "b2b7ff9f0cd64d4bb2afb0fddd471557",
+      "lastAnalyzed": "2026-07-10T09:21:10.602Z"
+    },
+    "src/render/index.ts": {
+      "type": "code",
+      "purpose": "CliRenderer — renderer dispatcher coordinating markdown, streaming, highlighting",
+      "exports": [
+        "CliRenderer"
+      ],
+      "dependencies": [
+        "src/render/markdown",
+        "src/render/syntax",
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "interfacesImplemented": [
+        "Renderer"
+      ],
+      "renderResponsibility": "Full markdown rendering, streaming, headers, panels, usage stats",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/render",
+        "src/utils"
+      ],
+      "contentHash": "cc0186949f11f6d3114d940bfa0171f1",
+      "lastAnalyzed": "2026-07-10T09:21:10.595Z"
+    },
+    "src/render/markdown.ts": {
+      "type": "code",
+      "purpose": "MarkdownRenderer — parses markdown via marked, renders ANSI output",
+      "exports": [
+        "MarkdownRenderer",
+        "renderInlineMarkdown"
+      ],
+      "dependencies": [
+        "marked",
+        "chalk",
+        "src/render/themes",
+        "src/render/ansi",
+        "src/utils/terminal",
+        "src/render/syntax"
+      ],
+      "renderResponsibility": "Headings, code blocks, lists, blockquotes, tables, inline formatting",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/render",
+        "src/utils"
+      ],
+      "contentHash": "5406a5ddaa9c792b91231d747201fb4a",
+      "lastAnalyzed": "2026-07-10T09:21:10.596Z"
+    },
+    "src/render/syntax.ts": {
+      "type": "code",
+      "purpose": "SyntaxHighlighter — Shiki-based code syntax highlighting",
+      "exports": [
+        "ThemedToken",
+        "HighlightOptions",
+        "HighlightResult",
+        "SyntaxHighlighter",
+        "getSyntaxHighlighter",
+        "formatLanguageList"
+      ],
+      "dependencies": [
+        "shiki",
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "renderResponsibility": "Language detection, highlightSync, highlight (async Shiki)",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "contentHash": "bcd78fe3f89fac7a9bb5fc986ee26aca",
+      "lastAnalyzed": "2026-07-10T09:21:10.597Z"
+    },
+    "src/render/themes.ts": {
+      "type": "code",
+      "purpose": "Theme definitions for terminal output",
+      "exports": [
+        "Theme",
+        "darkTheme",
+        "lightTheme",
+        "getTheme",
+        "registerTheme"
+      ],
+      "dependencies": [
+        "chalk"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "30b1c75604b537182c85388600a8abb9",
+      "lastAnalyzed": "2026-07-10T09:21:10.598Z"
+    },
+    "src/render/ansi.ts": {
+      "type": "code",
+      "purpose": "ANSI escape code utilities",
+      "exports": [
+        "clearLine",
+        "cursorUp",
+        "cursorDown",
+        "clearScreenAfter",
+        "saveCursor",
+        "restoreCursor",
+        "hideCursor",
+        "showCursor",
+        "enterAltScreen",
+        "exitAltScreen",
+        "horizontalLine",
+        "boxText",
+        "centerText",
+        "padRight",
+        "stripAnsi",
+        "visibleLength",
+        "truncate"
+      ],
+      "dependencies": [
+        "src/utils/terminal",
+        "src/core/constants"
+      ],
+      "renderResponsibility": "visibleLength, truncate, ANSI helpers",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils",
+        "src/core"
+      ],
+      "contentHash": "6a738de06df1db7fab359c85ed0bb491",
+      "lastAnalyzed": "2026-07-10T09:21:10.595Z"
+    },
+    "src/skills/index.ts": {
+      "type": "code",
+      "purpose": "Barrel export for self-evolving skills architecture",
+      "exports": [
+        "SkillEngine",
+        "ArchitectureInspector",
+        "EvolutionPlanner",
+        "FrameworkEvolver",
+        "SafetyGuard",
+        "ChangeReporter",
+        "GitManager",
+        "SkillInstaller",
+        "DocAutomator"
+      ],
+      "dependencies": [
+        "src/skills/engine",
+        "src/skills/inspector",
+        "src/skills/planner",
+        "src/skills/evolver",
+        "src/skills/safety",
+        "src/skills/reporter",
+        "src/skills/git",
+        "src/skills/installer",
+        "src/skills/docs"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "contentHash": "e12b4f98c39f8c60d4b0c3b2597f1686",
+      "lastAnalyzed": "2026-07-10T09:21:10.607Z"
+    },
+    "src/skills/types.ts": {
+      "type": "code",
+      "purpose": "Type definitions for skills architecture",
+      "exports": [
+        "SkillCategory",
+        "RequiredCapability",
+        "CapabilityType",
+        "SkillDefinition",
+        "Skill",
+        "SkillExecutionContext",
+        "SkillResult",
+        "FileChange",
+        "EvolutionPlan",
+        "Risk",
+        "ArchitectureSnapshot",
+        "ModuleInfo",
+        "DependencyEdge",
+        "ApiEndpoint",
+        "CommandInfo",
+        "SkillManager",
+        "InstallResult",
+        "ChangeReport",
+        "OperationMode",
+        "SafetyConstraints"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "a33e12ac621957823801bf6d0ca45a99",
+      "lastAnalyzed": "2026-07-10T09:21:10.611Z"
+    },
+    "src/skills/engine.ts": {
+      "type": "code",
+      "purpose": "Skill execution engine",
+      "exports": [
+        "SkillEngine"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/skills/inspector",
+        "src/skills/installer"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "interfacesImplemented": [
+        "SkillManager"
+      ],
+      "contentHash": "1d541373d6b24654b0cb5672a3c74d98",
+      "lastAnalyzed": "2026-07-10T09:21:10.606Z"
+    },
+    "src/skills/evolver.ts": {
+      "type": "code",
+      "purpose": "Framework self-modification — evolves CLI when skills need new capabilities",
+      "exports": [
+        "EvolutionResult",
+        "ValidationResult",
+        "FrameworkEvolver"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "url",
+        "src/skills/inspector",
+        "src/skills/safety"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "contentHash": "139ada1be2f0036a52dd353baf5cf2e1",
+      "lastAnalyzed": "2026-07-10T09:21:10.606Z"
+    },
+    "src/skills/autonomous.ts": {
+      "type": "code",
+      "purpose": "Autonomous skill manager — self-learning skills that run without user input",
+      "exports": [
+        "ExperienceRecord",
+        "SkillPattern",
+        "GeneratedSkill",
+        "ExperienceRecorder",
+        "SkillGenerator",
+        "AutonomousSkillManager"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "6352063bcbbf0bac2c7e4465b519a1e3",
+      "lastAnalyzed": "2026-07-10T09:21:10.605Z"
+    },
+    "src/performance/index.ts": {
+      "type": "code",
+      "purpose": "PerformanceOrchestrator — coordinates all perf subsystems",
+      "exports": [
+        "PerformanceOrchestrator"
+      ],
+      "dependencies": [
+        "src/core/events",
+        "src/performance/memory",
+        "src/performance/editor",
+        "src/performance/filesystem",
+        "src/performance/parallel",
+        "src/performance/scheduler",
+        "src/performance/streaming",
+        "src/performance/benchmark",
+        "path"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core",
+        "src/performance"
+      ],
+      "contentHash": "28f184ab080a9bf791e0e6d2a6125812",
+      "lastAnalyzed": "2026-07-10T09:21:10.590Z"
+    },
+    "src/performance/memory.ts": {
+      "type": "code",
+      "purpose": "Memory cache manager with LRU eviction",
+      "exports": [
+        "CacheEntry",
+        "MemoryStats",
+        "StreamingResult",
+        "SmartCache",
+        "ObjectPool",
+        "StreamingFileReader",
+        "getLoadedModules",
+        "clearModuleCache",
+        "PerformanceMemoryManager"
+      ],
+      "dependencies": [
+        "fs",
+        "src/core/events"
+      ],
+      "performanceConsiderations": "LRU eviction, configurable max cache size, eviction interval",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "de25cadd74b71461593fe65a1edc132f",
+      "lastAnalyzed": "2026-07-10T09:21:10.591Z"
+    },
+    "src/performance/filesystem.ts": {
+      "type": "code",
+      "purpose": "File system indexer and watcher",
+      "exports": [
+        "FileIndexEntry",
+        "FileSearchResult",
+        "SymbolInfo",
+        "IndexStats",
+        "GitignoreParser",
+        "FileIndexer",
+        "FileWatcher",
+        "PerformanceFileSystem"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/core/events",
+        "crypto"
+      ],
+      "performanceConsiderations": "File watching, incremental indexing",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "b8af7f86ac9a81096e29b9356a3027c8",
+      "lastAnalyzed": "2026-07-10T09:21:10.590Z"
+    },
+    "src/performance/parallel.ts": {
+      "type": "code",
+      "purpose": "Parallel worker pool for concurrent task execution",
+      "exports": [
+        "ParallelTask",
+        "ParallelTaskResult",
+        "ParallelProgress",
+        "ParallelResult",
+        "FileConflictAnalyzer",
+        "WorkerPool",
+        "ParallelRunner"
+      ],
+      "dependencies": [
+        "src/core/events"
+      ],
+      "performanceConsiderations": "Configurable concurrency, conflict detection",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "8e5d252c9584948b05e88dfe2531ab80",
+      "lastAnalyzed": "2026-07-10T09:21:10.591Z"
+    },
+    "src/performance/scheduler.ts": {
+      "type": "code",
+      "purpose": "Task scheduler with retry and timeout",
+      "exports": [
+        "ScheduledTask",
+        "TaskStatus",
+        "TaskState",
+        "SchedulerProgress",
+        "DependencyGraph",
+        "TaskScheduler"
+      ],
+      "dependencies": [
+        "src/core/events"
+      ],
+      "performanceConsiderations": "Configurable concurrency, timeout, retries",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "c94b56ff32bd45300c9ba00d39a95f72",
+      "lastAnalyzed": "2026-07-10T09:21:10.592Z"
+    },
+    "src/performance/benchmark.ts": {
+      "type": "code",
+      "purpose": "Performance benchmarking and timing",
+      "exports": [
+        "BenchmarkResult",
+        "StartupMetrics",
+        "ThroughputMetrics",
+        "SystemMetrics",
+        "Bottleneck",
+        "BenchmarkRunner",
+        "PerformanceMonitor",
+        "BenchmarkSuite"
+      ],
+      "dependencies": [
+        "src/performance/memory",
+        "src/performance/filesystem",
+        "src/performance/scheduler",
+        "src/performance/parallel",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/performance",
+        "src/core"
+      ],
+      "contentHash": "d3eb063e9b28e48521a790a6272cd66d",
+      "lastAnalyzed": "2026-07-10T09:21:10.589Z"
+    },
+    "src/performance/streaming.ts": {
+      "type": "code",
+      "purpose": "Streaming performance monitor",
+      "exports": [
+        "StreamProgress",
+        "StreamLogLevel",
+        "StreamLogEntry",
+        "StreamChunk",
+        "ProgressBar",
+        "StreamingRenderer",
+        "StreamAggregator"
+      ],
+      "dependencies": [
+        "process",
+        "chalk"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "4c3abeff33b7c2381d5e287e8c7d555d",
+      "lastAnalyzed": "2026-07-10T09:21:10.593Z"
+    },
+    "src/performance/editor.ts": {
+      "type": "code",
+      "purpose": "Parallel file editor with backup support",
+      "exports": [
+        "FileEdit",
+        "EditValidation",
+        "BatchEditResult",
+        "FileConflictDetector",
+        "FileBackupManager",
+        "ConcurrentFileEditor"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "a673cb5e85d5ece290e8c0d50a2f7824",
+      "lastAnalyzed": "2026-07-10T09:21:10.589Z"
+    },
+    "src/config/manager.ts": {
+      "type": "code",
+      "purpose": "ConfigManager — JSON config file management (XDG paths)",
+      "exports": [
+        "ConfigManager"
+      ],
+      "dependencies": [
+        "fs",
+        "src/config/defaults",
+        "src/core/constants",
+        "src/utils/paths",
+        "src/core/errors"
+      ],
+      "storageInteraction": "JSON file read/write at XDG config path",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/config",
+        "src/core",
+        "src/utils"
+      ],
+      "contentHash": "7aff347e7a9366abb06eaf093f5ee096",
+      "lastAnalyzed": "2026-07-10T09:21:10.579Z"
+    },
+    "src/config/defaults.ts": {
+      "type": "code",
+      "purpose": "Default configuration values",
+      "exports": [
+        "DEFAULT_CONFIG"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "99161cac7eab1adb231ebb8262944cfd",
+      "lastAnalyzed": "2026-07-10T09:21:10.577Z"
+    },
+    "src/plugins/manager.ts": {
+      "type": "code",
+      "purpose": "PluginManager — plugin discovery, loading, hook system",
+      "exports": [
+        "PluginManager"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/utils/paths",
+        "src/core/errors",
+        "src/core/events"
+      ],
+      "pluginsRelated": "Implements plugin lifecycle: load, activate, deactivate",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils",
+        "src/core"
+      ],
+      "contentHash": "513fe6cebb4cabc759060b042afdb4a0",
+      "lastAnalyzed": "2026-07-10T09:21:10.594Z"
+    },
+    "src/session/manager.ts": {
+      "type": "code",
+      "purpose": "SessionManager — session CRUD with SQLite via bun:sqlite",
+      "exports": [
+        "SessionManagerImpl"
+      ],
+      "dependencies": [
+        "src/utils/paths",
+        "src/core/errors",
+        "bun:sqlite"
+      ],
+      "interfacesImplemented": [
+        "SessionManager"
+      ],
+      "storageInteraction": "SQLite via bun:sqlite; sessions and messages tables",
+      "performanceConsiderations": "Prepared statements for fast queries",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils",
+        "src/core"
+      ],
+      "contentHash": "c6d3270c4264d778239eb9ec6fc6be1f",
+      "lastAnalyzed": "2026-07-10T09:21:10.604Z"
+    },
+    "src/memory/index.ts": {
+      "type": "code",
+      "purpose": "MemoryManager — vector memory, FTS5 search, session recall",
+      "exports": [
+        "MemoryRecord",
+        "SearchResult",
+        "VectorMemoryEntry",
+        "UserProfile",
+        "MemoryProvider",
+        "FTS5MemoryStore",
+        "VectorMemoryStore",
+        "UserProfileManager",
+        "MemoryManager"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/core/events"
+      ],
+      "storageInteraction": "Vector memory and FTS5 search",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "dcb41fd4f510b129954759809b8a4650",
+      "lastAnalyzed": "2026-07-10T09:21:10.588Z"
+    },
+    "src/security/index.ts": {
+      "type": "code",
+      "purpose": "SecurityManager — threat detection, file safety, plugin sandboxing",
+      "exports": [
+        "ThreatSeverity",
+        "ThreatType",
+        "ThreatEvent",
+        "SafetyPolicy",
+        "FileValidationResult",
+        "ThreatDetector",
+        "FileSafetyValidator",
+        "PluginSandbox",
+        "SecurityManager"
+      ],
+      "dependencies": [
+        "path",
+        "src/core/events"
+      ],
+      "securityConsiderations": "Threat detection, file safety checks, path allow/deny lists",
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "d1b7edca51ffb7830e6bc665dfb8a55c",
+      "lastAnalyzed": "2026-07-10T09:21:10.604Z"
+    },
+    "src/automation/index.ts": {
+      "type": "code",
+      "purpose": "AutomationManager — cron jobs, lifecycle management",
+      "exports": [
+        "JobStatus",
+        "JobType",
+        "CronJob",
+        "JobBlueprint",
+        "JobResult",
+        "LifecycleGuardConfig",
+        "BlueprintCatalog",
+        "parseCronExpression",
+        "cronMatches",
+        "JobSuggestion",
+        "SuggestionCatalog",
+        "LifecycleGuard",
+        "CronRunner",
+        "AutomationManager"
+      ],
+      "dependencies": [
+        "child_process",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "5398013eaf5ad8b4be270fdf9017afa5",
+      "lastAnalyzed": "2026-07-10T09:21:10.562Z"
+    },
+    "src/orchestrator/index.ts": {
+      "type": "code",
+      "purpose": "OrchestratorManager — multi-agent task orchestration",
+      "exports": [
+        "TaskStatus",
+        "TaskPriority",
+        "Task",
+        "Subagent",
+        "SwarmConfig",
+        "SwarmResult",
+        "SubagentPool",
+        "TaskQueue",
+        "SwarmCoordinator",
+        "OrchestratorManager"
+      ],
+      "dependencies": [
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "af256fa2aeb84bfbcffee6fd8854f478",
+      "lastAnalyzed": "2026-07-10T09:21:10.588Z"
+    },
+    "src/web/index.ts": {
+      "type": "code",
+      "purpose": "WebManager — browser engine (Playwright/Puppeteer), web search",
+      "exports": [
+        "WebSearchResult",
+        "WebPageContent",
+        "BrowserSession",
+        "WebSearchEngine",
+        "BrowserAutomator",
+        "WebManager"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "e788cd256bb748596c178c72b4d459db",
+      "lastAnalyzed": "2026-07-10T09:21:10.624Z"
+    },
+    "src/personas/index.ts": {
+      "type": "code",
+      "purpose": "PersonaManager — persona definitions and reasoning effort control",
+      "exports": [
+        "ReasoningEffort",
+        "Persona",
+        "PersonaTrait",
+        "PersonaManager",
+        "MultilineEditor"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "chalk",
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "cee0d31df2ab25928b16aec5d0955c08",
+      "lastAnalyzed": "2026-07-10T09:21:10.594Z"
+    },
+    "src/gateways/index.ts": {
+      "type": "code",
+      "purpose": "GatewayManager — Telegram, Discord, Slack integrations",
+      "exports": [
+        "GatewayPlatform",
+        "GatewayConfig",
+        "GatewayMessage",
+        "GatewayStatus",
+        "IGateway",
+        "TelegramGateway",
+        "DiscordGateway",
+        "SlackGateway",
+        "GatewayManager"
+      ],
+      "dependencies": [
+        "src/core/events"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "interfacesImplemented": [
+        "IGateway"
+      ],
+      "contentHash": "5c397c0bf959540a10ef1e601b1669fa",
+      "lastAnalyzed": "2026-07-10T09:21:10.584Z"
+    },
+    "src/logging/logger.ts": {
+      "type": "code",
+      "purpose": "Structured logger with child context support",
+      "exports": [
+        "LogLevel",
+        "LoggerConfig",
+        "Logger",
+        "createLogger"
+      ],
+      "dependencies": [
+        "fs"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "e66757438331ecf24b34a29c1980c6f1",
+      "lastAnalyzed": "2026-07-10T09:21:10.587Z"
+    },
+    "src/utils/terminal.ts": {
+      "type": "code",
+      "purpose": "Terminal detection, capabilities, color depth, ANSI utilities",
+      "exports": [
+        "TerminalCapabilities",
+        "getTerminalCapabilities",
+        "invalidateCapabilities",
+        "getTerminalWidth",
+        "getTerminalHeight",
+        "supportsColor",
+        "stripAnsi",
+        "wrapText",
+        "isPiped"
+      ],
+      "dependencies": [
+        "process"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "06c005565e3ed2804f01688d53b3ac10",
+      "lastAnalyzed": "2026-07-10T09:21:10.622Z"
+    },
+    "src/utils/paths.ts": {
+      "type": "code",
+      "purpose": "XDG platform path resolution",
+      "exports": [
+        "getConfigDir",
+        "getDataDir",
+        "getCacheDir",
+        "getStateDir",
+        "getConfigPath",
+        "getSessionsDbPath",
+        "getLogPath",
+        "getPluginDir"
+      ],
+      "dependencies": [
+        "os",
+        "path",
+        "fs",
+        "src/core/constants"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/core"
+      ],
+      "contentHash": "3aad10996f0958e450dd7439766eafd0",
+      "lastAnalyzed": "2026-07-10T09:21:10.622Z"
+    },
+    "src/utils/throttle.ts": {
+      "type": "code",
+      "purpose": "Throttle and debounce utilities",
+      "exports": [
+        "throttle",
+        "debounce",
+        "rateLimit"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "42d1d8f178254fabc3ec4bf9be5d2cd9",
+      "lastAnalyzed": "2026-07-10T09:21:10.623Z"
+    },
+    "src/utils/version.ts": {
+      "type": "code",
+      "purpose": "Version management",
+      "exports": [
+        "CLI_VERSION",
+        "CLI_CODENAME",
+        "getVersionString",
+        "getVersionInfo",
+        "formatVersionInfo"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "contentHash": "ea87f27b4c2ecb9e63d35fba4504bdaf",
+      "lastAnalyzed": "2026-07-10T09:21:10.623Z"
+    },
+    "src/commands/cron-cmd.ts": {
+      "path": "src/commands/cron-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createCronCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createCronCommand",
+        "cron"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.569Z",
+      "contentHash": "cac0c11ef45f5cf36e29d01578dc01d1"
+    },
+    "src/commands/evolve-cmd.ts": {
+      "path": "src/commands/evolve-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createEvolveCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createEvolveCommand",
+        "evolve"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.570Z",
+      "contentHash": "3ffca4df504b62b09338a4cdc5a27265"
+    },
+    "src/commands/gateway-cmd.ts": {
+      "path": "src/commands/gateway-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createGatewayCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createGatewayCommand",
+        "gateway"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.570Z",
+      "contentHash": "cebf529358a3f0f1132f063686eb1270"
+    },
+    "src/commands/memory-cmd.ts": {
+      "path": "src/commands/memory-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createMemoryCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createMemoryCommand",
+        "memory"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.571Z",
+      "contentHash": "e206fbeff6292737281687b4870348b8"
+    },
+    "src/commands/orchestrate-cmd.ts": {
+      "path": "src/commands/orchestrate-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createOrchestrateCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createOrchestrateCommand",
+        "orchestrate"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.572Z",
+      "contentHash": "1e2286dda692996d687f7a18a1227002"
+    },
+    "src/commands/performance-cmd.ts": {
+      "path": "src/commands/performance-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createPerformanceCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/performance/index"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/performance"
+      ],
+      "commands": [
+        "createPerformanceCommand",
+        "perf"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.573Z",
+      "contentHash": "5befa3ab857f36d3c7e36de39d9e7265"
+    },
+    "src/commands/persona-cmd.ts": {
+      "path": "src/commands/persona-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createPersonaCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createPersonaCommand",
+        "persona"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.573Z",
+      "contentHash": "5325745710fb3faddbf4b69ad78f6abc"
+    },
+    "src/commands/security-cmd.ts": {
+      "path": "src/commands/security-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createSecurityCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createSecurityCommand",
+        "security"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.573Z",
+      "contentHash": "08832f795bed5238292c2f24a68c8fd4"
+    },
+    "src/commands/skills-cmd.ts": {
+      "path": "src/commands/skills-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createSkillsCommand"
+      ],
+      "dependencies": [
+        "chalk"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "commands": [
+        "createSkillsCommand",
+        "skills"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.574Z",
+      "contentHash": "c2d111d53ff35aa9614874bfc4b0a75d"
+    },
+    "src/commands/web-cmd.ts": {
+      "path": "src/commands/web-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createWebCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createWebCommand",
+        "web"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.574Z",
+      "contentHash": "d6151b4012b4571a1a1a265f0971923e"
+    },
+    "src/discovery/cli.ts": {
+      "path": "src/discovery/cli.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [],
+      "dependencies": [
+        "src/discovery/engine"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/discovery"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.582Z",
+      "contentHash": "7414d19515e32db648006926c97802c7"
+    },
+    "src/discovery/engine.ts": {
+      "path": "src/discovery/engine.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "CliDiscoveryEngine"
+      ],
+      "dependencies": [
+        "fs",
+        "path"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.582Z",
+      "contentHash": "e21f8c70f18195d181861ed72768ef22"
+    },
+    "src/discovery/index.ts": {
+      "path": "src/discovery/index.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "CliDiscoveryEngine"
+      ],
+      "dependencies": [
+        "src/discovery/engine"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/discovery"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.583Z",
+      "contentHash": "2a6e493341999bf0752be56a3341fc8e"
+    },
+    "src/discovery/types.ts": {
+      "path": "src/discovery/types.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "DiscoveredCli",
+        "CliIdentity",
+        "CliFeatureInventory",
+        "ArchitectureInfo",
+        "DiscoverySource",
+        "DiscoveryConfig"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.584Z",
+      "contentHash": "cc4bd371615639992dbdefa2ed93fc95"
+    },
+    "src/intelligence/index-updater.ts": {
+      "path": "src/intelligence/index-updater.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "runIndexSync",
+        "startFileWatcher"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "src/intelligence/knowledge-index"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/intelligence"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.585Z",
+      "contentHash": "94e93433a0d7161216fcefa4fe060e8b"
+    },
+    "src/intelligence/knowledge-index.ts": {
+      "path": "src/intelligence/knowledge-index.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "FileEntry",
+        "ModuleEntry",
+        "KnowledgeIndex",
+        "IndexSyncReport",
+        "loadKnowledgeIndex",
+        "invalidateCache",
+        "getFileMeta",
+        "getFilesByModule",
+        "findFilesByExport",
+        "findFilesByDependency",
+        "getAffectedFiles",
+        "getModuleForFile",
+        "refreshIndexEntry",
+        "deepAnalyzeFile",
+        "scanNewFiles",
+        "removeDeletedFiles",
+        "synchronizeIndexAfterChanges"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "crypto"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.586Z",
+      "contentHash": "639a148e17b71439532917ce568e5259"
+    },
+    "src/router/types.ts": {
+      "path": "src/router/types.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "RouterModelsResponse",
+        "RouterModel",
+        "RouterModelCapabilities",
+        "ChatCompletionRequest",
+        "ChatMessage",
+        "ChatCompletionChunk",
+        "ChunkChoice",
+        "ChunkDelta",
+        "ChatCompletionResponse",
+        "ResponseChoice",
+        "toModelInfo"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.603Z",
+      "contentHash": "2efacb4e9a09b7acb616a89968005b96"
+    },
+    "src/skills/docs.ts": {
+      "path": "src/skills/docs.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "DocAutomator"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "url",
+        "src/skills/safety"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.605Z",
+      "contentHash": "66562a628932a76bd3c542f4d91472b4"
+    },
+    "src/skills/git.ts": {
+      "path": "src/skills/git.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "GitManager"
+      ],
+      "dependencies": [
+        "child_process",
+        "fs",
+        "path",
+        "url"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.607Z",
+      "contentHash": "39cbae44d54cdfb0fe18516173c03165"
+    },
+    "src/skills/inspector.ts": {
+      "path": "src/skills/inspector.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ArchitectureInspector"
+      ],
+      "dependencies": [
+        "fs",
+        "path",
+        "url"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.608Z",
+      "contentHash": "741d69d18e8b934f8c2aa0925f0a345e"
+    },
+    "src/skills/installer.ts": {
+      "path": "src/skills/installer.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "SkillInstaller"
+      ],
+      "dependencies": [
+        "src/skills/engine",
+        "src/skills/inspector",
+        "src/skills/planner",
+        "src/skills/safety",
+        "src/skills/git",
+        "src/skills/evolver",
+        "src/skills/reporter",
+        "src/skills/docs"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.608Z",
+      "contentHash": "7c02bca2b7b2bd5ea418266fc16bd905"
+    },
+    "src/skills/planner.ts": {
+      "path": "src/skills/planner.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "EvolutionPlanner"
+      ],
+      "dependencies": [
+        "src/skills/inspector",
+        "chalk"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.609Z",
+      "contentHash": "5cdd858761c68af0c697a768f93e3852"
+    },
+    "src/skills/reporter.ts": {
+      "path": "src/skills/reporter.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ChangeReporter"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.610Z",
+      "contentHash": "0d37493002908ed8328750bfb7ab92eb"
+    },
+    "src/skills/safety.ts": {
+      "path": "src/skills/safety.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "SafetyCheckResult",
+        "SafetyGuard"
+      ],
+      "dependencies": [
+        "src/skills/inspector"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/skills"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.610Z",
+      "contentHash": "0bc2c221b9104d1e63eead4ec6765851"
+    },
+    "src/commands/connect-cmd.ts": {
+      "path": "src/commands/connect-cmd.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "createConnectCommand"
+      ],
+      "dependencies": [
+        "chalk",
+        "src/utils/terminal"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/utils"
+      ],
+      "commands": [
+        "createConnectCommand",
+        "connect"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.569Z",
+      "contentHash": "11ac9eabe172b302565bee1df3fd7fbf"
+    },
+    "src/router/connections.ts": {
+      "path": "src/router/connections.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ConnectionManager"
+      ],
+      "dependencies": [
+        "src/router/client"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/router"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.599Z",
+      "contentHash": "bb37c674b96aca260ca3769764ac189e"
+    },
+    "src/tui/app.tsx": {
+      "path": "src/tui/app.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "TuiConfig",
+        "ThemeCtx",
+        "useTheme",
+        "App"
+      ],
+      "dependencies": [
+        "react",
+        "ink",
+        "src/tui/components/status-bar",
+        "src/tui/components/chat-view",
+        "src/tui/components/input-box",
+        "src/tui/components/command-palette",
+        "src/tui/components/spinner",
+        "src/tui/components/sidebar",
+        "src/tui/components/toast",
+        "src/tui/model-picker",
+        "src/tui/components/session-list",
+        "src/tui/connect-view",
+        "src/tui/quota-view",
+        "src/tui/start-screen",
+        "src/tui/themes",
+        "src/tui/types"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/tui/components",
+        "src/tui"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.612Z",
+      "contentHash": "0f5e04b6c37833a31a800cb82513a74c"
+    },
+    "src/tui/components/badge.tsx": {
+      "path": "src/tui/components/badge.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "Badge",
+        "ModelBadge",
+        "CapabilityBadge",
+        "StatusDot"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.613Z",
+      "contentHash": "7545b2bccd13eec0713f2ca6a5e7a84c"
+    },
+    "src/tui/components/chat-view.tsx": {
+      "path": "src/tui/components/chat-view.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ChatView"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.613Z",
+      "contentHash": "582ecb9b939cb3378b210e55cb2acb64"
+    },
+    "src/tui/components/command-palette.tsx": {
+      "path": "src/tui/components/command-palette.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "CommandPalette",
+        "Submenu"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.614Z",
+      "contentHash": "86302a18d70dd0c0b5e9a1ae3ef270c1"
+    },
+    "src/tui/components/dialog.tsx": {
+      "path": "src/tui/components/dialog.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "Dialog"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.615Z",
+      "contentHash": "fa51806c877fe6974cf9409371fb7b2e"
+    },
+    "src/tui/components/input-box.tsx": {
+      "path": "src/tui/components/input-box.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "InputBox"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.615Z",
+      "contentHash": "c741104bfba2623ff2757d185e3d4aa4"
+    },
+    "src/tui/components/keybindings.tsx": {
+      "path": "src/tui/components/keybindings.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "KeyBinding",
+        "Keybindings"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.615Z",
+      "contentHash": "bf15a7471e2c01de3f9ef5d7d0744c1e"
+    },
+    "src/tui/components/sidebar.tsx": {
+      "path": "src/tui/components/sidebar.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "Sidebar"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.617Z",
+      "contentHash": "a160ffdc587a512603eff8ca1599dc66"
+    },
+    "src/tui/components/spinner.tsx": {
+      "path": "src/tui/components/spinner.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "Spinner",
+        "ProgressBar"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.617Z",
+      "contentHash": "2709b73952b7fa9a403a70e9d81f3108"
+    },
+    "src/tui/components/status-bar.tsx": {
+      "path": "src/tui/components/status-bar.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "StatusBar"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.618Z",
+      "contentHash": "cc6c5bc9838e187fb5574aaaca0acc70"
+    },
+    "src/tui/components/toast.tsx": {
+      "path": "src/tui/components/toast.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ToastContainer"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.618Z",
+      "contentHash": "f0c05ce9ada5ee317b51870c711a450c"
+    },
+    "src/tui/engine.tsx": {
+      "path": "src/tui/engine.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "TuiEngine"
+      ],
+      "dependencies": [
+        "ink",
+        "stream",
+        "src/tui/app",
+        "src/tui/types"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/tui"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.619Z",
+      "contentHash": "e65a5e099781323fdaf2f3d862c23139"
+    },
+    "src/tui/index.ts": {
+      "path": "src/tui/index.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "render",
+        "App",
+        "ThemeCtx",
+        "useTheme",
+        "COMMANDS",
+        "themeRegistry",
+        "getTheme"
+      ],
+      "dependencies": [
+        "ink",
+        "src/tui/app",
+        "src/tui/types",
+        "src/tui/themes"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/tui"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.619Z",
+      "contentHash": "c967b8af99e56f76d1eb4fc66e45c66a"
+    },
+    "src/tui/model-picker.tsx": {
+      "path": "src/tui/model-picker.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ModelPicker"
+      ],
+      "dependencies": [
+        "react",
+        "ink",
+        "src/tui/components/provider-list",
+        "src/tui/components/provider-models",
+        "src/tui/components/all-models-grid",
+        "src/tui/components/combo-list"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/tui/components"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.620Z",
+      "contentHash": "07655dda89091c5fbe065de6d045c4a1"
+    },
+    "src/tui/start-screen.tsx": {
+      "path": "src/tui/start-screen.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "StartScreen"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.621Z",
+      "contentHash": "e1ccaaad1c9211ace82a4e765fb4e8b1"
+    },
+    "src/tui/themes/index.ts": {
+      "path": "src/tui/themes/index.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ThemeName",
+        "themeRegistry",
+        "getTheme"
+      ],
+      "dependencies": [
+        "src/tui/types"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [
+        "src/tui"
+      ],
+      "lastAnalyzed": "2026-07-10T09:21:10.621Z",
+      "contentHash": "519ffb81f3b6b97432d10d624af59944"
+    },
+    "src/tui/types.ts": {
+      "path": "src/tui/types.ts",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "TuiView",
+        "ModelSelectorScreen",
+        "SortKey",
+        "FilterState",
+        "LocalCombo",
+        "ConnectionStatus",
+        "PermissionMode",
+        "Theme",
+        "TuiState",
+        "ModelInfo",
+        "ModelCapability",
+        "Message",
+        "ToolCall",
+        "SessionInfo",
+        "PermissionRequest",
+        "Notification",
+        "CommandItem",
+        "CommandCategory",
+        "Action",
+        "SubmenuItem",
+        "TuiConnection",
+        "TuiContextValue",
+        "COMMANDS"
+      ],
+      "dependencies": [],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.622Z",
+      "contentHash": "153208a2aa1f2c978e267248ecfd60b2"
+    },
+    "src/tui/quota-view.tsx": {
+      "path": "src/tui/quota-view.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "QuotaView"
+      ],
+      "dependencies": [
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.620Z",
+      "contentHash": "b60f9c27d924df28f76fe3061965cc19"
+    },
+    "src/tui/connect-view.tsx": {
+      "path": "src/tui/connect-view.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ConnectView"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.618Z",
+      "contentHash": "e63cf5c5e9ec6dcd4a4c38f3a6006391"
+    },
+    "src/tui/components/all-models-grid.tsx": {
+      "path": "src/tui/components/all-models-grid.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "AllModelsGrid"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.613Z",
+      "contentHash": "584abfeaee684d18d306bf4364d47586"
+    },
+    "src/tui/components/combo-list.tsx": {
+      "path": "src/tui/components/combo-list.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ComboList",
+        "DEFAULT_COMBOS"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.614Z",
+      "contentHash": "16e83728c45064bec175003440d07344"
+    },
+    "src/tui/components/provider-list.tsx": {
+      "path": "src/tui/components/provider-list.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ProviderList"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.616Z",
+      "contentHash": "a14dee43afa2d73fae7e598fe6e1ea6d"
+    },
+    "src/tui/components/provider-models.tsx": {
+      "path": "src/tui/components/provider-models.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "ProviderModels"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.616Z",
+      "contentHash": "1ca6ce310a981e5bffc107cbe0837524"
+    },
+    "src/tui/components/session-list.tsx": {
+      "path": "src/tui/components/session-list.tsx",
+      "type": "code",
+      "purpose": "Auto-discovered",
+      "exports": [
+        "SessionList"
+      ],
+      "dependencies": [
+        "react",
+        "ink"
+      ],
+      "reverseDeps": [],
+      "relatedModules": [],
+      "lastAnalyzed": "2026-07-10T09:21:10.616Z",
+      "contentHash": "e7216a94931b2dfd96f471c6935a79a7"
+    }
+  },
+  "lastUpdated": "2026-07-10T09:21:10.633Z"
+}
