@@ -1,0 +1,124 @@
+{
+  "name": "antigravity-models",
+  "displayName": "9 Router Models",
+  "description": "Pick AI models served by the local 9 Router gateway and chat with them — streaming replies and agentic file creation.",
+  "version": "0.3.0",
+  "publisher": "antigravity-dev",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:antigravity.models.click",
+    "onCommand:antigravity.models.pick",
+    "onCommand:antigravity.models.chat",
+    "onCommand:antigravity.models.options",
+    "onStartupFinished"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "antigravity.models.click",
+        "title": "Open (Chat / Pick Model)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.pick",
+        "title": "Pick Model",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.chat",
+        "title": "Chat with Model",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.options",
+        "title": "Session Options",
+        "category": "9 Router"
+      }
+    ],
+    "configuration": {
+      "title": "9 Router Models",
+      "properties": {
+        "antigravity.router.baseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:20128/v1",
+          "scope": "window",
+          "description": "9 Router base URL (OpenAI-compatible). Defaults to http://127.0.0.1:20128/v1"
+        },
+        "antigravity.router.apiKey": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Optional API key for the 9 Router. Leave empty if auth is disabled."
+        }
+      }
+    },
+    "configuration": {
+      "title": "9 Router Session",
+      "properties": {
+        "antigravity.session.temperature": {
+          "type": "number",
+          "default": 0.5,
+          "minimum": 0,
+          "maximum": 2,
+          "scope": "window",
+          "description": "Sampling temperature for chat replies (0 = strict, 1 = creative)."
+        },
+        "antigravity.session.maxTokens": {
+          "type": "number",
+          "default": 4096,
+          "minimum": 1,
+          "maximum": 131072,
+          "scope": "window",
+          "description": "Maximum tokens the model may produce per reply."
+        },
+        "antigravity.session.systemPrompt": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Extra system instructions prepended to the agent rules."
+        },
+        "antigravity.session.allowShell": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Allow the agent to run shell commands."
+        },
+        "antigravity.session.allowVscode": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Allow the agent to run VS Code commands."
+        },
+        "antigravity.session.allowFiles": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Allow the agent to read, list, open and write files."
+        },
+        "antigravity.session.maxTurns": {
+          "type": "number",
+          "default": 40,
+          "minimum": 2,
+          "scope": "window",
+          "description": "Conversation history length (messages beyond this get trimmed)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "vscode:prepublish": "tsc -p ./"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@types/node": "^22.9.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.2.1"
+  }
+}
