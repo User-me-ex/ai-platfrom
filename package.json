@@ -46,8 +46,26 @@
       }
     ],
     "configuration": {
-      "title": "9 Router Session",
+      "title": "9 Router Models",
       "properties": {
+        "antigravity.router.baseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:20128/v1",
+          "scope": "window",
+          "description": "9 Router base URL (OpenAI-compatible). Defaults to http://127.0.0.1:20128/v1"
+        },
+        "antigravity.router.apiKey": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Optional API key for the 9 Router. Leave empty if auth is disabled."
+        },
+        "antigravity.models.filterLive": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Hide live/voice conversation (voice-to-voice) models from the model picker. Turn off to browse and select them."
+        },
         "antigravity.session.temperature": {
           "type": "number",
           "default": 0.5,
