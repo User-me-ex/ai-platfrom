@@ -5,6 +5,7 @@ Pick AI models served by the local **9 Router gateway** (`http://127.0.0.1:20128
 ## Features
 
 - **Model Picker** — browse the live `/v1/models` list merged with an embedded catalog (84 models, 21 providers). Shows provider, source badge (router/catalog), `$(flame)` marker for live/voice models, and capabilities (context window, max output, vision/audio/tools/reasoning). If the router is offline the picker falls back to the catalog and shows the error.
+- **Live-Model Filter (default on)** — all live/voice conversation (voice-to-voice) models are hidden from the picker by default. Toggle from the status-bar menu or the `antigravity.models.filterLive` setting. See [Gemini Live conversation — model IDs & PCM config](research/gemini-live-conversation.md) for the underlying research.
 - **Streaming Chat** — type messages into the input box; the reply streams into the output channel in real time.
 - **Typing Indicator** — a status-bar spinner tracks the agent live: `thinking` → `typing` (while streaming) → `running tools`, then clears; every turn ends with a `[✓ done]` line in the output.
 - **Agent Tools** — the model can read files, list directories, create/edit files, run shell commands, run any VS Code command, and open files in the editor. Execution is announced in the output channel.
@@ -24,6 +25,7 @@ Settings → `Extensions` → `9 Router Models` (or search `antigravity.`).
 |---------|---------|-------------|
 | `antigravity.router.baseUrl` | `http://127.0.0.1:20128/v1` | 9 Router base URL (OpenAI-compatible) |
 | `antigravity.router.apiKey` | *(empty)* | Optional API key. Leave empty if auth is disabled. |
+| `antigravity.models.filterLive` | `true` | Hide live/voice conversation (voice-to-voice) models from the picker. |
 | `antigravity.session.temperature` | `0.5` | Sampling temperature (0–2). |
 | `antigravity.session.maxTokens` | `4096` | Maximum tokens the model may produce per reply. |
 | `antigravity.session.systemPrompt` | *(empty)* | Extra system instructions prepended to the agent rules. |
@@ -36,7 +38,7 @@ Settings → `Extensions` → `9 Router Models` (or search `antigravity.`).
 
 1. Reload the window after installing.
 2. Click the **9 Router · \<model\>** status bar item (or run `9 Router: Pick Model` from the command palette).
-3. Pick a model, then choose **Chat with selected model**.
+3. Pick a model, then choose **Chat with selected model**. Live/voice conversation models are filtered out — use the status-bar menu toggle *"Live models filtered out / shown"* (or set `antigravity.models.filterLive: false`) to browse/select them.
 4. Type messages. The selected model can use agent tools automatically (a tool must be both enabled in the session options and correctly emitted by the model).
 5. Adjust per-session behavior via the **Session options** menu item or the command `9 Router: Session Options`.
 

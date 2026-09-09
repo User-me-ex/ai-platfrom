@@ -28,6 +28,22 @@ function settings(): { baseUrl: string; apiKey?: string } {
   return { baseUrl, apiKey: apiKey || undefined };
 }
 
+function filterLiveOn(): boolean {
+  return vscode.workspace.getConfiguration('antigravity.models').get<boolean>('filterLive') !== false;
+}
+
+async function toggleLiveFilter(): Promise<void> {
+  const next = !filterLiveOn();
+  await vscode.workspace
+    .getConfiguration('antigravity.models')
+    .update('filterLive', next, vscode.ConfigurationTarget.Global);
+  vscode.window.showInformationMessage(
+    next
+      ? '9 Router: live/voice conversation models will be hidden from the picker.'
+      : '9 Router: live/voice conversation models will be shown in the picker.'
+  );
+}
+
 function describe(m: ModelInfo): string {
   const bits: string[] = [];
   if (m.caps.contextWindow) bits.push(`${Math.round(m.caps.contextWindow / 1000)}k ctx`);
@@ -53,17 +69,20 @@ let statusBarContext: vscode.ExtensionContext;
 
 async function pickModel(context: vscode.ExtensionContext, catalog: ModelInfo[]): Promise<void> {
   const { baseUrl, apiKey } = settings();
+  const filterLive = vscode.workspace.getConfiguration('antigravity.models').get<boolean>('filterLive') !== false;
   statusBar.text = '$(sync~spin) 9 Router…';
   const router = await fetchRouterModels(baseUrl, apiKey);
-  const items = mergeModels(router.items, catalog);
+  const merged = mergeModels(router.items, catalog);
+  const hidden = filterLive ? merged.filter((m) => m.live).length : 0;
+  const items = filterLive ? merged.filter((m) => !m.live) : merged;
   if (statusBarContext) refreshStatusBar();
 
   const picked = context.workspaceState.get<string>('antigravity.models.selected');
   const qp = vscode.window.createQuickPick<vscode.QuickPickItem & { model: ModelInfo }>();
   qp.title = router.online
-    ? `9 Router Models — ${router.items.length} live / ${items.length} total`
-    : `9 Router offline — showing ${CATALOG_SIZE} hard-coded catalog models`;
-  qp.placeholder = 'Type to filter models… (e.g. claude, gemini, live)';
+    ? `9 Router Models — ${router.items.length} live / ${items.length} shown${hidden ? ` · ${hidden} voice/live hidden` : ''}`
+    : `9 Router offline — showing ${items.length} of ${CATALOG_SIZE} catalog models${hidden ? ` · ${hidden} voice/live hidden` : ''}`;
+  qp.placeholder = 'Type to filter models… (e.g. claude, gemini). Turn off "antigravity.models.filterLive" to browse voice/live models';
   qp.matchOnDescription = true;
   qp.matchOnDetail = true;
   qp.items = items.map((m) => ({
@@ -312,13 +331,15 @@ export function activate(context: vscode.ExtensionContext): void {
         [
           { label: '$(comment-discussion) Chat with selected model', description: context.workspaceState.get<string>('antigravity.models.selected') ?? 'none yet', value: 'chat' as const },
           { label: '$(pencil) Pick / change model', value: 'pick' as const },
-          { label: '$(gear) Session options', description: 'temperature, max tokens, prompt, tools', value: 'opts' as const }
+          { label: '$(gear) Session options', description: 'temperature, max tokens, prompt, tools', value: 'opts' as const },
+          { label: filterLiveOn() ? '$(mute) Live models filtered out' : '$(unmute) Live models shown', description: 'toggle voice-to-voice models in the picker', value: 'live' as const }
         ],
         { placeHolder: '9 Router — what do you want to do?' }
       );
       if (choice?.value === 'chat') await chatWith(context, catalog);
       else if (choice?.value === 'pick') await pickModel(context, catalog);
       else if (choice?.value === 'opts') await configureSession(context);
+      else if (choice?.value === 'live') await toggleLiveFilter();
     }),
     vscode.commands.registerCommand('antigravity.models.pick', () => pickModel(context, catalog)),
     vscode.commands.registerCommand('antigravity.models.chat', () => chatWith(context, catalog)),

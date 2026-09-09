@@ -10,6 +10,10 @@
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/User-me-ex/ai-platfrom.git"
+  },
   "activationEvents": [
     "onCommand:antigravity.models.click",
     "onCommand:antigravity.models.pick",
@@ -41,23 +45,6 @@
         "category": "9 Router"
       }
     ],
-    "configuration": {
-      "title": "9 Router Models",
-      "properties": {
-        "antigravity.router.baseUrl": {
-          "type": "string",
-          "default": "http://127.0.0.1:20128/v1",
-          "scope": "window",
-          "description": "9 Router base URL (OpenAI-compatible). Defaults to http://127.0.0.1:20128/v1"
-        },
-        "antigravity.router.apiKey": {
-          "type": "string",
-          "default": "",
-          "scope": "window",
-          "description": "Optional API key for the 9 Router. Leave empty if auth is disabled."
-        }
-      }
-    },
     "configuration": {
       "title": "9 Router Session",
       "properties": {
@@ -116,9 +103,12 @@
     "vscode:prepublish": "tsc -p ./"
   },
   "devDependencies": {
-    "typescript": "^5.5.4",
     "@types/node": "^22.9.0",
     "@types/vscode": "^1.90.0",
-    "@vscode/vsce": "^3.2.1"
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@azure/msal-node": "^6.0.0"
   }
 }
