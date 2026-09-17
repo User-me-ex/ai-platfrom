@@ -1,5 +1,6 @@
 out/tests/**
-node_modules/**
 .git/**
 .gitignore
 npm-debug.log
+*.vsix
+**/*.map

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as childProcess from 'child_process';
 import * as path from 'path';
 import * as os from 'os';
+import * as fs from 'fs';
 
 export interface ChatRequest {
   baseUrl: string;
@@ -29,6 +30,14 @@ const OPEN_BLOCK_RE = /<antigravity:open\s+path=["']([^"']+)["']\s*\/>/gi;
 const VSCODE_BLOCK_RE = /<antigravity:vscode\b([^>]*?)\/>/gi;
 const TOOL_BLOCK_OPEN = '<antigravity';
 
+// Voice-friendly tool patterns
+const VOICE_READ_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*read\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
+const VOICE_LIST_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*list\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
+const VOICE_OPEN_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*open\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
+const VOICE_SHELL_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*shell\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
+const VOICE_FILE_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*file\s+([^\n*]+?)\s*(?:\*\*)?\r?\n([\s\S]*?)(?:^|\n)\s*(?:\*\*)?END TOOL(?:\*\*)?/gi;
+
+
 export const AGENT_SYSTEM = [
   'You are a coding agent running inside the user\'s VS Code (Windows), powered by the local 9 Router gateway.',
   'You have full access to the machine. Available tools:',
@@ -38,9 +47,39 @@ export const AGENT_SYSTEM = [
   '- <antigravity:shell command="..."/>  -> run any shell command on this Windows machine (PowerShell-friendly commands work best: Get-ChildItem, Get-Content, type, dir).',
   '- <antigravity:vscode command="..." args=\'[json args]\'/>  -> run a VS Code command (e.g. workbench.action.openSettings, editor.action.formatDocument, or any contributed command).',
   '- <antigravity:open path="..."/>  -> open a file in the VS Code editor.',
-  'Tool results are returned to you automatically - use them and continue; never invent file contents you have not read.',
-  'To achieve multi-step goals (list -> read -> edit -> verify), use tools and react to each result.'
+'Tool results are returned to you automatically - use them and continue; never invent file contents you have not read.',
+  'To achieve multi-step goals (list -> read -> edit -> verify), use tools and react to each result.',
+  'When the user asks you to create a file, ALWAYS emit the <antigravity:file> block immediately and never just describe it or claim it was created (an empty file is valid: <antigravity:file path="file.md"></antigravity:file>). Use a relative path so it lands in the workspace folder listed above.'
 ].join('\n');
+
+export function agentSystem(roots: string[]): string {
+  const banner = roots.length
+    ? 'Workspace folder' + (roots.length > 1 ? 's' : '') + ' (relative file paths are resolved against these):\n' +
+      roots.map((r) => '  ' + r).join('\n')
+    : 'No workspace folder is open — relative paths cannot be resolved. Use absolute paths for <antigravity:file>, <antigravity:read>, <antigravity:list> and <antigravity:open>.';
+  return banner + '\n\n' + AGENT_SYSTEM;
+}
+
+export const VOICE_AGENT_SYSTEM = [
+  'You are a voice-driven coding agent running inside the user\'s VS Code (Windows), powered by the local 9 Router gateway.',
+  'You have full access to the machine. Because you are using speech-to-text, you MUST use the following simplified plain-text formats to invoke tools (do NOT use XML tags):',
+  '- **TOOL: file filepath**\ncontent here\n**END TOOL**  -> create or overwrite any file (absolute path, or relative to the workspace folder).',
+  '- **TOOL: read filepath**  -> read any file; its contents are returned to you.',
+  '- **TOOL: list dirpath**  -> list any directory; entries are returned to you.',
+  '- **TOOL: shell command**  -> run any shell command on this Windows machine.',
+  '- **TOOL: open filepath**  -> open a file in the VS Code editor.',
+  'Tool results are returned to you automatically - use them and continue; never invent file contents you have not read.',
+  'To achieve multi-step goals (list -> read -> edit -> verify), use tools and react to each result.',
+  'When the user asks you to create a file, ALWAYS emit the TOOL block immediately and never just describe it or claim it was created.'
+].join('\n');
+
+export function voiceAgentSystem(roots: string[]): string {
+  const banner = roots.length
+    ? 'Workspace folder' + (roots.length > 1 ? 's' : '') + ' (relative file paths are resolved against these):\n' +
+      roots.map((r) => '  ' + r).join('\n')
+    : 'No workspace folder is open — relative paths cannot be resolved. Use absolute paths.';
+  return banner + '\n\n' + VOICE_AGENT_SYSTEM;
+}
 
 export interface ToolResult {
   tool: string;
@@ -62,6 +101,11 @@ function stripAll(content: string): string {
     .replace(SHELL_BLOCK_RE, '')
     .replace(OPEN_BLOCK_RE, '')
     .replace(VSCODE_BLOCK_RE, '')
+    .replace(VOICE_FILE_RE, '')
+    .replace(VOICE_READ_RE, '')
+    .replace(VOICE_LIST_RE, '')
+    .replace(VOICE_SHELL_RE, '')
+    .replace(VOICE_OPEN_RE, '')
     .replace(/^\n+|\n+$/g, '')
     .replace(/\n{2,}/g, '\n')
     .trim();
@@ -76,11 +120,14 @@ export function parseFileBlocks(content: string): Array<{ path: string; text: st
   for (const m of content.matchAll(FILE_BLOCK_RE)) {
     out.push({ path: m[1].trim(), text: m[2].replace(/^\r?\n|\r?\n$/g, '') });
   }
+  for (const m of content.matchAll(VOICE_FILE_RE)) {
+    out.push({ path: m[1].trim(), text: m[2].replace(/^\r?\n|\r?\n$/g, '') });
+  }
   return out;
 }
 
 export function hasToolBlocks(content: string): boolean {
-  return content.includes(TOOL_BLOCK_OPEN);
+  return content.includes(TOOL_BLOCK_OPEN) || /TOOL:\s*(read|list|open|shell|file)/i.test(content);
 }
 
 export async function executeTools(content: string, roots: string[], policy?: ToolPolicy): Promise<ToolResult[]> {
@@ -100,10 +147,16 @@ export async function executeTools(content: string, roots: string[], policy?: To
       if (!command) continue;
       results.push({ tool: 'shell', args: command, output: await runShell(command, shellCwd) });
     }
+    for (const m of content.matchAll(VOICE_SHELL_RE)) {
+      const command = m[1].trim();
+      if (!command) continue;
+      results.push({ tool: 'shell', args: command, output: await runShell(command, shellCwd) });
+    }
   }
 
   if (toolEnabled('files')) {
-    for (const m of content.matchAll(READ_BLOCK_RE)) {
+    const readMatches = [...content.matchAll(READ_BLOCK_RE), ...content.matchAll(VOICE_READ_RE)];
+    for (const m of readMatches) {
       const p = resolvePath(m[1].trim(), roots);
       if (!p) {
         results.push({ tool: 'read', args: m[1].trim(), output: '[error] path could not be resolved' });
@@ -117,7 +170,8 @@ export async function executeTools(content: string, roots: string[], policy?: To
       }
     }
 
-    for (const m of content.matchAll(LIST_BLOCK_RE)) {
+    const listMatches = [...content.matchAll(LIST_BLOCK_RE), ...content.matchAll(VOICE_LIST_RE)];
+    for (const m of listMatches) {
       const p = resolvePath(m[1].trim(), roots);
       if (!p) {
         results.push({ tool: 'list', args: m[1].trim(), output: '[error] path could not be resolved' });
@@ -139,7 +193,8 @@ export async function executeTools(content: string, roots: string[], policy?: To
       }
     }
 
-    for (const m of content.matchAll(OPEN_BLOCK_RE)) {
+    const openMatches = [...content.matchAll(OPEN_BLOCK_RE), ...content.matchAll(VOICE_OPEN_RE)];
+    for (const m of openMatches) {
       const p = resolvePath(m[1].trim(), roots);
       if (!p) {
         results.push({ tool: 'open', args: m[1].trim(), output: '[error] path could not be resolved' });
@@ -213,7 +268,10 @@ function extractAttr(attrs: string, name: string): string {
 function resolvePath(p: string, roots: string[]): string | undefined {
   if (!roots.length) return undefined;
   if (path.isAbsolute(p)) return p;
-  if (roots.length !== 1) return undefined;
+  for (const r of roots) {
+    const c = path.join(r, p);
+    if (fs.existsSync(c)) return c;
+  }
   return path.join(roots[0], p);
 }
 
@@ -221,7 +279,13 @@ async function writeFile(target: string, text: string): Promise<string> {
   try {
     await vscode.workspace.fs.createDirectory(vscode.Uri.file(path.dirname(target)));
     await vscode.workspace.fs.writeFile(vscode.Uri.file(target), Buffer.from(text, 'utf8'));
-    return `created ${target}`;
+    let size = Buffer.byteLength(text, 'utf8');
+    try {
+      size = fs.statSync(target).size;
+    } catch (_) {
+      /* fall back to byteLength */
+    }
+    return `created ${target} (${size} bytes)`;
   } catch (err) {
     return `[error] ${err instanceof Error ? err.message : String(err)}`;
   }

@@ -2,7 +2,7 @@
   "name": "antigravity-models",
   "displayName": "9 Router Models",
   "description": "Pick AI models served by the local 9 Router gateway and chat with them — streaming replies and agentic file creation.",
-  "version": "0.3.0",
+  "version": "0.5.20",
   "publisher": "antigravity-dev",
   "engines": {
     "vscode": "^1.90.0"
@@ -19,6 +19,10 @@
     "onCommand:antigravity.models.pick",
     "onCommand:antigravity.models.chat",
     "onCommand:antigravity.models.options",
+    "onCommand:antigravity.models.voice",
+    "onCommand:antigravity.voice.talk",
+    "onCommand:antigravity.voice.mute",
+    "onCommand:antigravity.voice.devices",
     "onStartupFinished"
   ],
   "main": "./out/src/extension.js",
@@ -42,6 +46,31 @@
       {
         "command": "antigravity.models.options",
         "title": "Session Options",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.voice",
+        "title": "Voice Conversation",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.talk",
+        "title": "Voice: Talk / Stop talking",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.mute",
+        "title": "Voice: Mute / Unmute",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.devices",
+        "title": "Voice: List audio devices",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.micLevel",
+        "title": "Voice: Check mic level",
         "category": "9 Router"
       }
     ],
@@ -112,6 +141,54 @@
           "minimum": 2,
           "scope": "window",
           "description": "Conversation history length (messages beyond this get trimmed)."
+        },
+        "antigravity.voice.liveModel": {
+          "type": "string",
+          "default": "gemini-3.1-flash-live-preview",
+          "scope": "window",
+          "description": "Gemini Live model id used by the real-time voice channel (audio-in / audio-out over WebSocket). Matches a 9 Router Gemini id."
+        },
+        "antigravity.voice.routerPort": {
+          "type": "number",
+          "default": 20128,
+          "scope": "machine",
+          "description": "9 Router port that serves the voice WebSocket channel (ws://127.0.0.1:<port>/voice). The channel uses the API key of 9 Router's active gemini/vertex provider connection."
+        },
+        "antigravity.voice.inputDevice": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Microphone name(s) for sox, e.g. \"Microphone Array\", or a JSON array of preferred names in order: [\"Microphone Array\",\"Microphone (Realtek Audio)\"]. Empty or \"#auto\" (default) = auto-detect the real mic on any machine (never picks a Stereo Mix/loopback). Use \"Voice: List audio devices\" to see the exact names this PC exposes."
+        },
+        "antigravity.voice.echoCancellation": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Acoustic echo cancellation (AEC3, the same algorithm browsers use, running in-process as WASM). Cancels the AI's own voice picked up by the mic before it reaches Gemini — removes the 'AI repeats its own last words' problem. Disable to send raw mic audio exactly like the legacy build."
+        },
+        "antigravity.voice.echoDelayMs": {
+          "type": "number",
+          "default": 120,
+          "scope": "window",
+          "description": "Render-to-capture echo-path latency the AEC must compensate for (ms). The AI's voice takes time to leave the speakers and reach the mic; telling the AEC this delay lets it subtract the echo instead of gating your voice. 100-200 is the typical working range; if echo returns, raise it; if your voice is muted while the AI talks (and you're NOT interrupting), lower it."
+        },
+        "antigravity.voice.ttsVoice": {
+          "type": "string",
+          "default": "Kore",
+          "scope": "window",
+          "description": "Voice name for Gemini Live replies (e.g. Kore, Puck, Charon, Aoede)."
+        },
+        "antigravity.voice.soxPath": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Path to sox.exe for mic capture. Leave empty to auto-detect."
+        },
+        "antigravity.voice.ffplayPath": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Path to ffplay.exe for audio playback. Leave empty to auto-detect."
         }
       }
     }
@@ -123,10 +200,12 @@
   "devDependencies": {
     "@types/node": "^22.9.0",
     "@types/vscode": "^1.90.0",
+    "@types/ws": "^8.5.13",
     "@vscode/vsce": "^3.2.1",
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@azure/msal-node": "^6.0.0"
+    "@ennuicastr/webrtcaec3.js": "^0.3.0",
+    "ws": "^8.18.0"
   }
 }
