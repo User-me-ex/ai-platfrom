@@ -23,7 +23,8 @@ interface Delta {
 }
 
 const FILE_BLOCK_RE = /<antigravity:file\s+path=["']([^"']+)["']>([\s\S]*?)<\/antigravity:file>/gi;
-const READ_BLOCK_RE = /<antigravity:read\s+path=["']([^"']+)["']\s*\/>/gi;
+const EDIT_BLOCK_RE = /<antigravity:edit\s+path=["']([^"']+)["']>\s*<<<<\r?\n([\s\S]*?)\r?\n====\r?\n([\s\S]*?)\r?\n>>>>\s*<\/antigravity:edit>/gi;
+const READ_BLOCK_RE = /<antigravity:read\s+path=["']([^"']+)["']\s*(?:start=["'](\d+)["']\s*)?(?:end=["'](\d+)["']\s*)?\/>/gi;
 const LIST_BLOCK_RE = /<antigravity:list\s+path=["']([^"']*)["']\s*\/>/gi;
 const SHELL_BLOCK_RE = /<antigravity:shell\s+command=["']([^"']*)["']\s*\/>/gi;
 const OPEN_BLOCK_RE = /<antigravity:open\s+path=["']([^"']+)["']\s*\/>/gi;
@@ -31,18 +32,20 @@ const VSCODE_BLOCK_RE = /<antigravity:vscode\b([^>]*?)\/>/gi;
 const TOOL_BLOCK_OPEN = '<antigravity';
 
 // Voice-friendly tool patterns
-const VOICE_READ_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*read\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
+const VOICE_READ_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*read\s+([^\n*]+?)(?:\s+(\d+)\s+(\d+))?\s*(?:\*\*)?(?:$|\n)/gi;
 const VOICE_LIST_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*list\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
 const VOICE_OPEN_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*open\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
 const VOICE_SHELL_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*shell\s+([^\n*]+?)\s*(?:\*\*)?(?:$|\n)/gi;
 const VOICE_FILE_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*file\s+([^\n*]+?)\s*(?:\*\*)?\r?\n([\s\S]*?)(?:^|\n)\s*(?:\*\*)?END TOOL(?:\*\*)?/gi;
+const VOICE_EDIT_RE = /(?:^|\n)\s*(?:\*\*)?TOOL:\s*edit\s+([^\n*]+?)\s*(?:\*\*)?\r?\n<<<<\r?\n([\s\S]*?)\r?\n====\r?\n([\s\S]*?)\r?\n>>>>\s*(?:^|\n)\s*(?:\*\*)?END TOOL(?:\*\*)?/gi;
 
 
 export const AGENT_SYSTEM = [
   'You are a coding agent running inside the user\'s VS Code (Windows), powered by the local 9 Router gateway.',
   'You have full access to the machine. Available tools:',
   '- <antigravity:file path="...">content</antigravity:file>  -> create or overwrite any file (absolute path, or relative to the workspace folder).',
-  '- <antigravity:read path="..."/>  -> read any file; its contents are returned to you.',
+  '- <antigravity:edit path="...">\\n<<<<\\nexact old text to replace\\n====\\nnew replacement text\\n>>>>\\n</antigravity:edit>  -> edit a file by replacing a specific block of text. The "old text" must perfectly match a unique sequence in the file.',
+  '- <antigravity:read path="..." start="1" end="50"/>  -> read any file; its contents are returned to you (start and end lines are optional).',
   '- <antigravity:list path="..."/>  -> list any directory; entries are returned to you.',
   '- <antigravity:shell command="..."/>  -> run any shell command on this Windows machine (PowerShell-friendly commands work best: Get-ChildItem, Get-Content, type, dir).',
   '- <antigravity:vscode command="..." args=\'[json args]\'/>  -> run a VS Code command (e.g. workbench.action.openSettings, editor.action.formatDocument, or any contributed command).',
@@ -64,7 +67,8 @@ export const VOICE_AGENT_SYSTEM = [
   'You are a voice-driven coding agent running inside the user\'s VS Code (Windows), powered by the local 9 Router gateway.',
   'You have full access to the machine. Because you are using speech-to-text, you MUST use the following simplified plain-text formats to invoke tools (do NOT use XML tags):',
   '- **TOOL: file filepath**\ncontent here\n**END TOOL**  -> create or overwrite any file (absolute path, or relative to the workspace folder).',
-  '- **TOOL: read filepath**  -> read any file; its contents are returned to you.',
+  '- **TOOL: edit filepath**\n<<<<\nexact old text to replace\n====\nnew replacement text\n>>>>\n**END TOOL**  -> edit a file by replacing a specific block of text. The "old text" must perfectly match a unique sequence in the file.',
+  '- **TOOL: read filepath startLine endLine**  -> read any file; its contents are returned to you (startLine and endLine are optional).',
   '- **TOOL: list dirpath**  -> list any directory; entries are returned to you.',
   '- **TOOL: shell command**  -> run any shell command on this Windows machine.',
   '- **TOOL: open filepath**  -> open a file in the VS Code editor.',
@@ -96,12 +100,14 @@ export interface ToolPolicy {
 function stripAll(content: string): string {
   return content
     .replace(FILE_BLOCK_RE, '')
+    .replace(EDIT_BLOCK_RE, '')
     .replace(READ_BLOCK_RE, '')
     .replace(LIST_BLOCK_RE, '')
     .replace(SHELL_BLOCK_RE, '')
     .replace(OPEN_BLOCK_RE, '')
     .replace(VSCODE_BLOCK_RE, '')
     .replace(VOICE_FILE_RE, '')
+    .replace(VOICE_EDIT_RE, '')
     .replace(VOICE_READ_RE, '')
     .replace(VOICE_LIST_RE, '')
     .replace(VOICE_SHELL_RE, '')
@@ -127,7 +133,7 @@ export function parseFileBlocks(content: string): Array<{ path: string; text: st
 }
 
 export function hasToolBlocks(content: string): boolean {
-  return content.includes(TOOL_BLOCK_OPEN) || /TOOL:\s*(read|list|open|shell|file)/i.test(content);
+  return content.includes(TOOL_BLOCK_OPEN) || /TOOL:\s*(read|list|open|shell|file|edit)/i.test(content);
 }
 
 export async function executeTools(content: string, roots: string[], policy?: ToolPolicy): Promise<ToolResult[]> {
@@ -163,8 +169,19 @@ export async function executeTools(content: string, roots: string[], policy?: To
         continue;
       }
       try {
-        const text = await vscode.workspace.fs.readFile(vscode.Uri.file(p));
-        results.push({ tool: 'read', args: m[1].trim(), output: Buffer.from(text).toString('utf8') });
+        const textBytes = await vscode.workspace.fs.readFile(vscode.Uri.file(p));
+        let text = Buffer.from(textBytes).toString('utf8');
+        const start = m[2] ? parseInt(m[2], 10) : undefined;
+        const end = m[3] ? parseInt(m[3], 10) : undefined;
+        
+        if (start !== undefined || end !== undefined) {
+          const lines = text.split(/\r?\n/);
+          const startIdx = start !== undefined ? Math.max(0, start - 1) : 0;
+          const endIdx = end !== undefined ? Math.min(lines.length, end) : lines.length;
+          text = lines.slice(startIdx, endIdx).join('\n');
+        }
+
+        results.push({ tool: 'read', args: m[1].trim(), output: text });
       } catch (err) {
         results.push({ tool: 'read', args: m[1].trim(), output: `[error] ${err instanceof Error ? err.message : String(err)}` });
       }
@@ -215,6 +232,38 @@ export async function executeTools(content: string, roots: string[], policy?: To
         ? await writeFile(p, block2.text)
         : `[error] path could not be resolved ${block2.path}`;
       results.push({ tool: 'file', args: block2.path, output: msg });
+    }
+
+    const editMatches = [...content.matchAll(EDIT_BLOCK_RE), ...content.matchAll(VOICE_EDIT_RE)];
+    for (const m of editMatches) {
+      const pathArg = m[1].trim();
+      const oldText = m[2];
+      const newText = m[3];
+      const p = resolvePath(pathArg, roots);
+      
+      if (!p) {
+        results.push({ tool: 'edit', args: pathArg, output: '[error] path could not be resolved' });
+        continue;
+      }
+      try {
+        const textBytes = await vscode.workspace.fs.readFile(vscode.Uri.file(p));
+        const currentText = Buffer.from(textBytes).toString('utf8').replace(/\r\n/g, '\n');
+        const normalizedOld = oldText.replace(/\r\n/g, '\n');
+        const normalizedNew = newText.replace(/\r\n/g, '\n');
+        
+        const count = currentText.split(normalizedOld).length - 1;
+        if (count === 0) {
+           results.push({ tool: 'edit', args: pathArg, output: '[error] old text block not found in file exactly as specified' });
+        } else if (count > 1) {
+           results.push({ tool: 'edit', args: pathArg, output: '[error] old text block found multiple times, please provide a more unique block' });
+        } else {
+           const updatedText = currentText.replace(normalizedOld, normalizedNew);
+           await vscode.workspace.fs.writeFile(vscode.Uri.file(p), Buffer.from(updatedText, 'utf8'));
+           results.push({ tool: 'edit', args: pathArg, output: `successfully edited ${p}` });
+        }
+      } catch (err) {
+        results.push({ tool: 'edit', args: pathArg, output: `[error] ${err instanceof Error ? err.message : String(err)}` });
+      }
     }
   }
 
