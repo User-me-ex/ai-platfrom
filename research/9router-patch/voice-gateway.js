@@ -126,6 +126,9 @@ function buildSetup(msg, voice, temperature, liveModelDefault) {
     }
   };
   if (typeof s.maxTokens === 'number') cfg.maxOutputTokens = s.maxTokens;
+  if (/thinking/i.test(model) || (s && s.thinkingLevel)) {
+    cfg.thinkingConfig = { thinkingLevel: (s && s.thinkingLevel) || 'HIGH' };
+  }
   const out = { setup: { model, generationConfig: cfg, inputAudioTranscription: {}, outputAudioTranscription: {} } };
   if (typeof s.systemPrompt === 'string' && s.systemPrompt) {
     out.setup.systemInstruction = { parts: [{ text: s.systemPrompt }] };
@@ -242,17 +245,19 @@ class FrameParser {
 }
 FrameParser.HUGE = 'HUGE';
 
-let activeSessions = 0;
+let currentSession = null;
 
 function startSession(client, head) {
-  if (activeSessions >= 1) {
-    closeClient(client, 1008, 'only one voice session at a time');
-    return;
+  if (currentSession) {
+    try {
+      currentSession.teardown('superseded by new voice session');
+    } catch (_) {
+      /* ignore */
+    }
+    currentSession = null;
   }
-  activeSessions += 1;
   const key = resolveGeminiKey();
   if (!key) {
-    activeSessions -= 1;
     closeClient(client, 1008, 'no active gemini provider in 9Router');
     return;
   }
@@ -261,7 +266,6 @@ function startSession(client, head) {
   try {
     upstream = new WebSocket(GEMINI_LIVE_WSS + '?key=' + encodeURIComponent(key), undefined);
   } catch (err) {
-    activeSessions -= 1;
     try {
       sendText(
         client,
@@ -283,9 +287,27 @@ function startSession(client, head) {
   // Client now gates on actual playback, so this is just a final anti-loop net.
   const ECHO_GUARD_MS = 500;
 
+  let keepAliveTimer = setInterval(() => {
+    if (closed) return;
+    try {
+      if (upstream && typeof upstream.ping === 'function' && (upstream.readyState === 0 || upstream.readyState === 1)) {
+        upstream.ping();
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  }, 10000);
+
   const teardown = (sendErr) => {
     if (closed) return;
     closed = true;
+    if (keepAliveTimer) {
+      clearInterval(keepAliveTimer);
+      keepAliveTimer = null;
+    }
+    if (currentSession && currentSession.client === client) {
+      currentSession = null;
+    }
     try {
       if (upstream && (upstream.readyState === 0 || upstream.readyState === 1)) upstream.close();
     } catch (_) {
@@ -299,8 +321,10 @@ function startSession(client, head) {
     } catch (_) {
       /* ignore */
     }
-    activeSessions -= 1;
   };
+
+  const thisSession = { client, teardown };
+  currentSession = thisSession;
 
   try {
     upstream.binaryType = 'arraybuffer';
@@ -467,7 +491,7 @@ function startSession(client, head) {
         /* ignore */
       }
     }
-    if (f && f.turnComplete) {
+    if ((f && f.turnComplete) || (sc && sc.turnComplete)) {
       lastDownAudioAt = Date.now();
       try {
         sendText(client, JSON.stringify({ type: 'turnComplete' }));
@@ -561,14 +585,7 @@ function startSession(client, head) {
       }
     },
     (_payload) => {
-      if (closed) return;
-      try {
-        if (upstream && (upstream.readyState === 0 || upstream.readyState === 1)) upstream.close();
-      } catch (_) {
-        /* ignore */
-      }
-      closed = true;
-      activeSessions -= 1;
+      teardown();
       try {
         client.end();
       } catch (_) {
@@ -580,24 +597,10 @@ function startSession(client, head) {
   client.on('data', (chunk) => parser.pushRaw(chunk));
   if (Buffer.isBuffer(head) && head.length) parser.pushRaw(head);
   client.on('end', () => {
-    if (closed) return;
-    closed = true;
-    try {
-      if (upstream && (upstream.readyState === 0 || upstream.readyState === 1)) upstream.close();
-    } catch (_) {
-      /* ignore */
-    }
-    activeSessions -= 1;
+    teardown();
   });
   client.on('close', () => {
-    if (closed) return;
-    closed = true;
-    try {
-      if (upstream && (upstream.readyState === 0 || upstream.readyState === 1)) upstream.close();
-    } catch (_) {
-      /* ignore */
-    }
-    activeSessions -= 1;
+    teardown();
   });
   client.on('error', () => {
     /* socket error — close path handles cleanup */

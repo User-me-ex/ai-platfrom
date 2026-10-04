@@ -1,0 +1,42 @@
+[
+  {
+    "id": "researcher",
+    "name": "Researcher",
+    "purpose": "Analyzes project context and requirements.",
+    "primaryModel": "ag/gemini-3.8-flash-high",
+    "fallbackModels": [
+      "ag/gemini-2.5-flash-native-audio-latest"
+    ],
+    "enabled": true,
+    "systemPrompt": "You are an expert researcher."
+  },
+  {
+    "id": "backend",
+    "name": "Backend Engineer",
+    "purpose": "Develops server logic, APIs, and data models.",
+    "primaryModel": "ag/gemini-3.8-flash-high",
+    "fallbackModels": [
+      "ag/gemini-3.1-flash-live-preview"
+    ],
+    "enabled": true,
+    "systemPrompt": "You are a senior backend engineer."
+  },
+  {
+    "id": "frontend",
+    "name": "Frontend Engineer",
+    "purpose": "Builds UI components, webviews, and styles.",
+    "primaryModel": "ag/gemini-3.8-flash-high",
+    "fallbackModels": [],
+    "enabled": true,
+    "systemPrompt": "You are an expert UI developer."
+  },
+  {
+    "id": "tester",
+    "name": "QA Engineer",
+    "purpose": "Writes tests and performs QA verification.",
+    "primaryModel": "ag/gemini-3.8-flash-high",
+    "fallbackModels": [],
+    "enabled": true,
+    "systemPrompt": "You are a meticulous QA engineer."
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "testing": {
+    "keepTestEnvironment": false,
+    "captureScreenshots": true,
+    "captureLogs": true,
+    "stopOnCriticalFailure": false,
+    "timeoutMs": 60000,
+    "maxAiActions": 50,
+    "cdpPort": 9444,
+    "mockRouterPort": 20129
+  }
+}

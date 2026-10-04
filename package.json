@@ -15,22 +15,49 @@
     "url": "https://github.com/User-me-ex/ai-platfrom.git"
   },
   "activationEvents": [
-    "onCommand:antigravity.models.click",
-    "onCommand:antigravity.models.pick",
-    "onCommand:antigravity.models.chat",
-    "onCommand:antigravity.models.options",
-    "onCommand:antigravity.models.voice",
-    "onCommand:antigravity.voice.talk",
-    "onCommand:antigravity.voice.mute",
-    "onCommand:antigravity.voice.devices",
     "onStartupFinished"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "antigravity.orchestration.openWorkflow",
+        "title": "Open Workflow & Roles View",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.orchestration.manageRoles",
+        "title": "Manage Roles & Model Selection",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.orchestration.startTask",
+        "title": "Start Orchestrated Task",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.orchestration.pause",
+        "title": "Pause Workflow",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.orchestration.resume",
+        "title": "Resume Workflow",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.orchestration.cancel",
+        "title": "Cancel Workflow",
+        "category": "9 Router"
+      },
+      {
         "command": "antigravity.models.click",
-        "title": "Open (Chat / Pick Model)",
+        "title": "Open Control Center (Dashboard & Models)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.quickMenu",
+        "title": "Open Quick Menu (Dropdown)",
         "category": "9 Router"
       },
       {
@@ -40,7 +67,12 @@
       },
       {
         "command": "antigravity.models.chat",
-        "title": "Chat with Model",
+        "title": "Chat with Selected Model (Text Mode)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.models.chatInputBox",
+        "title": "Chat with Model (Input Box)",
         "category": "9 Router"
       },
       {
@@ -64,6 +96,11 @@
         "category": "9 Router"
       },
       {
+        "command": "antigravity.voice.interrupt",
+        "title": "Voice: Interrupt AI (Stop Speaking)",
+        "category": "9 Router"
+      },
+      {
         "command": "antigravity.voice.devices",
         "title": "Voice: List audio devices",
         "category": "9 Router"
@@ -71,6 +108,41 @@
       {
         "command": "antigravity.voice.micLevel",
         "title": "Voice: Check mic level",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.reconnect",
+        "title": "Voice: Reconnect channel",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.configureApiKeys",
+        "title": "Voice: Configure Gemini API Keys (Fallback & Quota)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.pickModel",
+        "title": "Voice: Select Model for Live Session (Bidi Voice & Text)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.openRecordings",
+        "title": "Voice: Open Audio Recordings Folder (WAV / MP3)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.voice.copyLatestAudio",
+        "title": "Voice: Copy Latest Audio File Path (For other platforms)",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.session.new",
+        "title": "Session: Start New Chat Session",
+        "category": "9 Router"
+      },
+      {
+        "command": "antigravity.session.clear",
+        "title": "Session: Clear Chat & Voice Session History",
         "category": "9 Router"
       }
     ],
@@ -135,6 +207,12 @@
           "scope": "window",
           "description": "Allow the agent to read, list, open and write files."
         },
+        "antigravity.session.allowWeb": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Allow the agent to search the web and fetch public URLs/documentation."
+        },
         "antigravity.session.maxTurns": {
           "type": "number",
           "default": 40,
@@ -142,17 +220,67 @@
           "scope": "window",
           "description": "Conversation history length (messages beyond this get trimmed)."
         },
+        "antigravity.session.resumeOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Automatically resume the previous conversation where you closed the chat in both text and voice mode."
+        },
+        "antigravity.session.persistHistory": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Persist chat messages, tool outputs, and voice turns across editor and chat window closes."
+        },
+        "antigravity.session.unifiedVoiceAndText": {
+          "type": "boolean",
+          "default": true,
+          "scope": "window",
+          "description": "Synchronize conversation context bidirectionally between Voice Mode and Text Mode."
+        },
+        "antigravity.session.maxPersistedTurns": {
+          "type": "number",
+          "default": 50,
+          "minimum": 5,
+          "maximum": 200,
+          "scope": "window",
+          "description": "Maximum conversation turns persisted per session."
+        },
         "antigravity.voice.liveModel": {
           "type": "string",
           "default": "gemini-3.1-flash-live-preview",
+          "enum": [
+            "gemini-3.1-flash-live-preview",
+            "gemini-2.5-flash-native-audio-latest",
+            "gemini-2.5-flash-native-audio-preview-12-2025",
+            "gemini-2.5-flash-native-audio-preview-09-2025",
+            "gemini-3.8-live",
+            "gemini-3.8-live-extended-thinking",
+            "gemini-live-2.5-flash-preview",
+            "gemini-live-2.5-pro-preview-09-2025",
+            "gemini-3.5-live-translate-preview",
+            "gemini-3.5-transcribe-live"
+          ],
+          "enumDescriptions": [
+            "Gemini 3.1 Flash Live Preview - Fastest real-time voice-to-voice + simultaneous text & tools (Default / Recommended)",
+            "Gemini 2.5 Flash Native Audio Latest - GA native audio voice-to-voice with expressive multilingual speech & text",
+            "Gemini 2.5 Flash Native Audio Preview (Dec 2025) - Native audio conversation model with emotional inflection & text",
+            "Gemini 2.5 Flash Native Audio Preview (Sep 2025) - Low-latency native audio live conversation & text",
+            "Gemini 3.8 Live - State-of-the-art live voice-to-voice & simultaneous text streaming",
+            "Gemini 3.8 Live Extended Thinking - Real-time voice conversation with deep reasoning and thinking",
+            "Gemini Live 2.5 Flash Preview - Low-latency 2.5 Flash Live preview for voice-to-voice",
+            "Gemini Live 2.5 Pro Preview (Sep 2025) - Pro reasoning variant of Gemini Live preview",
+            "Gemini 3.5 Live Translate Preview - Real-time simultaneous speech & text translation live channel",
+            "Gemini 3.5 Transcribe Live - Ultra-low-latency real-time live audio transcription and voice channel"
+          ],
           "scope": "window",
-          "description": "Gemini Live model id used by the real-time voice channel (audio-in / audio-out over WebSocket). Matches a 9 Router Gemini id."
+          "description": "Model for Live sessions (BidiGenerateContent). Only models that support live voice-to-voice and simultaneous real-time text are compatible."
         },
-        "antigravity.voice.routerPort": {
-          "type": "number",
-          "default": 20128,
-          "scope": "machine",
-          "description": "9 Router port that serves the voice WebSocket channel (ws://127.0.0.1:<port>/voice). The channel uses the API key of 9 Router's active gemini/vertex provider connection."
+        "antigravity.voice.geminiApiKeys": {
+          "type": "string",
+          "default": "",
+          "scope": "window",
+          "description": "Comma-separated Gemini API key(s) for Voice Mode. Multiple keys provide automatic fallback if a key reaches its quota limit or encounters an error."
         },
         "antigravity.voice.inputDevice": {
           "type": "string",
@@ -194,7 +322,7 @@
     }
   },
   "scripts": {
-    "compile": "tsc -p ./",
+    "compile": "tsc -p ./ && node deploy.js",
     "vscode:prepublish": "tsc -p ./"
   },
   "devDependencies": {

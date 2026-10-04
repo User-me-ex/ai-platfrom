@@ -1,0 +1,222 @@
+{
+  "build": {
+    "status": "passed",
+    "durationMs": 2839,
+    "version": "0.5.20"
+  },
+  "tests": [
+    {
+      "id": "TC-DET-001",
+      "name": "Extension Activation & Subsystem Initialization",
+      "status": "passed",
+      "duration": 0.046,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-002",
+      "name": "Verify Registration of Contributed Commands",
+      "status": "passed",
+      "duration": 0,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-003",
+      "name": "Webview Panel Creation & Tab Layout",
+      "status": "passed",
+      "duration": 0.059,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-004",
+      "name": "Webview DOM & Script Health (Zero Exceptions)",
+      "status": "passed",
+      "duration": 0,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-005",
+      "name": "Collapsible Header Toggle in Chat UI",
+      "status": "passed",
+      "duration": 0.864,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-006",
+      "name": "Model Catalog Parsing & Live Model Filtering",
+      "status": "passed",
+      "duration": 0.019,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-007",
+      "name": "Role Registry Sync with Workspace roles.json",
+      "status": "passed",
+      "duration": 0.001,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-008",
+      "name": "Role File Watcher Hot-Reloading",
+      "status": "passed",
+      "duration": 0.403,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-009",
+      "name": "SessionManager Turn Recording & Serialization",
+      "status": "passed",
+      "duration": 0.014,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-010",
+      "name": "Session Reset via antigravity.session.new",
+      "status": "passed",
+      "duration": 0.003,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-011",
+      "name": "SerialOrchestrator Step Planning from Goal",
+      "status": "passed",
+      "duration": 0.001,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-012",
+      "name": "SerialOrchestrator Pause, Resume, and Cancel Controls",
+      "status": "passed",
+      "duration": 0.001,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-013",
+      "name": "Voice Audio Device Listing Command",
+      "status": "passed",
+      "duration": 1.087,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-014",
+      "name": "Voice Controls Command State Toggles",
+      "status": "passed",
+      "duration": 0,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-DET-015",
+      "name": "Extension Deactivation & Teardown",
+      "status": "passed",
+      "duration": 0.001,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-001",
+      "name": "Autonomous Chat Message Submission & Bubble Verification",
+      "status": "passed",
+      "duration": 0.326,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-002",
+      "name": "Autonomous Tab Navigation & State Retention",
+      "status": "passed",
+      "duration": 0.788,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-003",
+      "name": "Autonomous Role Filter & Inspection in Hub",
+      "status": "passed",
+      "duration": 0.924,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-004",
+      "name": "Autonomous Task Workflow Pipeline View",
+      "status": "passed",
+      "duration": 0.654,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-005",
+      "name": "Autonomous Voice Controls UI Verification",
+      "status": "passed",
+      "duration": 0.636,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-006",
+      "name": "AI Negative: Empty and Whitespace Chat Input Validation",
+      "status": "passed",
+      "duration": 1.698,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-007",
+      "name": "AI Negative: Rapid 10x Clicks Stress Testing",
+      "status": "passed",
+      "duration": 1.567,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-008",
+      "name": "AI Negative: Corrupted roles.json Recovery",
+      "status": "passed",
+      "duration": 0.004,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-009",
+      "name": "AI Negative: Offline Gateway Error Boundary",
+      "status": "passed",
+      "duration": 0.007,
+      "error": null,
+      "screenshot": null
+    },
+    {
+      "id": "TC-AI-010",
+      "name": "AI Negative: Automatic Model Fallback on HTTP 500",
+      "status": "passed",
+      "duration": 0.025,
+      "error": null,
+      "screenshot": null
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "passed": 25,
+    "failed": 0,
+    "deterministicPassed": 15,
+    "deterministicFailed": 0,
+    "aiPassed": 10,
+    "aiFailed": 0,
+    "warnings": 0,
+    "criticalErrors": 0,
+    "overallStatus": "passed"
+  },
+  "diagnoses": []
+}

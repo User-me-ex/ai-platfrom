@@ -1,0 +1,13 @@
+{
+  "antigravity.router.baseUrl": "http://127.0.0.1:20129/v1",
+  "antigravity.router.apiKey": "test-api-key",
+  "antigravity.models.filterLive": false,
+  "antigravity.session.temperature": 0.5,
+  "antigravity.session.maxTokens": 2048,
+  "antigravity.session.allowShell": true,
+  "antigravity.session.allowFiles": true,
+  "antigravity.session.allowVscode": true,
+  "antigravity.session.allowWeb": true,
+  "antigravity.session.persistHistory": true,
+  "antigravity.session.unifiedVoiceAndText": true
+}
