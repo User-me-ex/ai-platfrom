@@ -323,7 +323,9 @@
   },
   "scripts": {
     "compile": "tsc -p ./ && node deploy.js",
-    "vscode:prepublish": "tsc -p ./"
+    "vscode:prepublish": "tsc -p ./",
+    "ui:dev": "node ui-dev/server.js",
+    "ui:sync": "node ui-dev/sync-to-extension.js"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",

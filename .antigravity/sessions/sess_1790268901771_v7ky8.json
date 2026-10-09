@@ -2,9 +2,527 @@
   "id": "sess_1790268901771_v7ky8",
   "title": "Chat: Hello.Hello! I'm Antigravity, He…",
   "createdAt": 1790268901771,
-  "updatedAt": 1791129791088,
+  "updatedAt": 1791572348431,
   "activeModel": "ag/gemini-pro-agent",
-  "chatMessages": [],
-  "chatHistory": [],
-  "voiceTurns": []
+  "chatMessages": [
+    {
+      "id": "v_1791190328020",
+      "sender": "voice",
+      "from": "user",
+      "content": "Hello.Hello! How can I help Hello! How can I help you with your projectyou with your project today? today?",
+      "timestamp": "2:22:08 PM"
+    },
+    {
+      "id": "v_1791190334319",
+      "sender": "voice",
+      "from": "user",
+      "content": "放牛放牛那个Could you please clarify what Could you please clarify what you would like toyou would like to build or work on today? build or work on today?",
+      "timestamp": "2:22:14 PM"
+    },
+    {
+      "id": "v_1791190345226",
+      "sender": "voice",
+      "from": "user",
+      "content": "extra Explain about this project.",
+      "timestamp": "2:22:25 PM"
+    },
+    {
+      "id": "v_1791190348538",
+      "sender": "voice",
+      "from": "ai",
+      "content": "This project is a powerfula powerful VS Code extension VS Code extension designed to integrate designed to integrate AI models AI models served by a local served by a local 9 Router gateway 9 Router gateway directly into directly into your development workflow. your development workflow. It offers a range It offers a range of features, including of features, including a model picker a model picker for browsing available for browsing available models, real-time models, real-time voice conversations voice conversations via via Gemini Live, and Gemini Live, and agentic tools agentic tools that allow the AI that allow the AI to perform file operations to perform file operations and run commands. and run commands. A key highlight A key highlight is its advanced is its advanced Layer 2 orchestration, Layer 2 orchestration, which allows which allows the Main Voice the Main Voice AI to decompose AI to decompose complex tasks complex tasks into a series into a series of steps performed of steps performed by specialized by specialized roles, ensuring roles, ensuring a structured and efficient a structured and efficient development process. development process.",
+      "timestamp": "2:22:28 PM"
+    },
+    {
+      "id": "v_1791190846317",
+      "sender": "voice",
+      "from": "user",
+      "content": "काम करू नका.ठीक आहे, मी ठीक आहे, मी ",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "id": "v_1791190846574",
+      "sender": "voice",
+      "from": "ai",
+      "content": "कोणतेही काम करत नाहीये. नाहीये.",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "id": "v_1791190873288",
+      "sender": "voice",
+      "from": "user",
+      "content": "haram haiमैं आपकी बात समझ नहीं मैं आपकी बात समझ नहीं पा रहा हूँ। क्या आपपा रहा हूँ। क्या आप मुझे बता सकते मुझे बता सकते हैं कि आप क्या कहना चाहते हैं कि आप क्या कहना चाहते हैं? हैं?",
+      "timestamp": "2:31:13 PM"
+    },
+    {
+      "id": "v_1791190877681",
+      "sender": "voice",
+      "from": "user",
+      "content": "ভাই হনুমান চালিসা পড়েजी, हनुमान चालीसा एक जी, हनुमान चालीसा एक बहुत ही प्रसिद्धबहुत ही प्रसिद्ध स्तोत्र है। स्तोत्र है। क्या आप इसके बारे क्या आप इसके बारे में कुछ जानना चाहते में कुछ जानना चाहते हैं या कुछ और पूछना हैं या कुछ और पूछना चाहते हैं? चाहते हैं?",
+      "timestamp": "2:31:17 PM"
+    },
+    {
+      "id": "v_1791190901807",
+      "sender": "voice",
+      "from": "user",
+      "content": "Akaक्या आप कुछ पूछना क्या आप कुछ पूछना चाहते हैं? मैं आपकीचाहते हैं? मैं आपकी किस प्रकार सहायता किस प्रकार सहायता कर सकता हूँ? कर सकता हूँ?",
+      "timestamp": "2:31:41 PM"
+    },
+    {
+      "id": "v_1791190907766",
+      "sender": "voice",
+      "from": "user",
+      "content": "Innocentiक्या आप 'Innocenti' के क्या आप 'Innocenti' के ",
+      "timestamp": "2:31:47 PM"
+    },
+    {
+      "id": "v_1791190908213",
+      "sender": "voice",
+      "from": "ai",
+      "content": "बारे में कुछ जानना चाहते हैं? कृपया चाहते हैं? कृपया स्पष्ट करें स्पष्ट करें ताकि मैं आपकी सहायता ताकि मैं आपकी सहायता कर सकूँ। कर सकूँ।",
+      "timestamp": "2:31:48 PM"
+    },
+    {
+      "id": "v_1791190976771",
+      "sender": "voice",
+      "from": "user",
+      "content": "হয়ে গেছে তো।ঠিক আছে, আর কোনো ঠিক আছে, আর কোনো ",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "id": "v_1791190976902",
+      "sender": "voice",
+      "from": "ai",
+      "content": "সাহায্য করতে পারি?",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "id": "v_1791190986529",
+      "sender": "voice",
+      "from": "user",
+      "content": "तो कहा तो क्या?आप किस बारे में आप किस बारे में ",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "id": "v_1791190986617",
+      "sender": "voice",
+      "from": "ai",
+      "content": "पूछ रहे हैं? कृपया स्पष्ट करें ताकि स्पष्ट करें ताकि मैं समझ सकूँ। मैं समझ सकूँ।",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "id": "v_1791190995327",
+      "sender": "voice",
+      "from": "user",
+      "content": "এটাই আমি বলব।আপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।",
+      "timestamp": "2:33:15 PM"
+    },
+    {
+      "id": "v_1791191016279",
+      "sender": "voice",
+      "from": "user",
+      "content": "talang ekআপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।",
+      "timestamp": "2:33:36 PM"
+    },
+    {
+      "id": "v_1791191043591",
+      "sender": "voice",
+      "from": "user",
+      "content": "Eh, l'ultimo pezzo te lo dico.Certo, ti ascolto. Certo, ti ascolto. Dimmi pure.Dimmi pure.",
+      "timestamp": "2:34:03 PM"
+    },
+    {
+      "id": "v_1791191048928",
+      "sender": "voice",
+      "from": "user",
+      "content": "Thank youYou're very welcome! You're very welcome! Is there anythingIs there anything else I can help you with? else I can help you with?",
+      "timestamp": "2:34:08 PM"
+    }
+  ],
+  "chatHistory": [
+    {
+      "role": "user",
+      "content": "[Voice User]: Hello.Hello! How can I help Hello! How can I help you with your projectyou with your project today? today?"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: 放牛放牛那个Could you please clarify what Could you please clarify what you would like toyou would like to build or work on today? build or work on today?"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: extra Explain about this project."
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: This project is a powerfula powerful VS Code extension VS Code extension designed to integrate designed to integrate AI models AI models served by a local served by a local 9 Router gateway 9 Router gateway directly into directly into your development workflow. your development workflow. It offers a range It offers a range of features, including of features, including a model picker a model picker for browsing available for browsing available models, real-time models, real-time voice conversations voice conversations via via Gemini Live, and Gemini Live, and agentic tools agentic tools that allow the AI that allow the AI to perform file operations to perform file operations and run commands. and run commands. A key highlight A key highlight is its advanced is its advanced Layer 2 orchestration, Layer 2 orchestration, which allows which allows the Main Voice the Main Voice AI to decompose AI to decompose complex tasks complex tasks into a series into a series of steps performed of steps performed by specialized by specialized roles, ensuring roles, ensuring a structured and efficient a structured and efficient development process. development process."
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: This project is a powerful VS Code extension designed to integrate AI models served by a local 9 Router gateway directly into your development workflow. It offers a range of features, including a model picker for browsing available models, real-time voice conversations via Gemini Live, and agentic tools that allow the AI to perform file operations and run commands. A key highlight is its advanced Layer 2 orchestration, which allows the Main Voice AI to decompose complex tasks into a series of steps performed by specialized roles, ensuring a structured and efficient development process. [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: काम करू नका.ठीक आहे, मी ठीक आहे, मी "
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: ठीक आहे, मी [interrupted]"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: कोणतेही काम करत नाहीये. नाहीये."
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: कोणतेही काम करत नाहीये. [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: haram haiमैं आपकी बात समझ नहीं मैं आपकी बात समझ नहीं पा रहा हूँ। क्या आपपा रहा हूँ। क्या आप मुझे बता सकते मुझे बता सकते हैं कि आप क्या कहना चाहते हैं कि आप क्या कहना चाहते हैं? हैं?"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: मैं आपकी बात समझ नहीं पा रहा हूँ। क्या आप मुझे बता सकते हैं कि आप क्या कहना चाहते हैं? [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: ভাই হনুমান চালিসা পড়েजी, हनुमान चालीसा एक जी, हनुमान चालीसा एक बहुत ही प्रसिद्धबहुत ही प्रसिद्ध स्तोत्र है। स्तोत्र है। क्या आप इसके बारे क्या आप इसके बारे में कुछ जानना चाहते में कुछ जानना चाहते हैं या कुछ और पूछना हैं या कुछ और पूछना चाहते हैं? चाहते हैं?"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: जी, हनुमान चालीसा एक बहुत ही प्रसिद्ध स्तोत्र है। क्या आप इसके बारे में कुछ जानना चाहते हैं या कुछ और पूछना चाहते हैं? [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: Akaक्या आप कुछ पूछना क्या आप कुछ पूछना चाहते हैं? मैं आपकीचाहते हैं? मैं आपकी किस प्रकार सहायता किस प्रकार सहायता कर सकता हूँ? कर सकता हूँ?"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: क्या आप कुछ पूछना चाहते हैं? मैं आपकी किस प्रकार सहायता कर सकता हूँ? [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: Innocentiक्या आप 'Innocenti' के क्या आप 'Innocenti' के "
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: क्या आप 'Innocenti' के [interrupted]"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: बारे में कुछ जानना चाहते हैं? कृपया चाहते हैं? कृपया स्पष्ट करें स्पष्ट करें ताकि मैं आपकी सहायता ताकि मैं आपकी सहायता कर सकूँ। कर सकूँ।"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: बारे में कुछ जानना चाहते हैं? कृपया स्पष्ट करें ताकि मैं आपकी सहायता कर सकूँ। [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: হয়ে গেছে তো।ঠিক আছে, আর কোনো ঠিক আছে, আর কোনো "
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: ঠিক আছে, আর কোনো [interrupted]"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: সাহায্য করতে পারি?"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: সাহায্য করতে পারি? [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: तो कहा तो क्या?आप किस बारे में आप किस बारे में "
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: आप किस बारे में [interrupted]"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: पूछ रहे हैं? कृपया स्पष्ट करें ताकि स्पष्ट करें ताकि मैं समझ सकूँ। मैं समझ सकूँ।"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: पूछ रहे हैं? कृपया स्पष्ट करें ताकि मैं समझ सकूँ। [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: এটাই আমি বলব।আপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।"
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: আপনি কী বলতে চান, দয়া করে স্পষ্ট করে বলুন যাতে আমি বুঝতে পারি। [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: talang ekআপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: Eh, l'ultimo pezzo te lo dico.Certo, ti ascolto. Certo, ti ascolto. Dimmi pure.Dimmi pure."
+    },
+    {
+      "role": "assistant",
+      "content": "[Voice Assistant]: Certo, ti ascolto. Dimmi pure. [interrupted]"
+    },
+    {
+      "role": "user",
+      "content": "[Voice User]: Thank youYou're very welcome! You're very welcome! Is there anythingIs there anything else I can help you with? else I can help you with?"
+    }
+  ],
+  "voiceTurns": [
+    {
+      "role": "user",
+      "text": "Hello.",
+      "timestamp": "2:22:08 PM"
+    },
+    {
+      "role": "user",
+      "text": "Hello.Hello! How can I help Hello! How can I help you with your projectyou with your project today? today?",
+      "timestamp": "2:22:11 PM"
+    },
+    {
+      "role": "user",
+      "text": "放牛放牛那个",
+      "timestamp": "2:22:14 PM"
+    },
+    {
+      "role": "user",
+      "text": "放牛放牛那个Could you please clarify what Could you please clarify what you would like toyou would like to build or work on today? build or work on today?",
+      "timestamp": "2:22:18 PM"
+    },
+    {
+      "role": "user",
+      "text": "extra Explain about this project.",
+      "timestamp": "2:22:25 PM"
+    },
+    {
+      "role": "ai",
+      "text": "This project is ",
+      "timestamp": "2:22:28 PM"
+    },
+    {
+      "role": "ai",
+      "text": "This project is a powerfula powerful VS Code extension VS Code extension designed to integrate designed to integrate AI models AI models served by a local served by a local 9 Router gateway 9 Router gateway directly into directly into your development workflow. your development workflow. It offers a range It offers a range of features, including of features, including a model picker a model picker for browsing available for browsing available models, real-time models, real-time voice conversations voice conversations via via Gemini Live, and Gemini Live, and agentic tools agentic tools that allow the AI that allow the AI to perform file operations to perform file operations and run commands. and run commands. A key highlight A key highlight is its advanced is its advanced Layer 2 orchestration, Layer 2 orchestration, which allows which allows the Main Voice the Main Voice AI to decompose AI to decompose complex tasks complex tasks into a series into a series of steps performed of steps performed by specialized by specialized roles, ensuring roles, ensuring a structured and efficient a structured and efficient development process. development process.",
+      "timestamp": "2:22:49 PM"
+    },
+    {
+      "role": "ai",
+      "text": "This project is a powerful VS Code extension designed to integrate AI models served by a local 9 Router gateway directly into your development workflow. It offers a range of features, including a model picker for browsing available models, real-time voice conversations via Gemini Live, and agentic tools that allow the AI to perform file operations and run commands. A key highlight is its advanced Layer 2 orchestration, which allows the Main Voice AI to decompose complex tasks into a series of steps performed by specialized roles, ensuring a structured and efficient development process. [interrupted]",
+      "timestamp": "2:22:49 PM"
+    },
+    {
+      "role": "user",
+      "text": "काम करू नका.",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "role": "user",
+      "text": "काम करू नका.ठीक आहे, मी ठीक आहे, मी ",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "role": "ai",
+      "text": "ठीक आहे, मी [interrupted]",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "role": "ai",
+      "text": "कोणतेही काम करत",
+      "timestamp": "2:30:46 PM"
+    },
+    {
+      "role": "ai",
+      "text": "कोणतेही काम करत नाहीये. नाहीये.",
+      "timestamp": "2:30:47 PM"
+    },
+    {
+      "role": "ai",
+      "text": "कोणतेही काम करत नाहीये. [interrupted]",
+      "timestamp": "2:30:47 PM"
+    },
+    {
+      "role": "user",
+      "text": "haram hai",
+      "timestamp": "2:31:13 PM"
+    },
+    {
+      "role": "user",
+      "text": "haram haiमैं आपकी बात समझ नहीं मैं आपकी बात समझ नहीं पा रहा हूँ। क्या आपपा रहा हूँ। क्या आप मुझे बता सकते मुझे बता सकते हैं कि आप क्या कहना चाहते हैं कि आप क्या कहना चाहते हैं? हैं?",
+      "timestamp": "2:31:13 PM"
+    },
+    {
+      "role": "ai",
+      "text": "मैं आपकी बात समझ नहीं पा रहा हूँ। क्या आप मुझे बता सकते हैं कि आप क्या कहना चाहते हैं? [interrupted]",
+      "timestamp": "2:31:13 PM"
+    },
+    {
+      "role": "user",
+      "text": "ভাই হনুমান চালিসা পড়ে",
+      "timestamp": "2:31:17 PM"
+    },
+    {
+      "role": "user",
+      "text": "ভাই হনুমান চালিসা পড়েजी, हनुमान चालीसा एक जी, हनुमान चालीसा एक बहुत ही प्रसिद्धबहुत ही प्रसिद्ध स्तोत्र है। स्तोत्र है। क्या आप इसके बारे क्या आप इसके बारे में कुछ जानना चाहते में कुछ जानना चाहते हैं या कुछ और पूछना हैं या कुछ और पूछना चाहते हैं? चाहते हैं?",
+      "timestamp": "2:31:20 PM"
+    },
+    {
+      "role": "ai",
+      "text": "जी, हनुमान चालीसा एक बहुत ही प्रसिद्ध स्तोत्र है। क्या आप इसके बारे में कुछ जानना चाहते हैं या कुछ और पूछना चाहते हैं? [interrupted]",
+      "timestamp": "2:31:20 PM"
+    },
+    {
+      "role": "user",
+      "text": "Aka",
+      "timestamp": "2:31:41 PM"
+    },
+    {
+      "role": "user",
+      "text": "Akaक्या आप कुछ पूछना क्या आप कुछ पूछना चाहते हैं? मैं आपकीचाहते हैं? मैं आपकी किस प्रकार सहायता किस प्रकार सहायता कर सकता हूँ? कर सकता हूँ?",
+      "timestamp": "2:31:42 PM"
+    },
+    {
+      "role": "ai",
+      "text": "क्या आप कुछ पूछना चाहते हैं? मैं आपकी किस प्रकार सहायता कर सकता हूँ? [interrupted]",
+      "timestamp": "2:31:42 PM"
+    },
+    {
+      "role": "user",
+      "text": "Innocenti",
+      "timestamp": "2:31:47 PM"
+    },
+    {
+      "role": "user",
+      "text": "Innocentiक्या आप 'Innocenti' के क्या आप 'Innocenti' के ",
+      "timestamp": "2:31:47 PM"
+    },
+    {
+      "role": "ai",
+      "text": "क्या आप 'Innocenti' के [interrupted]",
+      "timestamp": "2:31:47 PM"
+    },
+    {
+      "role": "ai",
+      "text": "बारे में कुछ जानना",
+      "timestamp": "2:31:48 PM"
+    },
+    {
+      "role": "ai",
+      "text": "बारे में कुछ जानना चाहते हैं? कृपया चाहते हैं? कृपया स्पष्ट करें स्पष्ट करें ताकि मैं आपकी सहायता ताकि मैं आपकी सहायता कर सकूँ। कर सकूँ।",
+      "timestamp": "2:31:50 PM"
+    },
+    {
+      "role": "ai",
+      "text": "बारे में कुछ जानना चाहते हैं? कृपया स्पष्ट करें ताकि मैं आपकी सहायता कर सकूँ। [interrupted]",
+      "timestamp": "2:31:50 PM"
+    },
+    {
+      "role": "user",
+      "text": "হয়ে গেছে তো।",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "role": "user",
+      "text": "হয়ে গেছে তো।ঠিক আছে, আর কোনো ঠিক আছে, আর কোনো ",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "role": "ai",
+      "text": "ঠিক আছে, আর কোনো [interrupted]",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "role": "ai",
+      "text": "সাহায্য করতে পারি?",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "role": "ai",
+      "text": "সাহায্য করতে পারি? [interrupted]",
+      "timestamp": "2:32:56 PM"
+    },
+    {
+      "role": "user",
+      "text": "तो कहा तो क्या?",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "user",
+      "text": "तो कहा तो क्या?आप किस बारे में आप किस बारे में ",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "ai",
+      "text": "आप किस बारे में [interrupted]",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "ai",
+      "text": "पूछ रहे हैं? कृपया",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "ai",
+      "text": "पूछ रहे हैं? कृपया स्पष्ट करें ताकि स्पष्ट करें ताकि मैं समझ सकूँ। मैं समझ सकूँ।",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "ai",
+      "text": "पूछ रहे हैं? कृपया स्पष्ट करें ताकि मैं समझ सकूँ। [interrupted]",
+      "timestamp": "2:33:06 PM"
+    },
+    {
+      "role": "user",
+      "text": "এটাই আমি বলব।",
+      "timestamp": "2:33:15 PM"
+    },
+    {
+      "role": "user",
+      "text": "এটাই আমি বলব।আপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।",
+      "timestamp": "2:33:17 PM"
+    },
+    {
+      "role": "ai",
+      "text": "আপনি কী বলতে চান, দয়া করে স্পষ্ট করে বলুন যাতে আমি বুঝতে পারি। [interrupted]",
+      "timestamp": "2:33:17 PM"
+    },
+    {
+      "role": "user",
+      "text": "talang ek",
+      "timestamp": "2:33:36 PM"
+    },
+    {
+      "role": "user",
+      "text": "talang ekআপনি কী বলতে চান, আপনি কী বলতে চান, দয়া করে স্পষ্টদয়া করে স্পষ্ট করে বলুন যাতে করে বলুন যাতে আমি বুঝতে পারি। আমি বুঝতে পারি।",
+      "timestamp": "2:33:41 PM"
+    },
+    {
+      "role": "user",
+      "text": "Eh, l'ultimo pezzo te lo dico.",
+      "timestamp": "2:34:03 PM"
+    },
+    {
+      "role": "user",
+      "text": "Eh, l'ultimo pezzo te lo dico.Certo, ti ascolto. Certo, ti ascolto. Dimmi pure.Dimmi pure.",
+      "timestamp": "2:34:03 PM"
+    },
+    {
+      "role": "ai",
+      "text": "Certo, ti ascolto. Dimmi pure. [interrupted]",
+      "timestamp": "2:34:03 PM"
+    },
+    {
+      "role": "user",
+      "text": "Thank you",
+      "timestamp": "2:34:08 PM"
+    },
+    {
+      "role": "user",
+      "text": "Thank youYou're very welcome! You're very welcome! Is there anythingIs there anything else I can help you with? else I can help you with?",
+      "timestamp": "2:34:12 PM"
+    }
+  ]
 }

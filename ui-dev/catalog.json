@@ -1,0 +1,1572 @@
+[
+  {
+    "id": "ag/gemini-pro-agent",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": false,
+      "videoInput": false,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": false,
+      "thinkingFormat": null,
+      "thinkingCanDisable": true,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 64000
+    }
+  },
+  {
+    "id": "ag/gemini-3.8-flash-high",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": true,
+      "videoInput": true,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "gemini-level",
+      "thinkingCanDisable": false,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 65536
+    }
+  },
+  {
+    "id": "ag/gemini-3.8-flash-medium",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": true,
+      "videoInput": true,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "gemini-level",
+      "thinkingCanDisable": false,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 65536
+    }
+  },
+  {
+    "id": "ag/gemini-3.8-flash",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": true,
+      "videoInput": true,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "gemini-level",
+      "thinkingCanDisable": false,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 65536
+    }
+  },
+  {
+    "id": "ag/gemini-3.7-flash-high",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": true,
+      "videoInput": true,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "gemini-level",
+      "thinkingCanDisable": false,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 65536
+    }
+  },
+  {
+    "id": "ag/gemini-3.1-pro-low",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": true,
+      "videoInput": true,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "gemini-level",
+      "thinkingCanDisable": false,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1048576,
+      "maxOutput": 65535
+    }
+  },
+  {
+    "id": "ag/claude-sonnet-4-6",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": false,
+      "videoInput": false,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "claude-adaptive",
+      "thinkingCanDisable": true,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 1000000,
+      "maxOutput": 128000
+    }
+  },
+  {
+    "id": "ag/claude-opus-4-6-thinking",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": false,
+      "audioInput": false,
+      "videoInput": false,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": true,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "claude-budget",
+      "thinkingCanDisable": true,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 200000,
+      "maxOutput": 64000
+    }
+  },
+  {
+    "id": "ag/gpt-oss-120b-medium",
+    "provider": "ag",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": false,
+      "pdf": false,
+      "audioInput": false,
+      "videoInput": false,
+      "imageOutput": false,
+      "audioOutput": false,
+      "search": false,
+      "tools": true,
+      "reasoning": true,
+      "thinkingFormat": "openai",
+      "thinkingCanDisable": true,
+      "thinkingRange": null,
+      "thinkingEffortSupported": false,
+      "contextWindow": 128000,
+      "maxOutput": 64000
+    }
+  },
+  {
+    "id": "gemini-2.5-pro",
+    "provider": "gemini-2.5-pro",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "provider": "gemini-2.5-flash",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-sonnet-4-6",
+    "provider": "claude-sonnet-4-6",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "qwen3.7-plus",
+    "provider": "qwen3.7-plus",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3.5-397b-a17b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "kimi-k2.6",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "kimi-k3",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "glm-5.3-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-fable-5",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "claude-opus-4-8",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "kimi-k2.7-code",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "green-l",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "green-l-raw",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-3-27b-it",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.6-35b-a3b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "green-s",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "audioInput": true
+    }
+  },
+  {
+    "id": "mistral-medium-3.5-128b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma4",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "mistral-small-3.2-24b-instruct-2506",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "green-r-raw",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "holo2-30b-a3b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "voxtral-small-24b-2507",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "pdf": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "green-s-pro",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "audioInput": true
+    }
+  },
+  {
+    "id": "kimi-k2.6-fast",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "pixtral-12b-2409",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "green-r",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "kling-v2-6",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-3.0-pro-image-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-image",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.0-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-3.5-sonnet",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "doubao-seed-2.0-mini",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-lite",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-3.0-pro-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "doubao-seed-1.6",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-2.0-flash-lite",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-4.5-opus",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen2.5-vl-72b-instruct",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-4.0-opus",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "doubao-seed-2.0-code",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen2.5-vl-7b-instruct",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-4.1-opus",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen-vl-max-2025-01-25",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "doubao-seed-2.0-pro",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-3.5-haiku",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "doubao-seed-1.6-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "doubao-1.5-vision-pro",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "doubao-seed-1.6-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3-vl-30b-a3b-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-3.7-sonnet",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-3.0-flash-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-4.5-sonnet",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "doubao-seed-2.0-lite",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-4.5-haiku",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-4.0-sonnet",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gelab-zero-4b-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "grok-4-fast-reasoning",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "grok-4.1-fast-non-reasoning",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "grok-4.1-fast-reasoning",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "grok-4-fast",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "grok-4-fast-non-reasoning",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "grok-4.1-fast",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gpt-5.2",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gpt-5",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "kimi-k2.5",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "autoglm-phone-9b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "step-3.7-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "mimo-v2.5",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gpt-5.6-sol",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "claude-opus-5",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "glm-4.1v-thinking-flashx",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-opus-4-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-garnet",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.0-pro-exp-02-05",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "ernie-5.0-thinking-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-luminous",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-sonnet-4-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-shadowsiren",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-122b-a10b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-meromero",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-27b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-opus-4-1-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-gemsicle",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.8-27b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-35b-a3b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "claude-haiku-4-5-20251001-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-preview-09-2025-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-opusdistill",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.0-pro-reasoner",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "audioInput": true
+    }
+  },
+  {
+    "id": "qwen3.5-27b-queen-derestricted",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen-3.6-plus",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-cognitive-unshackled",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-pro-preview-06-05",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3.7-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3.5-omni-plus",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "asi1-mini",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemini-2.5-pro-preview-03-25",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "claude-sonnet-4-5-20250929-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "claude-opus-4-1-20250805",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "qwen25-vl-72b-instruct",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3.5-27b-bluestar-v3-derestricted",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-e4b-it",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "azure-gpt-4o",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-lite-preview-06-17",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "qwen3.8-max",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-preview-09-2025",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "claude-opus-4-20250514",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-moonlight",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "deepseek-chat-cheaper",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-darksoul",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-lite-preview-09-2025",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-queen",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-uncensored",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-opus-4-5-20251101",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "qwen3.5-0.8b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "doubao-seed-2-0-code-preview-260215",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "azure-gpt-4o-mini",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-26b-a4b-it-chimerax",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "claude-sonnet-4-5-20250929",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "holo3-35b-a3b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-omni-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "doubao-1.5-vision-pro-32k",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-preview-04-17",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "claude-haiku-4-5-20251001",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-garnetv2",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-claude-4.6-opus-reasoning-distilled",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-nothinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-lite-preview-09-2025-thinking",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "pdf": true,
+      "audioInput": true
+    }
+  },
+  {
+    "id": "gemini-3-pro-image-preview",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "sonar-reasoning-pro",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-darkidol",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-darkidol",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "glm-4.1v-thinking-flash",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3.5-4b",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "mistral-small-31-24b-instruct",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-fabled",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "qwen3-vl-235b-a22b-instruct-original",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  },
+  {
+    "id": "gemini-2.5-flash-preview-05-20",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true,
+      "audioInput": true,
+      "videoInput": true
+    }
+  },
+  {
+    "id": "gemma-4-31b-it-gembrain",
+    "provider": "catalog",
+    "source": "catalog",
+    "live": false,
+    "caps": {
+      "vision": true
+    }
+  }
+]

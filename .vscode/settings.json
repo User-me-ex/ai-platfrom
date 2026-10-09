@@ -1,0 +1,7 @@
+{
+    "builder.serverUrl": "http://127.0.0.1:8888/",
+    "builder.command": "",
+    "builder.runDevServer": false,
+    "builder.autoDetectDevServer": false,
+    "builder.launchType": "editor"
+}

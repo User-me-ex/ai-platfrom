@@ -958,7 +958,7 @@ export class WorkflowWebviewPanel {
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} https: http: data: blob:; script-src 'nonce-${nonce}' 'unsafe-inline' 'unsafe-eval' ${cspSource}; style-src 'unsafe-inline' ${cspSource}; font-src ${cspSource} data:; connect-src https: http: ws: wss:;">
   <title>9 Router: Control Center & Orchestrator</title>
   <style>
-    :root {
+:root {
       --bg: #0f1117;
       --fg: #e2e8f0;
       --fg-muted: #94a3b8;
@@ -978,14 +978,23 @@ export class WorkflowWebviewPanel {
       --card-radius: 8px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
     body {
       background: var(--bg);
       color: var(--fg);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       font-size: 13px;
       line-height: 1.5;
-      padding: 18px 22px;
-      overflow-x: hidden;
+      padding: 12px 18px 10px 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      height: 100vh;
     }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -997,11 +1006,12 @@ export class WorkflowWebviewPanel {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 16px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 16px;
+      margin-bottom: 8px;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
+      flex-shrink: 0;
     }
     .header-left {
       display: flex;
@@ -1485,17 +1495,19 @@ export class WorkflowWebviewPanel {
     .chat-console-wrapper {
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 165px);
-      min-height: 520px;
+      flex: 1;
+      min-height: 0;
+      height: 100%;
     }
 
     .chat-header-section {
       background: rgba(15, 23, 42, 0.75);
       border: 1px solid var(--border);
       border-radius: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       backdrop-filter: blur(8px);
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     /* Always-visible compact strip at the top of the header */
@@ -1803,6 +1815,21 @@ export class WorkflowWebviewPanel {
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
     }
 
+    /* Distinct Voice Mode Transcript Bubbles */
+    .chat-bubble.voice-user-bubble {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+    }
+
+    .chat-bubble.voice-ai-bubble {
+      background: rgba(30, 41, 59, 0.92) !important;
+      border: 1px solid rgba(148, 163, 184, 0.25) !important;
+      color: #f1f5f9 !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+
     /* Role Execution Card inside Chat */
     .chat-role-card {
       background: rgba(15, 23, 42, 0.85);
@@ -1862,6 +1889,10 @@ export class WorkflowWebviewPanel {
       margin-top: 6px;
       box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
       backdrop-filter: blur(12px);
+      flex-shrink: 0;
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
     }
 
     .dictating-active {
@@ -1879,6 +1910,7 @@ export class WorkflowWebviewPanel {
 </head>
 <body>
   <script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
+<script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
 
   <!-- Top Header Bar -->
   <div class="header">
@@ -1904,7 +1936,7 @@ export class WorkflowWebviewPanel {
   <div class="quick-actions-section" id="quickActionsSection">
     <div class="qa-header">
       <div class="qa-header-title">⚡ Quick Features & Actions Hub (All 10 Extension Options)</div>
-      <button class="btn btn-secondary" data-action="toggleQuickHub" onclick="toggleQuickHub()" id="qaToggleBtn" style="font-size: 11px; padding: 3px 9px;">${isChat ? 'Show Hub' : 'Hide Hub'}</button>
+      <button class="btn btn-secondary" data-action="toggleQuickHub" id="qaToggleBtn" style="font-size: 11px; padding: 3px 9px;">Show Hub</button>
     </div>
     <div class="qa-grid" id="qaGrid" style="${isChat ? 'display: none;' : ''}">
       <!-- 1. Workflow Pipeline & Roles -->
@@ -1997,16 +2029,6 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Navigation Tabs -->
-  <div class="tabs-bar">
-    <button class="tab-btn ${isChat ? '' : 'active'}" id="tabWorkflowBtn" data-tab="workflow" onclick="switchTab('workflow')">🔀 Workflow Pipeline</button>
-    <button class="tab-btn" id="tabRolesBtn" data-tab="roles" onclick="switchTab('roles')">👥 Manage Roles</button>
-    <button class="tab-btn" id="tabModelsBtn" data-tab="models" onclick="switchTab('models')">🧠 Pick / Change Model (<span id="tabModelsCount">2,150</span>)</button>
-    <button class="tab-btn" id="tabVoiceBtn" data-tab="voice" onclick="switchTab('voice')">🎙️ Voice Mode & Live</button>
-    <button class="tab-btn" id="tabSessionBtn" data-tab="session" onclick="switchTab('session')">⚙️ Session Options</button>
-    <button class="tab-btn ${isChat ? 'active' : ''}" id="tabChatBtn" data-tab="chat" onclick="openChatInterface('pipeline')" title="Chat & AI Orchestration Workspace">💬 Chat</button>
   </div>
 
   <!-- ==================== TAB 1: WORKFLOW ==================== -->
@@ -2267,7 +2289,7 @@ export class WorkflowWebviewPanel {
             </div>
             <span id="compactModelName" style="font-size: 10.5px; color: var(--fg-muted);">9 Router: <strong style="color: #f8fafc;">ag/gemini-3.8-flash-high</strong></span>
           </div>
-          <button id="chatHeaderToggleBtn" onclick="toggleChatHeader()" title="Collapse header">
+          <button id="chatHeaderToggleBtn" data-action="toggleChatHeader" title="Collapse header">
             <span class="hdr-chevron">&#9650;</span>
           </button>
         </div>
@@ -2325,7 +2347,7 @@ export class WorkflowWebviewPanel {
                 <span style="font-size: 10.5px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; color: var(--fg-muted);">⚡ Serial Pipeline Graph (Autonomous 1-by-1)</span>
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <span id="graphStepCountText" style="font-size: 11px; color: var(--fg-muted);">0 / 0 steps</span>
-                  <button id="graphCollapseBtn" onclick="togglePipelineGraph()" title="Collapse / expand pipeline graph">
+                  <button id="graphCollapseBtn" data-action="togglePipelineGraph" title="Collapse / expand pipeline graph">
                     <span class="chevron">&#9660;</span>
                   </button>
                 </div>
@@ -2512,9 +2534,8 @@ export class WorkflowWebviewPanel {
       </div>
     </div>
   </div>
-
   <script nonce="${nonce}">
-    let vscode;
+let vscode;
     try {
       vscode = acquireVsCodeApi();
     } catch (e) {
@@ -2776,7 +2797,7 @@ export class WorkflowWebviewPanel {
           const input = document.getElementById('chatMessageInput');
           if (input) {
             input.focus();
-            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const feed = document.getElementById('chatFeed'); if (feed) feed.scrollTop = feed.scrollHeight;
           }
         }, 50);
       }
@@ -2789,7 +2810,7 @@ export class WorkflowWebviewPanel {
         const input = document.getElementById('chatMessageInput');
         if (input) {
           input.focus();
-          input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const feed = document.getElementById('chatFeed'); if (feed) feed.scrollTop = feed.scrollHeight;
         }
       }, 50);
     }
@@ -2932,7 +2953,8 @@ export class WorkflowWebviewPanel {
       const grid = document.getElementById('qaGrid');
       const btn = document.getElementById('qaToggleBtn');
       if (!grid || !btn) return;
-      if (grid.style.display === 'none') {
+      const isHidden = grid.style.display === 'none' || window.getComputedStyle(grid).display === 'none';
+      if (isHidden) {
         grid.style.display = 'grid';
         btn.innerText = 'Hide Hub';
       } else {
@@ -3009,7 +3031,7 @@ export class WorkflowWebviewPanel {
           '<div style="font-size: 12px; color: #cbd5e1; margin-bottom: 8px;">' + escapeHtml(step.taskPrompt) + '</div>' +
           '<div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--fg-muted);">' +
             '<div>Model: <code style="color: #93c5fd;">' + escapeHtml(step.assignedModel) + '</code></div>' +
-            '<button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="openStepModal(\\'' + step.id + '\\')">Inspect Prompt</button>' +
+            "<button class=\\"btn btn-secondary\\" style=\\"padding: 2px 8px; font-size: 11px;\\" onclick=\\"openStepModal('" + step.id + "')\\">Inspect Prompt</button>" +
           '</div>' +
         '</div>';
       }).join('');
@@ -3091,7 +3113,7 @@ export class WorkflowWebviewPanel {
             '<div class="role-card-header">' +
               '<div style="font-size: 15px; font-weight: 600;">' + escapeHtml(role.name) + '</div>' +
               '<label style="display: flex; align-items: center; gap: 4px; font-size: 11px; cursor: pointer;">' +
-                '<input type="checkbox" ' + (role.enabled ? 'checked' : '') + ' onchange="toggleRoleEnabled(\\'' + role.id + '\\', this.checked)" /> Enabled' +
+                "<input type=\\"checkbox\\" " + (role.enabled ? "checked" : "") + " onchange=\\"toggleRoleEnabled('" + role.id + "', this.checked)\\" /> Enabled" +
               '</label>' +
             '</div>' +
             '<div style="font-size: 11.5px; color: var(--fg-muted); margin-bottom: 12px;">' + escapeHtml(role.purpose || role.description) + '</div>' +
@@ -3100,7 +3122,7 @@ export class WorkflowWebviewPanel {
               '<label class="form-label">Primary Model (9 Router)</label>' +
               '<div style="display: flex; gap: 6px;">' +
                 '<input type="text" class="input-field" value="' + escapeHtml(role.primaryModel) + '" id="primary_' + role.id + '" style="margin: 0;" />' +
-                '<button class="btn btn-secondary" onclick="openModelPicker(\\'' + role.id + '\\', \\'primary\\')">Fuzzy Search</button>' +
+                "<button class=\\"btn btn-secondary\\" onclick=\\"openModelPicker('" + role.id + "', 'primary')\\">Fuzzy Search</button>" +
               '</div>' +
             '</div>' +
 
@@ -3108,7 +3130,7 @@ export class WorkflowWebviewPanel {
               '<label class="form-label">Fallback Models Chain</label>' +
               '<div style="display: flex; gap: 6px;">' +
                 '<input type="text" class="input-field" value="' + escapeHtml((role.fallbackModels || []).join(', ')) + '" id="fallbacks_' + role.id + '" placeholder="Comma-separated models" style="margin: 0;" />' +
-                '<button class="btn btn-secondary" onclick="openModelPicker(\\'' + role.id + '\\', \\'fallback\\')">+ Add</button>' +
+                "<button class=\\"btn btn-secondary\\" onclick=\\"openModelPicker('" + role.id + "', 'fallback')\\">+ Add</button>" +
               '</div>' +
             '</div>' +
 
@@ -3119,7 +3141,7 @@ export class WorkflowWebviewPanel {
           '</div>' +
 
           '<div style="text-align: right; margin-top: 10px;">' +
-            '<button class="btn" onclick="saveRoleCard(\\'' + role.id + '\\')">Save Role Changes</button>' +
+            "<button class=\\"btn\\" onclick=\\"saveRoleCard('" + role.id + "')\\">Save Role Changes</button>" +
           '</div>' +
         '</div>';
       }).join('');
@@ -3218,7 +3240,7 @@ export class WorkflowWebviewPanel {
 
         const actionBtn = isActive
           ? '<button class="btn btn-secondary" style="opacity: 0.7; pointer-events: none;">Active Model</button>'
-          : '<button class="btn btn-secondary" onclick="activateModel(\\'' + escapeHtml(m.id) + '\\')">Set Active</button>';
+          : "<button class=\\"btn btn-secondary\\" onclick=\\"activateModel('" + escapeHtml(m.id) + "')\\">Set Active</button>";
 
         return '<div class="model-card-item ' + (isActive ? 'is-active-model' : '') + '">' +
           '<div style="flex: 1; min-width: 0; padding-right: 12px;">' +
@@ -3512,7 +3534,7 @@ export class WorkflowWebviewPanel {
         const isLast = idx === wf.steps.length - 1;
         const arrowClass = isCompleted ? 'arrow-completed' : (isRunning ? 'arrow-active' : '');
 
-        return '<div class="graph-node ' + nodeClass + '" onclick="openStepModal(\\'' + step.id + '\\')" title="Click to inspect prompt: ' + escapeHtml(step.taskName) + '">' +
+            "<button class=\\"btn btn-secondary\\" style=\\"padding: 2px 8px; font-size: 11px;\\" onclick=\\"openStepModal('" + step.id + "')\\">Inspect Prompt</button>" +
           '<span class="graph-node-dot"></span>' +
           '<span style="font-weight: 600;">#' + (idx + 1) + ' ' + escapeHtml(step.roleName) + '</span>' +
           '<span style="font-size: 10px; opacity: 0.8; max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(step.assignedModel) + '</span>' +
@@ -3627,7 +3649,7 @@ export class WorkflowWebviewPanel {
                 '<span class="badge" style="background: rgba(59,130,246,0.15); color: #60a5fa; font-size: 10px;">' + escapeHtml(msg.roleModel || '') + '</span>' +
               '</div>' +
               '<div style="display: flex; align-items: center; gap: 6px;">' +
-                '<button class="btn btn-secondary" style="padding: 2px 8px; font-size: 10.5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;" onclick="openStepModal(\\'' + escapeHtml(stepIdForModal) + '\\')">🔍 Inspect Prompt</button>' +
+                "<button class=\\"btn btn-secondary\\" style=\\"padding: 2px 8px; font-size: 10.5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; cursor: pointer;\\" onclick=\\"openStepModal('" + escapeHtml(stepIdForModal) + "')\\">🔍 Inspect Prompt</button>" +
                 '<span class="badge ' + badgeClass + '" id="role_badge_' + msg.id + '">' + statusLabel + '</span>' +
               '</div>' +
             '</div>' +
@@ -3691,30 +3713,47 @@ export class WorkflowWebviewPanel {
     }
 
     function handleVoiceTurnInChat(text, turnComplete, from) {
-      if (!text && turnComplete) return;
-      let voiceBox = document.getElementById('active_live_voice_bubble');
-      if (!voiceBox) {
-        const feed = document.getElementById('chatFeed');
-        if (!feed) return;
-        const welcome = document.getElementById('chatWelcomeCard');
-        if (welcome) welcome.style.display = 'none';
+      const isUser = from === 'user';
+      const activeId = isUser ? 'active_live_user_bubble' : 'active_live_ai_bubble';
+      const oppositeId = isUser ? 'active_live_ai_bubble' : 'active_live_user_bubble';
 
+      // If turn is complete with no extra text, finalize active bubble
+      if (!text && turnComplete) {
+        const currentActive = document.getElementById(activeId);
+        if (currentActive) currentActive.removeAttribute('id');
+        return;
+      }
+      if (!text) return;
+
+      const feed = document.getElementById('chatFeed');
+      if (!feed) return;
+      const welcome = document.getElementById('chatWelcomeCard');
+      if (welcome) welcome.style.display = 'none';
+
+      // Ensure any lingering opposite speaker bubble is closed so turns never concatenate
+      const oppositeBubble = document.getElementById(oppositeId);
+      if (oppositeBubble) {
+        oppositeBubble.removeAttribute('id');
+      }
+
+      let voiceBox = document.getElementById(activeId);
+      if (!voiceBox) {
         const row = document.createElement('div');
-        row.className = 'chat-bubble-row ' + (from === 'user' ? 'user-row' : 'ai-row');
+        row.className = 'chat-bubble-row ' + (isUser ? 'user-row' : 'ai-row');
         row.innerHTML =
           '<div class="chat-bubble-meta">' +
-            '<span>🎙️ ' + (from === 'user' ? 'You (Voice)' : 'Gemini Live') + '</span>' +
+            '<span>' + (isUser ? '🎙️ You (Voice)' : '🎙️ Gemini Live (AI)') + '</span>' +
             '<span>•</span>' +
-            '<span>' + new Date().toLocaleTimeString() + '</span>' +
+            '<span>' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</span>' +
           '</div>' +
-          '<div class="chat-bubble ' + (from === 'user' ? 'user-bubble' : 'ai-bubble') + '" id="active_live_voice_bubble">' + escapeHtml(text) + '</div>';
+          '<div class="chat-bubble ' + (isUser ? 'user-bubble voice-user-bubble' : 'ai-bubble voice-ai-bubble') + '" id="' + activeId + '">' + escapeHtml(text) + '</div>';
         feed.appendChild(row);
-        feed.scrollTop = feed.scrollHeight;
+        voiceBox = document.getElementById(activeId);
       } else {
         voiceBox.innerText += text;
-        const feed = document.getElementById('chatFeed');
-        if (feed) feed.scrollTop = feed.scrollHeight;
       }
+
+      feed.scrollTop = feed.scrollHeight;
 
       if (turnComplete && voiceBox) {
         voiceBox.removeAttribute('id');
@@ -3769,9 +3808,9 @@ export class WorkflowWebviewPanel {
               'In <strong>Autonomous Pipeline</strong> mode, enter a requirement to decompose and execute serial roles with real-time graph updates. Switch to <strong>Chat with Selected Model</strong> to converse directly with your chosen 9 Router model.' +
             '</p>' +
             '<div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">' +
-              '<button class="btn btn-secondary" style="font-size: 11.5px; padding: 5px 12px;" onclick="fillChatPrompt(\\'Build authentication system with OAuth2 and JWT tokens\\')">🔐 Build Auth & JWT</button>' +
-              '<button class="btn btn-secondary" style="font-size: 11.5px; padding: 5px 12px;" onclick="fillChatPrompt(\\'Create database schema and REST API endpoints\\')">🗄️ DB Schema & API</button>' +
-              '<button class="btn btn-secondary" style="font-size: 11.5px; padding: 5px 12px;" onclick="fillChatPrompt(\\'Audit codebase for vulnerabilities and write unit tests\\')">🛡️ Audit & Write Tests</button>' +
+              "<button class=\\"btn btn-secondary\\" style=\\"font-size: 11.5px; padding: 5px 12px;\\" onclick=\\"fillChatPrompt('Build authentication system with OAuth2 and JWT tokens')\\">🔐 Build Auth & JWT</button>" +
+              "<button class=\\"btn btn-secondary\\" style=\\"font-size: 11.5px; padding: 5px 12px;\\" onclick=\\"fillChatPrompt('Create database schema and REST API endpoints')\\">🗄️ DB Schema & API</button>" +
+              "<button class=\\"btn btn-secondary\\" style=\\"font-size: 11.5px; padding: 5px 12px;\\" onclick=\\"fillChatPrompt('Audit codebase for vulnerabilities and write unit tests')\\">🛡️ Audit & Write Tests</button>" +
             '</div>' +
           '</div>';
       }
@@ -3926,7 +3965,7 @@ export class WorkflowWebviewPanel {
           return '<span class="model-cap-tag ' + (c === '9router' ? 'tag-router' : '') + '">' + c + '</span>';
         }).join('');
 
-        return '<div class="model-item" onclick="selectModel(\\'' + escapeHtml(m.id) + '\\')">' +
+        return "<div class=\\"model-item\\" onclick=\\"selectModel('" + escapeHtml(m.id) + "')\\">" +
           '<div style="flex: 1; min-width: 0; padding-right: 10px;">' +
             '<div style="display: flex; align-items: center; gap: 6px;">' +
               '<strong style="word-break: break-all;">' + escapeHtml(m.id) + '</strong>' +
@@ -4012,6 +4051,8 @@ export class WorkflowWebviewPanel {
     window.submitInlineNewTask = submitInlineNewTask;
     window.requestRefresh = requestRefresh;
     window.toggleQuickHub = toggleQuickHub;
+    window.toggleChatHeader = toggleChatHeader;
+    window.togglePipelineGraph = togglePipelineGraph;
     window.submitChatMessage = submitChatMessage;
     window.onChatInputKeyDown = onChatInputKeyDown;
     window.clearChatMessages = clearChatMessages;
@@ -4080,6 +4121,8 @@ export class WorkflowWebviewPanel {
       toggleVoiceModeFromChat: function() { toggleVoiceModeFromChat(); },
       fillChatPrompt: function(arg) { fillChatPrompt(arg); },
       toggleQuickHub: function() { toggleQuickHub(); },
+      toggleChatHeader: function() { toggleChatHeader(); },
+      togglePipelineGraph: function() { togglePipelineGraph(); },
       requestRefresh: function() { requestRefresh(); },
       openStepModal: function(arg) { openStepModal(arg); },
       closeModal: function() { closeModal(); },
@@ -4178,7 +4221,11 @@ export class WorkflowWebviewPanel {
 
       // 4. Inline onclick fallback (safely invoked via JS delegation)
       const onclickEl = e.target.closest('[onclick]');
-      if (onclickEl) {
+      if (onclickEl && !actionEl) {
+        // If native inline onclick was already fired by browser, do not double-invoke
+        if (typeof onclickEl.onclick === 'function') {
+          return;
+        }
         const raw = onclickEl.getAttribute('onclick');
         if (raw) {
           executeRawOnclick(raw, onclickEl);

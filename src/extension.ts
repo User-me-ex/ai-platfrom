@@ -778,11 +778,16 @@ async function toggleVoiceMode(context: vscode.ExtensionContext, catalog: ModelI
         if (state !== 'log') setVoiceConn(state, message);
         if (!chatOutput) return;
         if (state === 'connected') {
-          voiceTalking = true;
-          liveCall?.setTalking(true);
+          if (!voiceMuted) {
+            voiceTalking = true;
+            liveCall?.setTalking(true);
+          } else {
+            voiceTalking = false;
+            liveCall?.setTalking(false);
+          }
           refreshVoiceBars();
           WorkflowWebviewPanel.currentPanel?.sendState();
-          chatOutput.appendLine(`[voice] live connected (${message ?? 'ready'}) — mic is open and listening; speak anytime.`);
+          chatOutput.appendLine(`[voice] live connected (${message ?? 'ready'}) — ${!voiceMuted ? 'mic is open and listening; speak anytime.' : 'mic is muted.'}`);
         } else if (state === 'connecting') {
           chatOutput.appendLine(`[voice] ${message ?? 'connecting to Gemini Live…'}`);
         } else if (state === 'error') {

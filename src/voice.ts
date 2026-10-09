@@ -456,7 +456,7 @@ export function startLiveConversation(
     });
     p.once('exit', () => {
       if (mic === p) mic = undefined;
-      if (!stopped) {
+      if (!stopped && !muted && talking) {
         mic = startMic();
       }
     });
@@ -693,9 +693,10 @@ export function startLiveConversation(
         setupCompletedEver = true;
         keysTriedInARow = 0;
         reconnectAttempts = 0;
-        talking = true;
-        startMic();
-        handlers.onStatus('connected', `live channel ready (${keyTag}) — mic is live & listening`);
+        if (!muted && talking) {
+          startMic();
+        }
+        handlers.onStatus('connected', `live channel ready (${keyTag}) — ${!muted && talking ? 'mic is live & listening' : 'mic is on hold / muted'}`);
         return;
       }
 
@@ -887,12 +888,21 @@ export function startLiveConversation(
     },
     setTalking(on: boolean): void {
       talking = on;
-      if (talking && !mic) {
+      if (talking && !muted && !mic) {
         startMic();
+      } else if (!talking && mic) {
+        try { mic.kill(); } catch {}
+        mic = undefined;
       }
     },
     setMuted(on: boolean): void {
       muted = on;
+      if (muted && mic) {
+        try { mic.kill(); } catch {}
+        mic = undefined;
+      } else if (!muted && talking && !mic) {
+        startMic();
+      }
     },
     setToolsExecuting(on: boolean): void {
       toolsExecuting = on;
