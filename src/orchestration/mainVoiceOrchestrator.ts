@@ -11,7 +11,7 @@ import {
   exportRolesToJson
 } from '../roles/roleRegistry';
 import { autoAssignBestModelsForRoles, AssignmentStrategy } from '../roles/roleModelAdvisor';
-import { UnifiedModelCatalog, ModelInfo } from '../models';
+import { UnifiedModelCatalog, ModelInfo, check9RouterStatus } from '../models';
 import { searchModels } from '../roles/fuzzySearch';
 import { WorkflowWebviewPanel } from '../ui/workflowWebview';
 
@@ -66,6 +66,48 @@ export const ORCHESTRATION_TOOL_DECLARATIONS = [
         }
       },
       required: ['task_goal', 'steps']
+    }
+  },
+  {
+    name: 'cancel_workflow',
+    description: 'Cancel, halt, and immediately stop the running serial orchestration workflow and all active role tasks.',
+    parameters: {
+      type: 'object',
+      properties: {
+        reason: {
+          type: 'string',
+          description: 'Reason for cancelling the workflow (e.g. user requested cancellation, stop, halt).'
+        }
+      }
+    }
+  },
+  {
+    name: 'pause_workflow',
+    description: 'Pause the currently executing serial orchestration workflow.',
+    parameters: {
+      type: 'object',
+      properties: {
+        reason: {
+          type: 'string',
+          description: 'Reason for pausing the workflow.'
+        }
+      }
+    }
+  },
+  {
+    name: 'resume_workflow',
+    description: 'Resume the paused serial orchestration workflow.',
+    parameters: {
+      type: 'object',
+      properties: {}
+    }
+  },
+  {
+    name: 'check_router_status',
+    description: 'Check whether 9 Router gateway is running and reachable in the background.',
+    parameters: {
+      type: 'object',
+      properties: {}
     }
   },
   {
@@ -322,6 +364,19 @@ export class MainVoiceOrchestratorBridge {
 
       const { baseUrl, apiKey } = this.getSettings();
 
+      // Check if 9Router is enabled & running in the background
+      const routerCheck = await check9RouterStatus(baseUrl, apiKey, 3000);
+      if (!routerCheck.online) {
+        const msg = `9Router is not enabled or running in the background (${baseUrl}). The autonomous task cannot be started.`;
+        vscode.window.showErrorMessage(msg);
+        return {
+          error: '9router_not_running',
+          message: msg,
+          spoken_advice: '9Router background mein enable ya running nahi hai. Kripya pehle 9Router ko background mein enable/start karein, uske baad hi autonomous workflow chalu ho payega.',
+          instruction: 'Inform the user immediately in natural Hindi/English that 9Router is not running in the background and must be enabled before the task can start.'
+        };
+      }
+
       // Launch workflow in background so voice AI remains responsive and supervises
       void this.orchestrator.runWorkflow(goal, taskSteps, rootPath, baseUrl, apiKey);
 
@@ -332,6 +387,35 @@ export class MainVoiceOrchestratorBridge {
         execution_model: 'STRICT_SERIAL',
         initial_order: taskSteps.map((s, i) => `${i + 1}. ${s.roleName}: ${s.taskName}`),
         note: 'Execution has started serially. You can check status anytime with check_workflow_status.'
+      };
+    } else if (name === 'cancel_workflow') {
+      this.orchestrator.cancel();
+      return {
+        status: 'cancelled',
+        message: 'The running workflow and all active roles have been immediately cancelled.'
+      };
+    } else if (name === 'pause_workflow') {
+      this.orchestrator.pause();
+      return {
+        status: 'paused',
+        message: 'The workflow execution has been paused.'
+      };
+    } else if (name === 'resume_workflow') {
+      this.orchestrator.resume();
+      return {
+        status: 'resumed',
+        message: 'The workflow execution has been resumed.'
+      };
+    } else if (name === 'check_router_status') {
+      const { baseUrl, apiKey } = this.getSettings();
+      const status = await check9RouterStatus(baseUrl, apiKey, 3000);
+      return {
+        online: status.online,
+        baseUrl,
+        error: status.error,
+        message: status.online
+          ? '9Router is running and reachable in the background.'
+          : `9Router is not running in the background: ${status.error || 'Connection refused'}. Please start 9Router.`
       };
     } else if (name === 'check_workflow_status') {
       const wf = this.orchestrator.workflow;

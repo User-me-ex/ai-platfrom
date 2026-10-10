@@ -140,6 +140,41 @@ export async function fetchRouterModels(
   }
 }
 
+export async function check9RouterStatus(
+  baseUrl: string,
+  apiKey?: string,
+  timeoutMs: number = 4000
+): Promise<{ online: boolean; error?: string }> {
+  const cleanBase = baseUrl.replace(/\/+$/, '');
+  const url = `${cleanBase}/models`;
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      signal: AbortSignal.timeout(timeoutMs),
+      headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : undefined
+    });
+    if (res.status < 500) {
+      return { online: true };
+    }
+    return { online: false, error: `router returned HTTP ${res.status}` };
+  } catch (err) {
+    // Also try root / as quick fallback (9router responds instantly to / with 307 redirect)
+    try {
+      const rootUrl = new URL('/', cleanBase).toString();
+      const rootRes = await fetch(rootUrl, {
+        method: 'GET',
+        signal: AbortSignal.timeout(2000),
+      });
+      if (rootRes.status < 500) {
+        return { online: true };
+      }
+    } catch {
+      // ignore fallback error
+    }
+    return { online: false, error: err instanceof Error ? err.message : String(err) };
+  }
+}
+
 export function mergeModels(router: ModelInfo[], catalog: ModelInfo[]): ModelInfo[] {
   const byId = new Map<string, ModelInfo>();
   for (const item of router) byId.set(item.id, item);

@@ -21,7 +21,7 @@ export interface WebviewChatMessage {
   content: string;
   timestamp: string;
   logs?: string[];
-  status?: 'Running' | 'Completed' | 'Failed' | 'Queued' | 'Pending';
+  status?: 'Running' | 'Completed' | 'Failed' | 'Queued' | 'Pending' | 'Cancelled' | 'Paused';
   from?: 'user' | 'ai';
 }
 
@@ -103,14 +103,17 @@ export class WorkflowWebviewPanel {
 
           case 'pauseWorkflow':
             this._orchestrator.pause();
+            this.sendState();
             return;
 
           case 'resumeWorkflow':
             this._orchestrator.resume();
+            this.sendState();
             return;
 
           case 'cancelWorkflow':
             this._orchestrator.cancel();
+            this.sendState();
             return;
 
           case 'saveRole':
@@ -543,6 +546,46 @@ export class WorkflowWebviewPanel {
           card.content = `Waiting for ${prevRole}…`;
         }
       });
+    }
+
+    // 2b. Workflow paused
+    if (wf.status === 'Paused') {
+      wf.steps.forEach((step, idx) => {
+        const card = this._chatMessages.find((m) => m.id === `role_step_${step.id}`);
+        if (!card) return;
+        if (step.status === 'Completed') {
+          card.status = 'Completed';
+        } else if (idx === wf.activeStepIndex) {
+          card.status = 'Paused';
+          card.content = `${step.roleName} - Execution paused by user.`;
+        } else {
+          card.status = 'Queued';
+        }
+      });
+    }
+
+    // 2c. Workflow cancelled
+    if (wf.status === 'Cancelled') {
+      wf.steps.forEach((step) => {
+        const card = this._chatMessages.find((m) => m.id === `role_step_${step.id}`);
+        if (!card) return;
+        if (step.status === 'Completed') {
+          card.status = 'Completed';
+        } else {
+          card.status = 'Cancelled';
+          card.content = `${step.roleName} - Execution stopped / cancelled.`;
+        }
+      });
+
+      if (!this._chatMessages.some((m) => m.id === `orch_cancel_${wf.id}`)) {
+        this.appendChatMessage({
+          id: `orch_cancel_${wf.id}`,
+          sender: 'ai',
+          roleModel: 'AI Orchestrator',
+          content: '⏹ Execution cancelled by user. All active and queued roles have been stopped immediately.',
+          timestamp: new Date().toLocaleTimeString()
+        });
+      }
     }
 
     // 3. Final completion
@@ -1313,6 +1356,8 @@ export class WorkflowWebviewPanel {
     .badge-Completed { background: var(--badge-completed); color: #fff; }
     .badge-Queued { background: var(--badge-queued); color: #fff; }
     .badge-Failed { background: var(--badge-failed); color: #fff; }
+    .badge-Cancelled { background: #ef4444; color: #fff; }
+    .badge-Paused { background: #f59e0b; color: #000; font-weight: 700; }
     .badge-Fallback { background: var(--badge-fallback); color: #000; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.65; } 100% { opacity: 1; } }
 
@@ -1754,6 +1799,20 @@ export class WorkflowWebviewPanel {
       opacity: 0.8;
     }
 
+    /* 4. CANCELLED = MUTED RED */
+    .graph-node.node-cancelled {
+      background: rgba(239, 68, 68, 0.15) !important;
+      border: 1.5px solid #ef4444 !important;
+      color: #fca5a5 !important;
+    }
+
+    /* 5. PAUSED = AMBER */
+    .graph-node.node-paused {
+      background: rgba(245, 158, 11, 0.18) !important;
+      border: 1.5px solid #f59e0b !important;
+      color: #fcd34d !important;
+    }
+
     .graph-node-dot {
       width: 8px;
       height: 8px;
@@ -1776,6 +1835,16 @@ export class WorkflowWebviewPanel {
     .graph-node.node-completed .graph-node-dot {
       background: #10b981;
       box-shadow: 0 0 6px #10b981;
+    }
+
+    .graph-node.node-cancelled .graph-node-dot {
+      background: #ef4444;
+      box-shadow: 0 0 6px #ef4444;
+    }
+
+    .graph-node.node-paused .graph-node-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 6px #f59e0b;
     }
 
     .graph-node.node-queued .graph-node-dot {
@@ -1888,6 +1957,16 @@ export class WorkflowWebviewPanel {
       border-left: 4px solid #ef4444;
     }
 
+    .chat-role-card.role-card-cancelled {
+      border-left: 4px solid #ef4444;
+      opacity: 0.85;
+    }
+
+    .chat-role-card.role-card-paused {
+      border-left: 4px solid #f59e0b;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.25);
+    }
+
     .chat-role-head {
       display: flex;
       justify-content: space-between;
@@ -1967,6 +2046,7 @@ export class WorkflowWebviewPanel {
 </head>
 <body class="${isChat ? 'chat-active' : ''} ${!isChat ? 'hub-open' : ''}">
   <script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
+<script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
 
   <!-- Top Header Bar -->
   <div class="header">
@@ -2303,7 +2383,7 @@ export class WorkflowWebviewPanel {
   </div>
 
   <!-- ==================== TAB 6: CHAT & SERIAL ORCHESTRATION CONSOLE ==================== -->
-  <div id="chatTab" class="tab-content" style="${isChat ? 'display: flex;' : 'display: none;'}">
+  <div id="chatTab" class="tab-content" style="${isChat ? 'display: block;' : 'display: none;'}">
     <div class="chat-console-wrapper">
       <!-- 1. Top Section: Mode Switcher, Active Model & Top-Right Serial Pipeline Graph -->
       <div class="chat-header-section">
@@ -2363,10 +2443,14 @@ export class WorkflowWebviewPanel {
                 </select>
               </div>
 
-              <!-- Status pill -->
+              <!-- Status pill & Controls -->
               <div id="chatWorkflowStatusContainer" style="display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--fg-muted);">
                 <span id="chatWorkflowStatusPill" class="badge badge-Queued" style="padding: 2px 7px; font-size: 10px;">Idle</span>
                 <span id="chatGoalSnippet" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">(No active task)</span>
+                <div id="chatWorkflowControls" style="display: none; align-items: center; gap: 4px; margin-left: 4px;">
+                  <button id="chatPauseResumeBtn" class="btn btn-secondary" onclick="pauseWorkflow()" style="font-size: 10.5px; padding: 2px 7px; height: 22px; line-height: 18px;" title="Pause execution">⏸ Pause</button>
+                  <button id="chatCancelBtn" class="btn btn-danger" onclick="cancelWorkflow()" style="font-size: 10.5px; padding: 2px 7px; height: 22px; line-height: 18px;" title="Cancel execution">✕ Cancel</button>
+                </div>
               </div>
             </div>
 
@@ -2395,7 +2479,7 @@ export class WorkflowWebviewPanel {
               <span style="font-size: 14px;">💬</span>
               <span><strong>Normal Text Mode:</strong> Chatting directly with <strong id="chatBannerModelName" style="color: #38bdf8;">ag/gemini-3.8-flash-high</strong> from 9 Router.</span>
             </div>
-            <div style="display: gap: 6px; align-items: center;">
+            <div style="display: flex; gap: 6px; align-items: center;">
               <span class="badge" style="background: rgba(34,197,94,0.15); color: #4ade80; font-size: 10px;">1-on-1 Text</span>
               <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 10px;">Tools Active</span>
               <button class="btn btn-secondary" onclick="openChatModelPicker()" style="font-size: 10.5px; padding: 2px 7px;">Pick Different Model</button>
@@ -3556,10 +3640,31 @@ let vscode;
         countText.innerText = 'Step ' + (wf.activeStepIndex + 1) + ' of ' + total + ' (' + completed + ' done)';
       }
 
+      const ctrlBox = document.getElementById('chatWorkflowControls');
+      const pauseResumeBtn = document.getElementById('chatPauseResumeBtn');
+      const cancelBtn = document.getElementById('chatCancelBtn');
+      if (ctrlBox && pauseResumeBtn) {
+        if (wf && wf.status === 'Running') {
+          ctrlBox.style.display = 'inline-flex';
+          pauseResumeBtn.innerHTML = '⏸ Pause';
+          pauseResumeBtn.onclick = pauseWorkflow;
+          pauseResumeBtn.title = 'Pause workflow execution';
+        } else if (wf && wf.status === 'Paused') {
+          ctrlBox.style.display = 'inline-flex';
+          pauseResumeBtn.innerHTML = '▶ Resume';
+          pauseResumeBtn.onclick = resumeWorkflow;
+          pauseResumeBtn.title = 'Resume workflow execution';
+        } else {
+          ctrlBox.style.display = 'none';
+        }
+      }
+
       container.innerHTML = wf.steps.map(function(step, idx) {
         const isRunning = idx === wf.activeStepIndex && wf.status === 'Running';
         const isCompleted = step.status === 'Completed';
         const isFailed = step.status === 'Failed';
+        const isCancelled = step.status === 'Cancelled' || wf.status === 'Cancelled';
+        const isPaused = (idx === wf.activeStepIndex && wf.status === 'Paused') || step.status === 'Paused';
 
         let nodeClass = 'node-queued';
         if (isRunning) {
@@ -3568,12 +3673,16 @@ let vscode;
           nodeClass = 'node-completed';
         } else if (isFailed) {
           nodeClass = 'node-failed';
+        } else if (isCancelled) {
+          nodeClass = 'node-cancelled';
+        } else if (isPaused) {
+          nodeClass = 'node-paused';
         }
 
         const isLast = idx === wf.steps.length - 1;
         const arrowClass = isCompleted ? 'arrow-completed' : (isRunning ? 'arrow-active' : '');
 
-            "<button class=\\"btn btn-secondary\\" style=\\"padding: 2px 8px; font-size: 11px;\\" onclick=\\"openStepModal('" + step.id + "')\\">Inspect Prompt</button>" +
+        return '<div class="graph-node ' + nodeClass + '" onclick="openStepModal(\\'' + escapeHtml(step.id) + '\\')" style="cursor: pointer;" title="Click to inspect role prompt">' +
           '<span class="graph-node-dot"></span>' +
           '<span style="font-weight: 600;">#' + (idx + 1) + ' ' + escapeHtml(step.roleName) + '</span>' +
           '<span style="font-size: 10px; opacity: 0.8; max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(step.assignedModel) + '</span>' +
@@ -3590,18 +3699,46 @@ let vscode;
       if (welcome) welcome.style.display = 'none';
 
       wf.steps.forEach(function(step, idx) {
+        const isCancelled = step.status === 'Cancelled' || wf.status === 'Cancelled';
+        const isPaused = (idx === wf.activeStepIndex && wf.status === 'Paused') || step.status === 'Paused';
         const isRunning = idx === wf.activeStepIndex && wf.status === 'Running';
         const isCompleted = step.status === 'Completed';
         const isFailed = step.status === 'Failed';
-        const isQueued = !isRunning && !isCompleted && !isFailed;
+        const isQueued = !isRunning && !isCompleted && !isFailed && !isCancelled && !isPaused;
 
-        const borderClass = isRunning ? 'role-card-running' : (isCompleted ? 'role-card-completed' : (isFailed ? 'role-card-failed' : 'role-card-pending'));
-        const badgeClass = isRunning ? 'badge-Running' : (isCompleted ? 'badge-Completed' : (isFailed ? 'badge-Failed' : 'badge-Queued'));
-        const statusLabel = isRunning ? '● Running' : (isCompleted ? '✓ Completed' : (isFailed ? '✕ Failed' : 'Waiting'));
+        let borderClass = 'role-card-pending';
+        let badgeClass = 'badge-Queued';
+        let statusLabel = 'Waiting';
+
+        if (isRunning) {
+          borderClass = 'role-card-running';
+          badgeClass = 'badge-Running';
+          statusLabel = '● Running';
+        } else if (isCompleted) {
+          borderClass = 'role-card-completed';
+          badgeClass = 'badge-Completed';
+          statusLabel = '✓ Completed';
+        } else if (isFailed) {
+          borderClass = 'role-card-failed';
+          badgeClass = 'badge-Failed';
+          statusLabel = '✕ Failed';
+        } else if (isCancelled) {
+          borderClass = 'role-card-cancelled';
+          badgeClass = 'badge-Cancelled';
+          statusLabel = '✕ Cancelled';
+        } else if (isPaused) {
+          borderClass = 'role-card-paused';
+          badgeClass = 'badge-Paused';
+          statusLabel = '⏸ Paused';
+        }
 
         let descText = step.taskName || '';
         if (isCompleted) {
           descText = step.resultSummary ? (step.resultSummary.slice(0, 160) + '…') : (step.taskName + ' - Completed.');
+        } else if (isCancelled) {
+          descText = (step.roleName || 'Role') + ' - Execution stopped / cancelled.';
+        } else if (isPaused) {
+          descText = (step.roleName || 'Role') + ' - Execution paused.';
         } else if (isQueued) {
           const prevRole = idx > 0 ? wf.steps[idx - 1].roleName : '';
           descText = prevRole ? ('Waiting for ' + prevRole + '…') : 'Waiting in queue…';
@@ -3672,10 +3809,35 @@ let vscode;
         const isRunning = msg.status === 'Running';
         const isCompleted = msg.status === 'Completed';
         const isFailed = msg.status === 'Failed';
-        const isQueued = !isRunning && !isCompleted && !isFailed;
-        const borderClass = isRunning ? 'role-card-running' : (isCompleted ? 'role-card-completed' : (isFailed ? 'role-card-failed' : 'role-card-pending'));
-        const badgeClass = isRunning ? 'badge-Running' : (isCompleted ? 'badge-Completed' : (isFailed ? 'badge-Failed' : 'badge-Queued'));
-        const statusLabel = isRunning ? '● Running' : (isCompleted ? '✓ Completed' : (isFailed ? '✕ Failed' : 'Waiting'));
+        const isCancelled = msg.status === 'Cancelled';
+        const isPaused = msg.status === 'Paused';
+        const isQueued = !isRunning && !isCompleted && !isFailed && !isCancelled && !isPaused;
+
+        let borderClass = 'role-card-pending';
+        let badgeClass = 'badge-Queued';
+        let statusLabel = 'Waiting';
+
+        if (isRunning) {
+          borderClass = 'role-card-running';
+          badgeClass = 'badge-Running';
+          statusLabel = '● Running';
+        } else if (isCompleted) {
+          borderClass = 'role-card-completed';
+          badgeClass = 'badge-Completed';
+          statusLabel = '✓ Completed';
+        } else if (isFailed) {
+          borderClass = 'role-card-failed';
+          badgeClass = 'badge-Failed';
+          statusLabel = '✕ Failed';
+        } else if (isCancelled) {
+          borderClass = 'role-card-cancelled';
+          badgeClass = 'badge-Cancelled';
+          statusLabel = '✕ Cancelled';
+        } else if (isPaused) {
+          borderClass = 'role-card-paused';
+          badgeClass = 'badge-Paused';
+          statusLabel = '⏸ Paused';
+        }
         const logLines = (msg.logs || []).map(function(l) { return escapeHtml(l); }).join('\\n');
         const stepIdForModal = msg.stepId || (msg.id && msg.id.indexOf('role_step_') === 0 ? msg.id.substring('role_step_'.length) : (msg.id || ''));
 

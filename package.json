@@ -317,6 +317,20 @@
           "default": "",
           "scope": "window",
           "description": "Path to ffplay.exe for audio playback. Leave empty to auto-detect."
+        },
+        "antigravity.voice.bargeIn": {
+          "type": "boolean",
+          "default": false,
+          "scope": "window",
+          "description": "Allow interrupting the AI by speaking aloud while it is talking (voice barge-in). Disabled by default (Half-Duplex safe mode) to prevent speaker audio leakage from cutting off the AI in the middle of replies on laptop speakers. When disabled, the AI speaks completely uninterrupted, and you can interrupt anytime via the 'Interrupt AI' button or command."
+        },
+        "antigravity.voice.bargeInThreshold": {
+          "type": "number",
+          "default": 0.12,
+          "minimum": 0.05,
+          "maximum": 0.5,
+          "scope": "window",
+          "description": "RMS volume threshold for voice barge-in (0.05 to 0.50). Higher values require speaking louder to interrupt and prevent accidental cutoffs from background sounds or speaker echo."
         }
       }
     }

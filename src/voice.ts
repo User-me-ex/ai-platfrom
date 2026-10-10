@@ -222,7 +222,9 @@ export function startLiveConversation(
   echoCancellation?: boolean,
   echoDelayMs?: number,
   recordingsDir?: string,
-  ffmpegBin?: string
+  ffmpegBin?: string,
+  bargeInEnabled?: boolean,
+  bargeInThreshold?: number
 ): LiveCall {
   const normalizedKeys = (Array.isArray(apiKeys) ? apiKeys : [apiKeys])
     .map((k) => String(k || '').trim())
@@ -243,11 +245,10 @@ export function startLiveConversation(
       if (typeof part.text === 'string') {
         const t = part.text;
         if (
-          /<antigravity:[a-z_]+|\*\*TOOL:|TOOL:\s*(read|list|open|file|edit|search|shell|fetch|question|grep|web_search|search_web)|agent\s*tool/i.test(t) ||
-          /```[a-z]*|`{3,}/.test(t) ||
-          /(?:run_command|view_file|write_to_file|replace_file_content|multi_replace_file_content|list_dir|grep_search|open_file|search_web|read_url_content)\s*[\(\{]/i.test(t) ||
+          /<antigravity:[a-z_]+/i.test(t) ||
+          /\*\*TOOL:/i.test(t) ||
+          /(?:^|\n)\s*(?:\*\*)?TOOL:\s*(read|list|open|file|edit|search|shell|fetch|question|grep|web_search|search_web)/i.test(t) ||
           /<antigravity:tool_result/i.test(t) ||
-          /(?:executing\s+tool|running\s+command|inspecting\s+file|created\s+file|updating\s+file|writing\s+file|searched\s+for|reading\s+file|listing\s+dir|searching\s+(?:the\s+)?web|fetching\s+url)/i.test(t) ||
           /(?:<<<<|====|>>>>)/.test(t)
         ) {
           return true;
@@ -257,6 +258,11 @@ export function startLiveConversation(
     return false;
   }
 
+  const isBargeInActive = typeof bargeInEnabled === 'boolean' ? bargeInEnabled : false;
+  const effectiveBargeInThreshold = typeof bargeInThreshold === 'number'
+    ? bargeInThreshold
+    : (echoCancellation !== false ? 0.12 : 0.16);
+
   let talking = true;
   let muted = false;
   let stopped = false;
@@ -264,9 +270,11 @@ export function startLiveConversation(
   let mic: ChildProcess | undefined;
   let player: ChildProcess | undefined;
   const PLAY_BYTES_PER_MS = (24000 * 2) / 1000; // 24 kHz mono s16le = 48 bytes/ms
-  const ACOUSTIC_TAIL_MS = 60; // 60ms acoustic decay margin (imperceptible to human ear)
-  const getBargeInThreshold = (): number => (aec ? 0.04 : 0.065); // adaptive threshold for conversational interruption
+  const ACOUSTIC_TAIL_MS = 120; // 120ms acoustic decay margin
+  let playbackStartTime = 0;
   let playbackEndTime = 0;
+  let consecutiveSpeechChunks = 0;
+  const REQUIRED_SPEECH_CHUNKS = 5; // ~160ms of continuous, sustained speech required to interrupt
 
   function isAiSpeakingNow(): boolean {
     return Date.now() < playbackEndTime + ACOUSTIC_TAIL_MS;
@@ -416,7 +424,22 @@ export function startLiveConversation(
 
       if (aiSpeaking) {
         // AI is actively speaking out of the speakers right now.
-        // Process through AEC if active:
+        if (!isBargeInActive) {
+          // Half-duplex safe mode: 100% immune to speaker feedback and false interruptions!
+          // AI can never be cut off mid-reply by its own speaker audio or ambient noise.
+          // User can interrupt anytime using the "Interrupt AI" button or command.
+          consecutiveSpeechChunks = 0;
+          return;
+        }
+
+        // Barge-in enabled: Check if user is deliberately speaking loudly to interrupt AI.
+        // 500ms initial grace period after AI starts speaking to reject playback startup transients.
+        const inGracePeriod = Date.now() < playbackStartTime + 500;
+        if (inGracePeriod) {
+          consecutiveSpeechChunks = 0;
+          return;
+        }
+
         let processedChunk = chunk;
         if (aec) {
           if (aecOut.length < chunk.length) aecOut = Buffer.alloc(chunk.length);
@@ -424,25 +447,25 @@ export function startLiveConversation(
           if (n > 0) processedChunk = aecOut.subarray(0, n);
         }
 
-        // Check if user is speaking to interrupt AI (barge-in):
         const energy = computeRms(processedChunk);
-        const threshold = getBargeInThreshold();
-        if (energy > threshold) {
-          handlers.onStatus('log', `voice: user speech interruption detected (RMS ${energy.toFixed(3)} > ${threshold}) — stopping AI playback`);
-          stopPlayback();
-          aiTurnAudioChunks = [];
-          handlers.onInterrupted?.();
-          sendRealtimeAudio(processedChunk);
+        if (energy > effectiveBargeInThreshold) {
+          consecutiveSpeechChunks++;
+          if (consecutiveSpeechChunks >= REQUIRED_SPEECH_CHUNKS) {
+            handlers.onStatus('log', `voice: sustained user speech interruption detected (RMS ${energy.toFixed(3)} > ${effectiveBargeInThreshold}) — stopping AI playback`);
+            stopPlayback();
+            aiTurnAudioChunks = [];
+            handlers.onInterrupted?.();
+            sendRealtimeAudio(processedChunk);
+            consecutiveSpeechChunks = 0;
+          }
+        } else {
+          consecutiveSpeechChunks = 0;
         }
-        // While AI is speaking and user is NOT interrupting:
-        // Do NOT send the speaker echo into Gemini Live.
-        // This 100% prevents the AI from hearing itself and entering a self-reply loop!
         return;
       }
 
       // Normal mode (AI is NOT speaking):
-      // The moment the AI stops speaking (within 60ms acoustic decay),
-      // the microphone is 100% active with ZERO DELAY!
+      consecutiveSpeechChunks = 0;
       let sendBuf = chunk;
       if (aec) {
         if (aecOut.length < chunk.length) aecOut = Buffer.alloc(chunk.length);
@@ -472,7 +495,7 @@ export function startLiveConversation(
     if (!ffplayBin) return undefined;
     const p = spawn(
       ffplayBin,
-      ['-nodisp', '-autoexit', '-loglevel', 'error', '-flags', 'low_delay', '-fflags', 'nobuffer', '-probesize', '32', '-analyzeduration', '0', '-f', 's16le', '-ar', '24000', '-ch_layout', 'mono', '-i', '-'],
+      ['-nodisp', '-loglevel', 'error', '-flags', 'low_delay', '-fflags', 'nobuffer', '-probesize', '32', '-analyzeduration', '0', '-f', 's16le', '-ar', '24000', '-ch_layout', 'mono', '-i', '-'],
       { windowsHide: true, stdio: ['pipe', 'ignore', 'pipe'] }
     );
     let stderrBuf = '';
@@ -500,6 +523,7 @@ export function startLiveConversation(
     if (playbackEndTime > now) {
       playbackEndTime += durationMs;
     } else {
+      playbackStartTime = now;
       playbackEndTime = now + durationMs;
     }
 
@@ -515,6 +539,8 @@ export function startLiveConversation(
 
   const stopPlayback = (): void => {
     playbackEndTime = 0;
+    playbackStartTime = 0;
+    consecutiveSpeechChunks = 0;
     if (player && !player.killed) {
       try {
         player.kill();

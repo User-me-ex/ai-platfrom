@@ -4,6 +4,7 @@ import { SharedProjectState } from './sharedState';
 import { executeRoleTask, RunnerCallbacks } from './modelRunner';
 import { getRole } from '../roles/roleRegistry';
 import { streamCompletion, runShell } from '../chat';
+import { check9RouterStatus } from '../models';
 
 export interface OrchestratorEvents {
   onWorkflowUpdated(workflow: WorkflowState): void;
@@ -17,6 +18,7 @@ export class SerialOrchestrator {
   private currentWorkflow: WorkflowState | null = null;
   private isPaused: boolean = false;
   private isCancelled: boolean = false;
+  private abortController: AbortController | null = null;
   private events: OrchestratorEvents;
   private context: vscode.ExtensionContext;
   private isRunning: boolean = false;
@@ -41,8 +43,12 @@ export class SerialOrchestrator {
   public pause(): void {
     if (!this.isPaused) {
       this.isPaused = true;
-      if (this.currentWorkflow && this.isRunning) {
+      if (this.currentWorkflow && (this.isRunning || this.currentWorkflow.status === 'Running')) {
         this.currentWorkflow.status = 'Paused';
+        const activeStep = this.currentWorkflow.steps[this.currentWorkflow.activeStepIndex];
+        if (activeStep && activeStep.status === 'Running') {
+          activeStep.progressState = 'Idle';
+        }
         this.events.onWorkflowUpdated(this.currentWorkflow);
       }
       this.events.onLog('[orchestrator] workflow execution paused by user');
@@ -52,8 +58,12 @@ export class SerialOrchestrator {
   public resume(): void {
     if (this.isPaused) {
       this.isPaused = false;
-      if (this.currentWorkflow && this.isRunning) {
+      if (this.currentWorkflow && (this.isRunning || this.currentWorkflow.status === 'Paused')) {
         this.currentWorkflow.status = 'Running';
+        const activeStep = this.currentWorkflow.steps[this.currentWorkflow.activeStepIndex];
+        if (activeStep && activeStep.status === 'Running') {
+          activeStep.progressState = 'Planning';
+        }
         this.events.onWorkflowUpdated(this.currentWorkflow);
       }
       this.events.onLog('[orchestrator] workflow execution resumed');
@@ -61,19 +71,31 @@ export class SerialOrchestrator {
   }
 
   public cancel(): void {
-    if (this.isRunning) {
-      this.isCancelled = true;
-      if (this.currentWorkflow) {
-        this.currentWorkflow.status = 'Cancelled';
-        const activeStep = this.currentWorkflow.steps[this.currentWorkflow.activeStepIndex];
-        if (activeStep && activeStep.status === 'Running') {
-          activeStep.status = 'Cancelled';
-          activeStep.endTime = Date.now();
-        }
-        this.events.onWorkflowUpdated(this.currentWorkflow);
-      }
-      this.events.onLog('[orchestrator] workflow execution cancelled by user');
+    this.isCancelled = true;
+    this.isPaused = false;
+    if (this.abortController) {
+      try {
+        this.abortController.abort();
+      } catch {}
     }
+    if (this.currentWorkflow && (this.currentWorkflow.status === 'Running' || this.currentWorkflow.status === 'Paused')) {
+      this.currentWorkflow.status = 'Cancelled';
+      this.currentWorkflow.endTime = Date.now();
+      const activeStep = this.currentWorkflow.steps[this.currentWorkflow.activeStepIndex];
+      if (activeStep && (activeStep.status === 'Running' || activeStep.status === 'Queued')) {
+        activeStep.status = 'Cancelled';
+        activeStep.endTime = Date.now();
+        activeStep.progressState = 'Idle';
+      }
+      for (let i = this.currentWorkflow.activeStepIndex + 1; i < this.currentWorkflow.steps.length; i++) {
+        if (this.currentWorkflow.steps[i].status === 'Queued') {
+          this.currentWorkflow.steps[i].status = 'Cancelled';
+          this.currentWorkflow.steps[i].progressState = 'Idle';
+        }
+      }
+      this.events.onWorkflowUpdated(this.currentWorkflow);
+    }
+    this.events.onLog('[orchestrator] workflow execution cancelled by user');
   }
 
   public insertStep(index: number, step: TaskStep): void {
@@ -105,9 +127,19 @@ export class SerialOrchestrator {
       throw new Error('Another workflow is currently executing. Execution is strictly serial.');
     }
 
+    // Verify 9Router is running in background before starting
+    const routerCheck = await check9RouterStatus(baseUrl, apiKey, 3000);
+    if (!routerCheck.online) {
+      const errMsg = `9Router is not enabled or running in the background (${baseUrl}). Please start/enable 9Router before starting the autonomous workflow.`;
+      this.events.onLog(`\n[orchestrator] [ERROR] ${errMsg}`);
+      vscode.window.showErrorMessage(errMsg);
+      throw new Error(errMsg);
+    }
+
     this.isRunning = true;
     this.isPaused = false;
     this.isCancelled = false;
+    this.abortController = new AbortController();
 
     const workflowId = `wf_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
     const sharedState = new SharedProjectState(workspaceRoot, userGoal);
@@ -144,7 +176,7 @@ export class SerialOrchestrator {
 
         // Handle pause
         while (this.isPaused && !this.isCancelled) {
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          await new Promise((resolve) => setTimeout(resolve, 400));
         }
         if (this.isCancelled) {
           this.currentWorkflow.status = 'Cancelled';
@@ -198,7 +230,7 @@ export class SerialOrchestrator {
           }
         };
 
-        // EXECUTE ACTIVE ROLE SERIALLY
+        // EXECUTE ACTIVE ROLE SERIALLY (respects abort signal and pause state)
         const result = await executeRoleTask(
           baseUrl,
           apiKey,
@@ -206,8 +238,28 @@ export class SerialOrchestrator {
           currentStep,
           sharedState,
           this.currentWorkflow.steps,
-          callbacks
+          callbacks,
+          15,
+          this.abortController?.signal,
+          () => this.isPaused
         );
+
+        if (this.isCancelled || result.cancelled) {
+          currentStep.status = 'Cancelled';
+          currentStep.endTime = Date.now();
+          currentStep.progressState = 'Idle';
+          this.currentWorkflow.status = 'Cancelled';
+          this.currentWorkflow.endTime = Date.now();
+          for (let i = stepIndex + 1; i < this.currentWorkflow.steps.length; i++) {
+            if (this.currentWorkflow.steps[i].status === 'Queued') {
+              this.currentWorkflow.steps[i].status = 'Cancelled';
+              this.currentWorkflow.steps[i].progressState = 'Idle';
+            }
+          }
+          this.events.onWorkflowUpdated(this.currentWorkflow);
+          this.events.onLog(`[orchestrator] step #${stepIndex + 1} (${roleDef.name}) was cancelled.`);
+          break;
+        }
 
         currentStep.endTime = Date.now();
         currentStep.filesChanged = result.filesChanged;
@@ -252,7 +304,7 @@ export class SerialOrchestrator {
       }
 
       // FINAL VERIFICATION STAGE
-      if (!this.isCancelled && this.currentWorkflow.status !== 'Failed') {
+      if (!this.isCancelled && this.currentWorkflow.status !== 'Failed' && this.currentWorkflow.status !== 'Cancelled') {
         this.events.onLog(`\n========================================`);
         this.events.onLog(`[orchestrator] INITIATING FINAL VERIFICATION STAGE`);
         this.events.onLog(`========================================`);
@@ -302,10 +354,17 @@ export class SerialOrchestrator {
         this.events.onWorkflowUpdated(this.currentWorkflow);
         this.events.onLog(`[orchestrator] WORKFLOW COMPLETE: ${verification.summary}`);
       }
+
+      if (this.isCancelled || this.currentWorkflow.status === 'Cancelled') {
+        this.currentWorkflow.status = 'Cancelled';
+        this.currentWorkflow.endTime = Date.now();
+        this.events.onWorkflowUpdated(this.currentWorkflow);
+        this.events.onLog(`[orchestrator] WORKFLOW CANCELLED: All remaining tasks halted.`);
+      }
     } finally {
       this.isRunning = false;
       this.isPaused = false;
-      this.isCancelled = false;
+      this.abortController = null;
     }
 
     return this.currentWorkflow;

@@ -987,10 +987,31 @@ let vscode;
         countText.innerText = 'Step ' + (wf.activeStepIndex + 1) + ' of ' + total + ' (' + completed + ' done)';
       }
 
+      const ctrlBox = document.getElementById('chatWorkflowControls');
+      const pauseResumeBtn = document.getElementById('chatPauseResumeBtn');
+      const cancelBtn = document.getElementById('chatCancelBtn');
+      if (ctrlBox && pauseResumeBtn) {
+        if (wf && wf.status === 'Running') {
+          ctrlBox.style.display = 'inline-flex';
+          pauseResumeBtn.innerHTML = '⏸ Pause';
+          pauseResumeBtn.onclick = pauseWorkflow;
+          pauseResumeBtn.title = 'Pause workflow execution';
+        } else if (wf && wf.status === 'Paused') {
+          ctrlBox.style.display = 'inline-flex';
+          pauseResumeBtn.innerHTML = '▶ Resume';
+          pauseResumeBtn.onclick = resumeWorkflow;
+          pauseResumeBtn.title = 'Resume workflow execution';
+        } else {
+          ctrlBox.style.display = 'none';
+        }
+      }
+
       container.innerHTML = wf.steps.map(function(step, idx) {
         const isRunning = idx === wf.activeStepIndex && wf.status === 'Running';
         const isCompleted = step.status === 'Completed';
         const isFailed = step.status === 'Failed';
+        const isCancelled = step.status === 'Cancelled' || wf.status === 'Cancelled';
+        const isPaused = (idx === wf.activeStepIndex && wf.status === 'Paused') || step.status === 'Paused';
 
         let nodeClass = 'node-queued';
         if (isRunning) {
@@ -999,12 +1020,16 @@ let vscode;
           nodeClass = 'node-completed';
         } else if (isFailed) {
           nodeClass = 'node-failed';
+        } else if (isCancelled) {
+          nodeClass = 'node-cancelled';
+        } else if (isPaused) {
+          nodeClass = 'node-paused';
         }
 
         const isLast = idx === wf.steps.length - 1;
         const arrowClass = isCompleted ? 'arrow-completed' : (isRunning ? 'arrow-active' : '');
 
-            "<button class=\"btn btn-secondary\" style=\"padding: 2px 8px; font-size: 11px;\" onclick=\"openStepModal('" + step.id + "')\">Inspect Prompt</button>" +
+        return '<div class="graph-node ' + nodeClass + '" onclick="openStepModal(\'' + escapeHtml(step.id) + '\')" style="cursor: pointer;" title="Click to inspect role prompt">' +
           '<span class="graph-node-dot"></span>' +
           '<span style="font-weight: 600;">#' + (idx + 1) + ' ' + escapeHtml(step.roleName) + '</span>' +
           '<span style="font-size: 10px; opacity: 0.8; max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(step.assignedModel) + '</span>' +
@@ -1021,18 +1046,46 @@ let vscode;
       if (welcome) welcome.style.display = 'none';
 
       wf.steps.forEach(function(step, idx) {
+        const isCancelled = step.status === 'Cancelled' || wf.status === 'Cancelled';
+        const isPaused = (idx === wf.activeStepIndex && wf.status === 'Paused') || step.status === 'Paused';
         const isRunning = idx === wf.activeStepIndex && wf.status === 'Running';
         const isCompleted = step.status === 'Completed';
         const isFailed = step.status === 'Failed';
-        const isQueued = !isRunning && !isCompleted && !isFailed;
+        const isQueued = !isRunning && !isCompleted && !isFailed && !isCancelled && !isPaused;
 
-        const borderClass = isRunning ? 'role-card-running' : (isCompleted ? 'role-card-completed' : (isFailed ? 'role-card-failed' : 'role-card-pending'));
-        const badgeClass = isRunning ? 'badge-Running' : (isCompleted ? 'badge-Completed' : (isFailed ? 'badge-Failed' : 'badge-Queued'));
-        const statusLabel = isRunning ? '● Running' : (isCompleted ? '✓ Completed' : (isFailed ? '✕ Failed' : 'Waiting'));
+        let borderClass = 'role-card-pending';
+        let badgeClass = 'badge-Queued';
+        let statusLabel = 'Waiting';
+
+        if (isRunning) {
+          borderClass = 'role-card-running';
+          badgeClass = 'badge-Running';
+          statusLabel = '● Running';
+        } else if (isCompleted) {
+          borderClass = 'role-card-completed';
+          badgeClass = 'badge-Completed';
+          statusLabel = '✓ Completed';
+        } else if (isFailed) {
+          borderClass = 'role-card-failed';
+          badgeClass = 'badge-Failed';
+          statusLabel = '✕ Failed';
+        } else if (isCancelled) {
+          borderClass = 'role-card-cancelled';
+          badgeClass = 'badge-Cancelled';
+          statusLabel = '✕ Cancelled';
+        } else if (isPaused) {
+          borderClass = 'role-card-paused';
+          badgeClass = 'badge-Paused';
+          statusLabel = '⏸ Paused';
+        }
 
         let descText = step.taskName || '';
         if (isCompleted) {
           descText = step.resultSummary ? (step.resultSummary.slice(0, 160) + '…') : (step.taskName + ' - Completed.');
+        } else if (isCancelled) {
+          descText = (step.roleName || 'Role') + ' - Execution stopped / cancelled.';
+        } else if (isPaused) {
+          descText = (step.roleName || 'Role') + ' - Execution paused.';
         } else if (isQueued) {
           const prevRole = idx > 0 ? wf.steps[idx - 1].roleName : '';
           descText = prevRole ? ('Waiting for ' + prevRole + '…') : 'Waiting in queue…';
@@ -1103,10 +1156,35 @@ let vscode;
         const isRunning = msg.status === 'Running';
         const isCompleted = msg.status === 'Completed';
         const isFailed = msg.status === 'Failed';
-        const isQueued = !isRunning && !isCompleted && !isFailed;
-        const borderClass = isRunning ? 'role-card-running' : (isCompleted ? 'role-card-completed' : (isFailed ? 'role-card-failed' : 'role-card-pending'));
-        const badgeClass = isRunning ? 'badge-Running' : (isCompleted ? 'badge-Completed' : (isFailed ? 'badge-Failed' : 'badge-Queued'));
-        const statusLabel = isRunning ? '● Running' : (isCompleted ? '✓ Completed' : (isFailed ? '✕ Failed' : 'Waiting'));
+        const isCancelled = msg.status === 'Cancelled';
+        const isPaused = msg.status === 'Paused';
+        const isQueued = !isRunning && !isCompleted && !isFailed && !isCancelled && !isPaused;
+
+        let borderClass = 'role-card-pending';
+        let badgeClass = 'badge-Queued';
+        let statusLabel = 'Waiting';
+
+        if (isRunning) {
+          borderClass = 'role-card-running';
+          badgeClass = 'badge-Running';
+          statusLabel = '● Running';
+        } else if (isCompleted) {
+          borderClass = 'role-card-completed';
+          badgeClass = 'badge-Completed';
+          statusLabel = '✓ Completed';
+        } else if (isFailed) {
+          borderClass = 'role-card-failed';
+          badgeClass = 'badge-Failed';
+          statusLabel = '✕ Failed';
+        } else if (isCancelled) {
+          borderClass = 'role-card-cancelled';
+          badgeClass = 'badge-Cancelled';
+          statusLabel = '✕ Cancelled';
+        } else if (isPaused) {
+          borderClass = 'role-card-paused';
+          badgeClass = 'badge-Paused';
+          statusLabel = '⏸ Paused';
+        }
         const logLines = (msg.logs || []).map(function(l) { return escapeHtml(l); }).join('\\n');
         const stepIdForModal = msg.stepId || (msg.id && msg.id.indexOf('role_step_') === 0 ? msg.id.substring('role_step_'.length) : (msg.id || ''));
 

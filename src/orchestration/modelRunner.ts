@@ -17,6 +17,7 @@ export interface ExecutionResult {
   decisionsMade: string[];
   issuesIdentified: string[];
   error?: string;
+  cancelled?: boolean;
 }
 
 /**
@@ -119,7 +120,9 @@ export async function executeRoleTask(
   sharedState: SharedProjectState,
   allSteps: TaskStep[],
   callbacks: RunnerCallbacks,
-  maxRounds: number = 15
+  maxRounds: number = 15,
+  abortSignal?: AbortSignal,
+  isPaused?: () => boolean
 ): Promise<ExecutionResult> {
   const candidateModels = [role.primaryModel, ...(role.fallbackModels || [])];
   let modelIndex = 0;
@@ -166,8 +169,37 @@ export async function executeRoleTask(
   const roots = [sharedState.workspaceRoot];
   const policy = role.toolPermissions || { allowShell: true, allowVscode: true, allowFiles: true };
 
+  const checkCancelled = (): ExecutionResult | null => {
+    if (abortSignal?.aborted) {
+      return {
+        success: false,
+        finalOutput: 'Task cancelled by user.',
+        filesChanged: Array.from(changedFiles),
+        contractsDiscovered: discoveredContracts,
+        decisionsMade: decisions,
+        issuesIdentified: issues,
+        error: 'Execution cancelled by user',
+        cancelled: true
+      };
+    }
+    return null;
+  };
+
+  const waitIfPaused = async (): Promise<ExecutionResult | null> => {
+    while (isPaused && isPaused()) {
+      if (abortSignal?.aborted) {
+        return checkCancelled();
+      }
+      await new Promise((r) => setTimeout(r, 400));
+    }
+    return checkCancelled();
+  };
+
   // Loop across fallback model chain
   while (modelIndex < candidateModels.length) {
+    const earlyCancel = await waitIfPaused();
+    if (earlyCancel) return earlyCancel;
+
     const currentModel = candidateModels[modelIndex];
     step.assignedModel = currentModel;
     callbacks.onProgress('Planning', undefined, `Running on ${currentModel}`);
@@ -179,6 +211,9 @@ export async function executeRoleTask(
     const MAX_TEMP_RETRIES = 2;
 
     while (currentModelRounds < maxRounds) {
+      const roundCancel = await waitIfPaused();
+      if (roundCancel) return roundCancel;
+
       currentModelRounds++;
 
       // Progress state estimation
@@ -199,7 +234,8 @@ export async function executeRoleTask(
             messages: conversationMessages,
             temperature: role.temperature ?? 0.2,
             maxTokens: role.maxTokens ?? 8192,
-            tools: ANTIGRAVITY_TOOLS
+            tools: ANTIGRAVITY_TOOLS,
+            signal: abortSignal
           },
           (delta) => {
             rawDelta += delta;
@@ -209,6 +245,10 @@ export async function executeRoleTask(
         toolCalls = response.toolCalls;
       } catch (err) {
         streamError = err;
+      }
+
+      if (abortSignal?.aborted) {
+        return checkCancelled()!;
       }
 
       // Handle stream errors
@@ -289,6 +329,9 @@ export async function executeRoleTask(
         callbacks.onProgress('Analyzing', undefined, 'Inspecting files and schemas');
       }
 
+      const preToolsCancel = await waitIfPaused();
+      if (preToolsCancel) return preToolsCancel;
+
       callbacks.onLog(`[role:${role.id}] executing tools: ${toolNames.join(', ')}`);
       const results = await executeTools(rawDelta, roots, policy, toolCalls);
 
@@ -338,6 +381,9 @@ export async function executeRoleTask(
           .join('\n');
         conversationMessages.push({ role: 'user', content: feed });
       }
+
+      const postToolsCancel = await waitIfPaused();
+      if (postToolsCancel) return postToolsCancel;
     }
 
     if (modelSuccess) {

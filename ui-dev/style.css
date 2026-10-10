@@ -353,6 +353,8 @@
     .badge-Completed { background: var(--badge-completed); color: #fff; }
     .badge-Queued { background: var(--badge-queued); color: #fff; }
     .badge-Failed { background: var(--badge-failed); color: #fff; }
+    .badge-Cancelled { background: #ef4444; color: #fff; }
+    .badge-Paused { background: #f59e0b; color: #000; font-weight: 700; }
     .badge-Fallback { background: var(--badge-fallback); color: #000; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.65; } 100% { opacity: 1; } }
 
@@ -794,6 +796,20 @@
       opacity: 0.8;
     }
 
+    /* 4. CANCELLED = MUTED RED */
+    .graph-node.node-cancelled {
+      background: rgba(239, 68, 68, 0.15) !important;
+      border: 1.5px solid #ef4444 !important;
+      color: #fca5a5 !important;
+    }
+
+    /* 5. PAUSED = AMBER */
+    .graph-node.node-paused {
+      background: rgba(245, 158, 11, 0.18) !important;
+      border: 1.5px solid #f59e0b !important;
+      color: #fcd34d !important;
+    }
+
     .graph-node-dot {
       width: 8px;
       height: 8px;
@@ -816,6 +832,16 @@
     .graph-node.node-completed .graph-node-dot {
       background: #10b981;
       box-shadow: 0 0 6px #10b981;
+    }
+
+    .graph-node.node-cancelled .graph-node-dot {
+      background: #ef4444;
+      box-shadow: 0 0 6px #ef4444;
+    }
+
+    .graph-node.node-paused .graph-node-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 6px #f59e0b;
     }
 
     .graph-node.node-queued .graph-node-dot {
@@ -926,6 +952,16 @@
 
     .chat-role-card.role-card-failed {
       border-left: 4px solid #ef4444;
+    }
+
+    .chat-role-card.role-card-cancelled {
+      border-left: 4px solid #ef4444;
+      opacity: 0.85;
+    }
+
+    .chat-role-card.role-card-paused {
+      border-left: 4px solid #f59e0b;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.25);
     }
 
     .chat-role-head {

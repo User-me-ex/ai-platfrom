@@ -3,7 +3,7 @@ import * as cp from 'child_process';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
-import { catalogModelInfos, fetchRouterModels, mergeModels, getBidiLiveModels, UnifiedModelCatalog, type ModelInfo } from './models';
+import { catalogModelInfos, fetchRouterModels, check9RouterStatus, mergeModels, getBidiLiveModels, UnifiedModelCatalog, type ModelInfo } from './models';
 import { agentSystem, voiceAgentSystem, executeTools, hasToolBlocks, streamCompletion, stripToolBlocks, toolBlockAwareAppender, ANTIGRAVITY_TOOLS, type ChatMessage, type NativeToolCall } from './chat';
 import * as voice from './voice';
 import { SerialOrchestrator } from './orchestration/orchestrator';
@@ -462,7 +462,15 @@ export async function configureGeminiApiKeys(context: vscode.ExtensionContext): 
   }
 }
 
-function voiceSettings(): { liveModel: string; ttsVoice: string; inputDevice?: string; echoCancellation: boolean; echoDelayMs: number } {
+function voiceSettings(): {
+  liveModel: string;
+  ttsVoice: string;
+  inputDevice?: string;
+  echoCancellation: boolean;
+  echoDelayMs: number;
+  bargeIn: boolean;
+  bargeInThreshold: number;
+} {
   const cfg = vscode.workspace.getConfiguration('antigravity.voice');
   const dev = (cfg.get<string>('inputDevice') ?? '').trim();
   return {
@@ -470,7 +478,9 @@ function voiceSettings(): { liveModel: string; ttsVoice: string; inputDevice?: s
     ttsVoice: cfg.get<string>('ttsVoice') || voice.VOICE_DEFAULT_VOICE,
     inputDevice: dev || undefined,
     echoCancellation: cfg.get<boolean>('echoCancellation') ?? true,
-    echoDelayMs: cfg.get<number>('echoDelayMs') ?? 120
+    echoDelayMs: cfg.get<number>('echoDelayMs') ?? 120,
+    bargeIn: cfg.get<boolean>('bargeIn') ?? false,
+    bargeInThreshold: cfg.get<number>('bargeInThreshold') ?? 0.12
   };
 }
 
@@ -557,6 +567,7 @@ async function toggleVoiceMode(context: vscode.ExtensionContext, catalog: ModelI
   chatOutput.appendLine(`ffplay: ${ffplay ? 'found (raw 24 kHz PCM playback)' : 'NOT FOUND — no audio output'}`);
   const micDev = voice.resolveMicDevice(vs.inputDevice);
   chatOutput.appendLine(`echo cancellation: ${vs.echoCancellation ? 'AEC3 in-process (removes the AI repeating its own words)' : 'off'}`);
+  chatOutput.appendLine(`barge-in: ${vs.bargeIn ? `active (threshold ${vs.bargeInThreshold})` : 'off (Half-Duplex safe mode: AI speaks completely uninterrupted)'}`);
   chatOutput.appendLine(`mic device: ${micDev.device}${micDev.note ? ` — ${micDev.note}` : ''}`);
   if (micDev.device === 'default' && !micDev.note) {
     chatOutput.appendLine('NOTE: if the AI keeps repeating your/its own words, the Windows DEFAULT recording device is usually a speaker-mic loop. Set antigravity.voice.inputDevice to a real microphone (run "9 Router: Voice: List audio devices").');
@@ -636,11 +647,17 @@ async function toggleVoiceMode(context: vscode.ExtensionContext, catalog: ModelI
         const hasRunCmd = standardCalls.some((c) => c.name === 'run_command' || c.name === 'shell');
         const hasEdits = standardCalls.some((c) => c.name === 'replace_file_content' || c.name === 'write_to_file' || c.name === 'multi_replace_file_content');
         const statusMsg = orchCalls.length
-          ? (orchCalls.some((c) => c.name === 'auto_assign_best_models')
+          ? (orchCalls.some((c) => c.name === 'cancel_workflow')
+              ? 'Voice AI cancelling workflow…'
+              : orchCalls.some((c) => c.name === 'pause_workflow')
+              ? 'Voice AI pausing workflow…'
+              : orchCalls.some((c) => c.name === 'resume_workflow')
+              ? 'Voice AI resuming workflow…'
+              : orchCalls.some((c) => c.name === 'auto_assign_best_models')
               ? 'Voice AI auto-assigning best 9 Router models for all roles…'
               : orchCalls.some((c) => c.name === 'configure_role_models')
               ? 'Voice AI configuring role models…'
-              : orchCalls.some((c) => c.name === 'list_roles' || c.name === 'list_router_models')
+              : orchCalls.some((c) => c.name === 'list_roles' || c.name === 'list_router_models' || c.name === 'check_router_status')
               ? 'Voice AI inspecting 9 Router roles & models…'
               : 'Voice AI orchestrating serial tasks…')
           : hasRunCmd
@@ -819,7 +836,9 @@ async function toggleVoiceMode(context: vscode.ExtensionContext, catalog: ModelI
     vs.echoCancellation,
     vs.echoDelayMs,
     voice.getRecordingsDir(),
-    voice.resolveFfmpeg()
+    voice.resolveFfmpeg(),
+    vs.bargeIn,
+    vs.bargeInThreshold
   );
 
   voiceBtn.show();
@@ -1650,6 +1669,13 @@ export function activate(context: vscode.ExtensionContext): void {
       : [process.cwd()];
 
     const { baseUrl, apiKey } = settings();
+
+    const routerCheck = await check9RouterStatus(baseUrl, apiKey, 3000);
+    if (!routerCheck.online) {
+      vscode.window.showErrorMessage(`9Router is not enabled or running in the background (${baseUrl}). Please start/enable 9Router before running the autonomous workflow.`);
+      return;
+    }
+
     const steps = await planWorkflowFromGoal(goal.trim(), context, baseUrl, apiKey);
 
     const panel = WorkflowWebviewPanel.createOrShow(context.extensionUri, context, orchestrator, catalog);

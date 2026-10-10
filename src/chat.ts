@@ -12,6 +12,7 @@ export interface ChatRequest {
   temperature?: number;
   maxTokens?: number;
   tools?: unknown[];
+  signal?: AbortSignal;
 }
 
 export interface ChatMessage {
@@ -434,6 +435,10 @@ export const VOICE_AGENT_SYSTEM = [
   '',
   'Layer 2 Voice Serial Orchestration & Role Configuration Tools:',
   '- orchestrate_task({ task_goal: string, dependency_reasoning?: string, steps: Array<{ role_id: string, task_name: string, task_prompt: string, model?: string, model_reason?: string, special_instructions?: string }> }): plan and execute serial AI role pipeline.',
+  '- cancel_workflow({ reason?: string }): cancel, halt, and immediately stop the running serial workflow and all active roles.',
+  '- pause_workflow({ reason?: string }): pause the currently executing workflow.',
+  '- resume_workflow({}): resume the paused workflow.',
+  '- check_router_status({}): verify if 9 Router gateway is running and reachable in the background.',
   '- check_workflow_status({}): check status, active step, and completed steps of running workflow.',
   '- modify_workflow({ action: "insert_step" | "repeat_step" | "pause" | "resume" | "cancel", role_id?: string, step_id?: string, task_name?: string, task_prompt?: string, special_instructions?: string, position?: number }): dynamically adapt running workflow.',
   '- list_roles({}): inspect all configured engineering roles, enabled status, primary models, fallback models, and purpose.',
@@ -502,7 +507,21 @@ export const VOICE_AGENT_SYSTEM = [
   '   - You have FULL AUTHORITY to inspect, configure, and assign AI models to any specialized role AT ANY TIME—even before starting any task.',
   '   - NEVER tell the user "I cannot assign models beforehand" or that you can only pick models when starting a task. You have native tools designed specifically for this!',
   '   - When the user asks you to configure, pick, or apply the best models for each role according to 9 Router, IMMEDIATELY call auto_assign_best_models or configure_role_models.',
-  '   - Bidirectional JSON Synchronization: All roles are mirrored in `.antigravity/roles.json` in the workspace root (analogous to VS Code settings.json). Any changes you make via tools are automatically saved to `.antigravity/roles.json`. You can also read or edit `.antigravity/roles.json` directly using view_file or replace_file_content.'
+  '   - Bidirectional JSON Synchronization: All roles are mirrored in `.antigravity/roles.json` in the workspace root (analogous to VS Code settings.json). Any changes you make via tools are automatically saved to `.antigravity/roles.json`. You can also read or edit `.antigravity/roles.json` directly using view_file or replace_file_content.',
+  '',
+  '7. IMMEDIATE WORKFLOW CANCELLATION & PAUSING (MANDATORY ON USER REQUEST):',
+  '   - When the user says to cancel, stop, or pause (e.g. "cancel karo", "stop it", "ruk jao", "band karo", "pause karo", "cancel the task", "halt execution", "task roko"):',
+  '   - You MUST IMMEDIATELY call cancel_workflow (or pause_workflow)!',
+  '   - Do NOT ignore cancel requests or attempt to finish remaining tools.',
+  '   - Calling cancel_workflow aborts the running model and marks the pipeline cancelled in real time.',
+  '   - Verbally confirm in brief natural language: "Maine workflow aur running task ko cancel kar diya hai." (or "Workflow pause kar diya gaya hai.")',
+  '',
+  '8. 9ROUTER BACKGROUND PREREQUISITE REQUIREMENT (MANDATORY):',
+  '   - The autonomous orchestrator requires 9Router to be enabled and running in the background.',
+  '   - If orchestrate_task returns error "9router_not_running":',
+  '   - You MUST immediately inform the user verbally:',
+  '     "9Router background mein enable ya running nahi hai. Kripya pehle 9Router ko background mein enable/start karein, uske baad hi kaam shuru hoga."',
+  '   - Do NOT attempt to run the workflow until 9Router is running.'
 ].join('\n');
 
 export function voiceAgentSystem(roots: string[], extraContext?: string): string {
@@ -1499,6 +1518,11 @@ export async function streamCompletion(
     return payload;
   };
 
+  const timeoutSig = AbortSignal.timeout(300000);
+  const effectiveSignal = req.signal
+    ? ((AbortSignal as any).any ? (AbortSignal as any).any([req.signal, timeoutSig]) : req.signal)
+    : timeoutSig;
+
   let res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -1506,7 +1530,7 @@ export async function streamCompletion(
       ...(req.apiKey ? { Authorization: `Bearer ${req.apiKey}` } : {})
     },
     body: JSON.stringify(buildPayload(true)),
-    signal: AbortSignal.timeout(300000)
+    signal: effectiveSignal
   });
 
   // If 400 Bad Request and tools were included, retry once without tools (defensive fallback for models without tool support)
@@ -1518,7 +1542,7 @@ export async function streamCompletion(
         ...(req.apiKey ? { Authorization: `Bearer ${req.apiKey}` } : {})
       },
       body: JSON.stringify(buildPayload(false)),
-      signal: AbortSignal.timeout(300000)
+      signal: effectiveSignal
     });
   }
 
@@ -1536,6 +1560,9 @@ export async function streamCompletion(
 
   try {
     for (;;) {
+      if (req.signal?.aborted) {
+        throw new Error('AbortError: Stream aborted by user');
+      }
       const { done, value } = await reader.read();
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
