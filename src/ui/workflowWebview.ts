@@ -990,16 +990,23 @@ export class WorkflowWebviewPanel {
       font-size: 13px;
       line-height: 1.5;
       padding: 12px 18px 10px 18px;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
       height: 100vh;
     }
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+    body.chat-active {
+      overflow: hidden;
+    }
+    body.chat-active.hub-open {
+      overflow-y: auto;
+    }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.15); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.5); }
 
     /* Header Bar */
     .header {
@@ -1142,14 +1149,17 @@ export class WorkflowWebviewPanel {
       color: #60a5fa;
     }
 
-    /* Quick Actions Hub (All 10 Extension Options) */
+    /* Quick Actions Hub */
     .quick-actions-section {
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       background: rgba(18, 24, 38, 0.75);
       border: 1px solid var(--border);
       border-radius: var(--card-radius);
       padding: 14px 16px;
       backdrop-filter: blur(12px);
+      flex-shrink: 0;
+      max-height: 55vh;
+      overflow-y: auto;
     }
     .qa-header {
       display: flex;
@@ -1171,6 +1181,9 @@ export class WorkflowWebviewPanel {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 10px;
+      overflow-y: auto;
+      max-height: 48vh;
+      padding-right: 4px;
     }
     .qa-card {
       background: rgba(255, 255, 255, 0.03);
@@ -1491,6 +1504,22 @@ export class WorkflowWebviewPanel {
       100% { transform: scale(1); box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
     }
 
+    /* Tab Content base style */
+    .tab-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 24px;
+    }
+    #chatTab.tab-content {
+      overflow: hidden;
+      padding-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
     /* ==================== INTERACTIVE CHAT CONSOLE & SERIAL GRAPH ==================== */
     .chat-console-wrapper {
       display: flex;
@@ -1498,6 +1527,7 @@ export class WorkflowWebviewPanel {
       flex: 1;
       min-height: 0;
       height: 100%;
+      overflow: hidden;
     }
 
     .chat-header-section {
@@ -1880,6 +1910,33 @@ export class WorkflowWebviewPanel {
       line-height: 1.45;
     }
 
+    /* Drag Resizer between Chat Stream and Input Bar */
+    .chat-resizer {
+      height: 8px;
+      cursor: ns-resize;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2px 0;
+      transition: background 0.2s;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+    .chat-resizer:hover, .chat-resizer.resizing {
+      background: rgba(56, 189, 248, 0.25);
+    }
+    .chat-resizer::after {
+      content: '';
+      width: 42px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 2px;
+    }
+    .chat-resizer:hover::after, .chat-resizer.resizing::after {
+      background: #38bdf8;
+    }
+
     /* Bottom Input Box */
     .chat-input-bar {
       background: rgba(15, 23, 42, 0.95);
@@ -1908,9 +1965,8 @@ export class WorkflowWebviewPanel {
     }
   </style>
 </head>
-<body>
+<body class="${isChat ? 'chat-active' : ''} ${!isChat ? 'hub-open' : ''}">
   <script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
-<script id="initial-state" type="application/json" nonce="${nonce}">${initialStateJson}</script>
 
   <!-- Top Header Bar -->
   <div class="header">
@@ -1932,10 +1988,10 @@ export class WorkflowWebviewPanel {
     </div>
   </div>
 
-  <!-- Quick Actions & All Features Hub (All 10 Extension Options) -->
+  <!-- Quick Actions & All Features Hub -->
   <div class="quick-actions-section" id="quickActionsSection">
     <div class="qa-header">
-      <div class="qa-header-title">⚡ Quick Features & Actions Hub (All 10 Extension Options)</div>
+      <div class="qa-header-title">⚡ Quick Features & Actions Hub</div>
       <button class="btn btn-secondary" data-action="toggleQuickHub" id="qaToggleBtn" style="font-size: 11px; padding: 3px 9px;">Show Hub</button>
     </div>
     <div class="qa-grid" id="qaGrid" style="${isChat ? 'display: none;' : ''}">
@@ -1957,16 +2013,7 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
-      <!-- 3. Start New Orchestrated Task -->
-      <div class="qa-card" onclick="startTaskPrompt()" title="Decompose requirement into serial specialized roles">
-        <div class="qa-icon" style="background: rgba(34,197,94,0.15); color: #4ade80;">🚀</div>
-        <div class="qa-content">
-          <div class="qa-title">Start New Orchestrated Task</div>
-          <div class="qa-desc">Decompose requirement into serial specialized roles</div>
-        </div>
-      </div>
-
-      <!-- 4. Chat & AI Orchestrator -->
+      <!-- 3. Chat & AI Orchestrator -->
       <div class="qa-card" onclick="openChatInterface('pipeline')" title="Open Chat & AI Orchestration interface">
         <div class="qa-icon" style="background: rgba(14,165,233,0.15); color: #38bdf8;">💬</div>
         <div class="qa-content">
@@ -1975,16 +2022,7 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
-      <!-- 5. Pick / Change Model -->
-      <div class="qa-card" onclick="switchTab('models')" title="Browse, fuzzy search, and activate from 2,150 models in 9 Router">
-        <div class="qa-icon" style="background: rgba(234,179,8,0.15); color: #facc15;">🧠</div>
-        <div class="qa-content">
-          <div class="qa-title">Pick / change model</div>
-          <div class="qa-desc">Fuzzy search & pick from 2,150 9 Router models</div>
-        </div>
-      </div>
-
-      <!-- 6. Session Options -->
+      <!-- 4. Session Options -->
       <div class="qa-card" onclick="switchTab('session')" title="Configure temperature, max tokens, prompt, and tool guardrails">
         <div class="qa-icon" style="background: rgba(249,115,22,0.15); color: #fb923c;">⚙️</div>
         <div class="qa-content">
@@ -1993,7 +2031,7 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
-      <!-- 7. Select model for Live session -->
+      <!-- 5. Select model for Live session -->
       <div class="qa-card" onclick="focusLiveModelSelect()" title="Select model for Gemini Live voice-to-voice session">
         <div class="qa-icon" style="background: rgba(236,72,153,0.15); color: #f472b6;">📡</div>
         <div class="qa-content">
@@ -2002,7 +2040,7 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
-      <!-- 8. Configure Gemini API Keys -->
+      <!-- 6. Configure Gemini API Keys -->
       <div class="qa-card" onclick="focusApiKeysSection()" title="Configure multi-key pool for Gemini Live with auto-fallback">
         <div class="qa-icon" style="background: rgba(245,158,11,0.15); color: #fbbf24;">🔑</div>
         <div class="qa-content">
@@ -2011,16 +2049,7 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
-      <!-- 9. Voice Mode -->
-      <div class="qa-card" onclick="toggleVoiceMode()" title="Toggle direct real-time bidirectional voice mode">
-        <div class="qa-icon" style="background: rgba(239,68,68,0.15); color: #f87171;">🎙️</div>
-        <div class="qa-content">
-          <div class="qa-title" id="qaVoiceTitle">Voice mode</div>
-          <div class="qa-desc">direct real-time voice-to-voice with Gemini Live</div>
-        </div>
-      </div>
-
-      <!-- 10. Check Mic Level -->
+      <!-- 7. Check Mic Level -->
       <div class="qa-card" onclick="checkMicLevel()" title="Capture 2s audio and evaluate microphone RMS level against noise gate">
         <div class="qa-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">📊</div>
         <div class="qa-content">
@@ -2274,7 +2303,7 @@ export class WorkflowWebviewPanel {
   </div>
 
   <!-- ==================== TAB 6: CHAT & SERIAL ORCHESTRATION CONSOLE ==================== -->
-  <div id="chatTab" class="tab-content" style="${isChat ? 'display: block;' : 'display: none;'}">
+  <div id="chatTab" class="tab-content" style="${isChat ? 'display: flex;' : 'display: none;'}">
     <div class="chat-console-wrapper">
       <!-- 1. Top Section: Mode Switcher, Active Model & Top-Right Serial Pipeline Graph -->
       <div class="chat-header-section">
@@ -2366,7 +2395,7 @@ export class WorkflowWebviewPanel {
               <span style="font-size: 14px;">💬</span>
               <span><strong>Normal Text Mode:</strong> Chatting directly with <strong id="chatBannerModelName" style="color: #38bdf8;">ag/gemini-3.8-flash-high</strong> from 9 Router.</span>
             </div>
-            <div style="display: flex; gap: 6px; align-items: center;">
+            <div style="display: gap: 6px; align-items: center;">
               <span class="badge" style="background: rgba(34,197,94,0.15); color: #4ade80; font-size: 10px;">1-on-1 Text</span>
               <span class="badge" style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 10px;">Tools Active</span>
               <button class="btn btn-secondary" onclick="openChatModelPicker()" style="font-size: 10.5px; padding: 2px 7px;">Pick Different Model</button>
@@ -2392,6 +2421,9 @@ export class WorkflowWebviewPanel {
         </div>
       </div>
 
+      <!-- Drag Resizer between Chat Stream and Input Bar -->
+      <div class="chat-resizer" id="chatInputResizer" title="Drag up/down to resize prompt box"></div>
+
       <!-- 3. Bottom Control Bar: Input, Dictation & Voice Mode -->
       <div class="chat-input-bar">
         <!-- Slim info strip -->
@@ -2412,7 +2444,7 @@ export class WorkflowWebviewPanel {
           id="chatMessageInput"
           rows="2"
           placeholder="Instruction or goal… [Enter to Send, Shift+Enter for newline]"
-          style="margin: 0; width: 100%; box-sizing: border-box; resize: none; font-size: 12.5px; line-height: 1.45; padding: 8px 11px; border-radius: 8px; min-height: 44px; max-height: 150px; overflow-y: auto; display: block;"
+          style="margin: 0; width: 100%; box-sizing: border-box; resize: vertical; font-size: 12.5px; line-height: 1.45; padding: 8px 11px; border-radius: 8px; min-height: 44px; max-height: 350px; overflow-y: auto; display: block;"
           onkeydown="onChatInputKeyDown(event)"
         ></textarea>
 
@@ -2783,9 +2815,14 @@ let vscode;
       tabs.forEach(t => {
         const el = document.getElementById(t + 'Tab');
         const btn = document.getElementById('tab' + capitalize(t) + 'Btn');
-        if (el) el.style.display = t === tab ? 'block' : 'none';
+        if (el) el.style.display = t === tab ? (t === 'chat' ? 'flex' : 'block') : 'none';
         if (btn) btn.classList.toggle('active', t === tab);
       });
+      if (tab === 'chat') {
+        document.body.classList.add('chat-active');
+      } else {
+        document.body.classList.remove('chat-active');
+      }
       const headerChat = document.getElementById('headerChatBtn');
       if (headerChat) {
         headerChat.style.boxShadow = tab === 'chat' ? '0 0 14px rgba(56,189,248,0.6)' : '0 2px 10px rgba(14,165,233,0.35)';
@@ -2957,9 +2994,11 @@ let vscode;
       if (isHidden) {
         grid.style.display = 'grid';
         btn.innerText = 'Hide Hub';
+        document.body.classList.add('hub-open');
       } else {
         grid.style.display = 'none';
         btn.innerText = 'Show Hub';
+        document.body.classList.remove('hub-open');
       }
     }
 
@@ -4262,6 +4301,35 @@ let vscode;
       }
     });
 
+    // Drag Resizer for Chat Message Input
+    (function initChatResizer() {
+      const resizer = document.getElementById('chatInputResizer');
+      const input = document.getElementById('chatMessageInput');
+      if (!resizer || !input) return;
+      let startY = 0;
+      let startH = 0;
+
+      function onMouseMove(e) {
+        const delta = startY - e.clientY;
+        const newH = Math.max(44, Math.min(350, startH + delta));
+        input.style.height = newH + 'px';
+      }
+
+      function onMouseUp() {
+        resizer.classList.remove('resizing');
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      resizer.addEventListener('mousedown', function(e) {
+        startY = e.clientY;
+        startH = input.offsetHeight;
+        resizer.classList.add('resizing');
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        e.preventDefault();
+      });
+    })();
 
     // Load initial embedded state immediately so all buttons and UI are active on 1st frame
     try {

@@ -246,9 +246,14 @@ let vscode;
       tabs.forEach(t => {
         const el = document.getElementById(t + 'Tab');
         const btn = document.getElementById('tab' + capitalize(t) + 'Btn');
-        if (el) el.style.display = t === tab ? 'block' : 'none';
+        if (el) el.style.display = t === tab ? (t === 'chat' ? 'flex' : 'block') : 'none';
         if (btn) btn.classList.toggle('active', t === tab);
       });
+      if (tab === 'chat') {
+        document.body.classList.add('chat-active');
+      } else {
+        document.body.classList.remove('chat-active');
+      }
       const headerChat = document.getElementById('headerChatBtn');
       if (headerChat) {
         headerChat.style.boxShadow = tab === 'chat' ? '0 0 14px rgba(56,189,248,0.6)' : '0 2px 10px rgba(14,165,233,0.35)';
@@ -420,9 +425,11 @@ let vscode;
       if (isHidden) {
         grid.style.display = 'grid';
         btn.innerText = 'Hide Hub';
+        document.body.classList.add('hub-open');
       } else {
         grid.style.display = 'none';
         btn.innerText = 'Show Hub';
+        document.body.classList.remove('hub-open');
       }
     }
 
@@ -1725,6 +1732,35 @@ let vscode;
       }
     });
 
+    // Drag Resizer for Chat Message Input
+    (function initChatResizer() {
+      const resizer = document.getElementById('chatInputResizer');
+      const input = document.getElementById('chatMessageInput');
+      if (!resizer || !input) return;
+      let startY = 0;
+      let startH = 0;
+
+      function onMouseMove(e) {
+        const delta = startY - e.clientY;
+        const newH = Math.max(44, Math.min(350, startH + delta));
+        input.style.height = newH + 'px';
+      }
+
+      function onMouseUp() {
+        resizer.classList.remove('resizing');
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      resizer.addEventListener('mousedown', function(e) {
+        startY = e.clientY;
+        startH = input.offsetHeight;
+        resizer.classList.add('resizing');
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        e.preventDefault();
+      });
+    })();
 
     // Load initial embedded state immediately so all buttons and UI are active on 1st frame
     try {

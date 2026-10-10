@@ -1054,10 +1054,10 @@
     </div>
   </div>
 
-  <!-- Quick Actions & All Features Hub (All 10 Extension Options) -->
+  <!-- Quick Actions & All Features Hub -->
   <div class="quick-actions-section" id="quickActionsSection">
     <div class="qa-header">
-      <div class="qa-header-title">⚡ Quick Features & Actions Hub (All 10 Extension Options)</div>
+      <div class="qa-header-title">⚡ Quick Features & Actions Hub</div>
       <button class="btn btn-secondary" data-action="toggleQuickHub" id="qaToggleBtn" style="font-size: 11px; padding: 3px 9px;">Show Hub</button>
     </div>
     <div class="qa-grid" id="qaGrid" style="display: none;">
@@ -1079,16 +1079,7 @@
         </div>
       </div>
 
-      <!-- 3. Start New Orchestrated Task -->
-      <div class="qa-card" onclick="startTaskPrompt()" title="Decompose requirement into serial specialized roles">
-        <div class="qa-icon" style="background: rgba(34,197,94,0.15); color: #4ade80;">🚀</div>
-        <div class="qa-content">
-          <div class="qa-title">Start New Orchestrated Task</div>
-          <div class="qa-desc">Decompose requirement into serial specialized roles</div>
-        </div>
-      </div>
-
-      <!-- 4. Chat & AI Orchestrator -->
+      <!-- 3. Chat & AI Orchestrator -->
       <div class="qa-card" onclick="openChatInterface('pipeline')" title="Open Chat & AI Orchestration interface">
         <div class="qa-icon" style="background: rgba(14,165,233,0.15); color: #38bdf8;">💬</div>
         <div class="qa-content">
@@ -1097,16 +1088,7 @@
         </div>
       </div>
 
-      <!-- 5. Pick / Change Model -->
-      <div class="qa-card" onclick="switchTab('models')" title="Browse, fuzzy search, and activate from 2,150 models in 9 Router">
-        <div class="qa-icon" style="background: rgba(234,179,8,0.15); color: #facc15;">🧠</div>
-        <div class="qa-content">
-          <div class="qa-title">Pick / change model</div>
-          <div class="qa-desc">Fuzzy search & pick from 2,150 9 Router models</div>
-        </div>
-      </div>
-
-      <!-- 6. Session Options -->
+      <!-- 4. Session Options -->
       <div class="qa-card" onclick="switchTab('session')" title="Configure temperature, max tokens, prompt, and tool guardrails">
         <div class="qa-icon" style="background: rgba(249,115,22,0.15); color: #fb923c;">⚙️</div>
         <div class="qa-content">
@@ -1115,7 +1097,7 @@
         </div>
       </div>
 
-      <!-- 7. Select model for Live session -->
+      <!-- 5. Select model for Live session -->
       <div class="qa-card" onclick="focusLiveModelSelect()" title="Select model for Gemini Live voice-to-voice session">
         <div class="qa-icon" style="background: rgba(236,72,153,0.15); color: #f472b6;">📡</div>
         <div class="qa-content">
@@ -1124,7 +1106,7 @@
         </div>
       </div>
 
-      <!-- 8. Configure Gemini API Keys -->
+      <!-- 6. Configure Gemini API Keys -->
       <div class="qa-card" onclick="focusApiKeysSection()" title="Configure multi-key pool for Gemini Live with auto-fallback">
         <div class="qa-icon" style="background: rgba(245,158,11,0.15); color: #fbbf24;">🔑</div>
         <div class="qa-content">
@@ -1133,16 +1115,7 @@
         </div>
       </div>
 
-      <!-- 9. Voice Mode -->
-      <div class="qa-card" onclick="toggleVoiceMode()" title="Toggle direct real-time bidirectional voice mode">
-        <div class="qa-icon" style="background: rgba(239,68,68,0.15); color: #f87171;">🎙️</div>
-        <div class="qa-content">
-          <div class="qa-title" id="qaVoiceTitle">Voice mode</div>
-          <div class="qa-desc">direct real-time voice-to-voice with Gemini Live</div>
-        </div>
-      </div>
-
-      <!-- 10. Check Mic Level -->
+      <!-- 7. Check Mic Level -->
       <div class="qa-card" onclick="checkMicLevel()" title="Capture 2s audio and evaluate microphone RMS level against noise gate">
         <div class="qa-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">📊</div>
         <div class="qa-content">
@@ -1514,6 +1487,9 @@
         </div>
       </div>
 
+      <!-- Drag Resizer between Chat Stream and Input Bar -->
+      <div class="chat-resizer" id="chatInputResizer" title="Drag up/down to resize prompt box"></div>
+
       <!-- 3. Bottom Control Bar: Input, Dictation & Voice Mode -->
       <div class="chat-input-bar">
         <!-- Slim info strip -->
@@ -1534,7 +1510,7 @@
           id="chatMessageInput"
           rows="2"
           placeholder="Instruction or goal… [Enter to Send, Shift+Enter for newline]"
-          style="margin: 0; width: 100%; box-sizing: border-box; resize: none; font-size: 12.5px; line-height: 1.45; padding: 8px 11px; border-radius: 8px; min-height: 44px; max-height: 150px; overflow-y: auto; display: block;"
+          style="margin: 0; width: 100%; box-sizing: border-box; resize: vertical; font-size: 12.5px; line-height: 1.45; padding: 8px 11px; border-radius: 8px; min-height: 44px; max-height: 350px; overflow-y: auto; display: block;"
           onkeydown="onChatInputKeyDown(event)"
         ></textarea>
 
